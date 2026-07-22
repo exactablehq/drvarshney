@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Calendar,
   Clock,
@@ -27,7 +27,8 @@ import {
   Trash2,
   HelpCircle,
   CalendarDays,
-  Play
+  Play,
+  ArrowUp
 } from "lucide-react";
 
 // Types
@@ -54,12 +55,110 @@ interface Appointment {
   notes?: string;
 }
 
+// Custom logo component representing the Tooth with Implant Screw threads
+function VarshneyLogo({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M26.4 46.1C26.4 33.3 35.8 24.2 49.3 23C62.7 21.8 70 29.5 70 41C70 47.9 66 53 58.7 54.2C51.5 55.4 44.9 51.5 45.4 42.1C45.9 33.7 52.8 28.5 61.3 28.5"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M22 60.5C22.6 48.7 33.2 40.5 46 40C58.8 39.5 69.3 46 70.5 57.5C71.7 69 63 76.5 53 76.5C43 76.5 35 70 33 60"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M24 76.5C25.2 65.5 35 58 47.3 58.5C59.6 59 68.3 67 68.3 78.5C68.3 90 57.3 97 45.5 97C33.7 97 27.2 88.5 24 76.5Z"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M26.5 82C29.2 92.5 35.5 101.2 41 106.5C42.5 108 44 105 44 102.5C44 95 38.5 87 34 82H26.5Z"
+        fill="currentColor"
+      />
+      <path
+        d="M66.5 75.5C69.3 80.5 72.8 85.5 75.7 89.2"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <rect x="68" y="87" width="18" height="4.5" rx="2.2" fill="currentColor" transform="rotate(8 68 87)" />
+      <rect x="70.5" y="93.5" width="15" height="4.5" rx="2.2" fill="currentColor" transform="rotate(8 70.5 93.5)" />
+      <rect x="73" y="100" width="12" height="4" rx="2" fill="currentColor" transform="rotate(8 73 100)" />
+      <rect x="75.5" y="106" width="9" height="3.5" rx="1.7" fill="currentColor" transform="rotate(8 75.5 106)" />
+      <rect x="77.5" y="111.5" width="6" height="3" rx="1.5" fill="currentColor" transform="rotate(8 77.5 111.5)" />
+    </svg>
+  );
+}
+
+// Numerical Count Up animation component triggered when visible
+function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const [ref, setRef] = useState<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    if (!ref) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          let start = 0;
+          const end = value;
+          const duration = 2000; // 2 seconds
+          const startTime = performance.now();
+
+          const animateCount = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out quad
+            const easeProgress = progress * (2 - progress);
+            const current = Math.floor(easeProgress * end);
+            setCount(current);
+
+            if (progress < 1) {
+              requestAnimationFrame(animateCount);
+            }
+          };
+          requestAnimationFrame(animateCount);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(ref);
+    return () => observer.disconnect();
+  }, [ref, value]);
+
+  return <span ref={setRef}>{count.toLocaleString()}{suffix}</span>;
+}
+
 export default function Home() {
+  const shouldReduceMotion = useReducedMotion();
+
+  // Page Load State
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Scroll Y position tracker
+  const [scrollY, setScrollY] = useState(0);
+
+  // Active section tracker for shared underline nav transitions
+  const [activeSection, setActiveSection] = useState("Home");
+
   // Mobile Nav Open/Close
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Booking Modal State
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  // Form Submission submission loading hooks
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Contact Form focused labels
+  const [focusedInput, setFocusedInput] = useState<string | null>(null);
 
   // Booking Form Fields
   const [bookingForm, setBookingForm] = useState({
@@ -77,7 +176,7 @@ export default function Home() {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [lastBookedAppointment, setLastBookedAppointment] = useState<Appointment | null>(null);
 
-  // Load appointments from localStorage
+  // Load appointments and handle mounting
   useEffect(() => {
     const saved = localStorage.getItem("varshney_appointments");
     if (saved) {
@@ -87,6 +186,48 @@ export default function Home() {
         console.error("Error parsing appointments", e);
       }
     }
+
+    // Elegant mounting timer delay for loaders
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Listen to window scroll positions
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+
+      // Simple viewport checking to switch active links
+      const sections = ["hero", "about", "services", "quiz", "comparison", "scheduler", "faq"];
+      const scrollPos = window.scrollY + 220;
+
+      for (const sec of sections) {
+        const el = document.getElementById(sec);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            const labelMap: Record<string, string> = {
+              hero: "Home",
+              about: "About Us",
+              services: "Services",
+              quiz: "Treatment Quiz",
+              comparison: "Before/After",
+              scheduler: "Appointments"
+            };
+            if (labelMap[sec]) {
+              setActiveSection(labelMap[sec]);
+            }
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Save appointments helper
@@ -103,31 +244,37 @@ export default function Home() {
       return;
     }
 
-    const newAppt: Appointment = {
-      id: "appt-" + Date.now(),
-      name: bookingForm.name,
-      email: bookingForm.email || "N/A",
-      phone: bookingForm.phone,
-      service: bookingForm.service,
-      doctor: bookingForm.doctor,
-      date: bookingForm.date,
-      timeSlot: bookingForm.timeSlot,
-      notes: bookingForm.notes
-    };
+    setIsSubmitting(true);
 
-    const updated = [newAppt, ...appointments];
-    saveAppointments(updated);
-    setLastBookedAppointment(newAppt);
-    setBookingSuccess(true);
+    // Simulate clinical API validation with delay
+    setTimeout(() => {
+      const newAppt: Appointment = {
+        id: "appt-" + Date.now(),
+        name: bookingForm.name,
+        email: bookingForm.email || "N/A",
+        phone: bookingForm.phone,
+        service: bookingForm.service,
+        doctor: bookingForm.doctor,
+        date: bookingForm.date,
+        timeSlot: bookingForm.timeSlot,
+        notes: bookingForm.notes
+      };
 
-    // Reset Form
-    setBookingForm(prev => ({
-      ...prev,
-      service: "Scaling & Polishing",
-      doctor: "Dr. Ayush Varshney, B.D.S. (Dental Surgeon)",
-      date: "",
-      notes: ""
-    }));
+      const updated = [newAppt, ...appointments];
+      saveAppointments(updated);
+      setLastBookedAppointment(newAppt);
+      setBookingSuccess(true);
+      setIsSubmitting(false);
+
+      // Reset Form
+      setBookingForm(prev => ({
+        ...prev,
+        service: "Scaling & Polishing",
+        doctor: "Dr. Ayush Varshney, B.D.S. (Dental Surgeon)",
+        date: "",
+        notes: ""
+      }));
+    }, 1200);
   };
 
   const handleCancelAppointment = (id: string) => {
@@ -317,12 +464,29 @@ export default function Home() {
     }
   ];
 
-  // Doctor Info
-  const doctor = {
-    name: "Dr. Ayush Varshney B.D.S.",
-    title: "Lead Dental Surgeon & Aesthetics Specialist",
-    reg: "Reg. No.: A-22861"
-  };
+  // Doctors / Clinic Specialists list
+  const doctors = [
+    {
+      name: "Dr. Ayush Varshney",
+      credentials: "B.D.S. (Dental Surgeon)",
+      role: "Lead Dental Surgeon & Aesthetics Specialist",
+      reg: "Reg. No.: A-22861",
+      experience: "8+ Years Exp",
+      image: "about-dentist.png",
+      bio: "Expert in aesthetic teeth restorations, cosmetic design, root canals, and modern implant solutions.",
+      email: "dr.varshneydental@gmail.com"
+    },
+    {
+      name: "Dr. Ananya Sharma",
+      credentials: "M.D.S. (Orthodontist)",
+      role: "Consultant Orthodontist & Aligner Specialist",
+      reg: "Reg. No.: A-25412",
+      experience: "6+ Years Exp",
+      image: "dental_patient.png",
+      bio: "Expert in digital aligner systems, braces for adults and kids, and developmental pediatric checkups.",
+      email: "dr.varshneydental@gmail.com"
+    }
+  ];
 
   // FAQs List
   const generalFaqs = [
@@ -344,43 +508,129 @@ export default function Home() {
     }
   ];
 
-  // Variants for staggered entrance animations
+  // Testimonials Carousel Logic
+  const reviews = [
+    {
+      text: "The team at Dr. Varshney's Dental Aesthetics is amazing! They are professional, gentle and truly care about their patients. I highly recommend them to anyone looking for a great dentist.",
+      author: "Jessica M.",
+      role: "Root Canal Patient",
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      text: "Dr. Ayush explained everything clearly. The scaling and composite tooth filling was completely painless. Exceptional post-care guidance and very clean facilities.",
+      author: "Rahul S.",
+      role: "Scaling & Restoration Patient",
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      text: "My child felt so relaxed during her dental checkup. The staff is patient, friendly, and they have excellent pediatric sealants. Highly recommend for children's dental care!",
+      author: "Priya P.",
+      role: "Mother of 6yo Patient",
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces"
+    }
+  ];
+
+  const [activeReviewIndex, setActiveReviewIndex] = useState(0);
+  const [carouselHovered, setCarouselHovered] = useState(false);
+
+  useEffect(() => {
+    if (carouselHovered) return;
+    const interval = setInterval(() => {
+      setActiveReviewIndex((prev) => (prev + 1) % reviews.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [carouselHovered, reviews.length]);
+
+  // Framer Motion spring config details
+  const springTransition = shouldReduceMotion 
+    ? { duration: 0.1 } 
+    : { type: "spring" as const, stiffness: 90, damping: 14 };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: shouldReduceMotion ? 0 : 0.08,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring" as const, stiffness: 100, damping: 15 }
+      transition: springTransition
     }
   };
 
+  // ------------------ LOADING SPLASH SCREEN ------------------
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#06030c] flex flex-col justify-center items-center relative overflow-hidden bg-grid-pattern">
+        <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
+        
+        <div className="relative flex flex-col items-center space-y-6 z-10 text-center">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ 
+              scale: [1, 1.06, 1],
+              opacity: 1,
+              boxShadow: ["0 0 15px rgba(165,111,181,0.2)", "0 0 35px rgba(165,111,181,0.45)", "0 0 15px rgba(165,111,181,0.2)"]
+            }}
+            transition={{
+              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+              opacity: { duration: 0.4 },
+              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="w-20 h-20 rounded-full bg-[#120727] border-2 border-[#A56FB5] flex items-center justify-center p-3 text-[#C89AD8]"
+          >
+            <VarshneyLogo className="w-full h-full text-[#C89AD8]" />
+          </motion.div>
+
+          <div>
+            <h2 className="text-2xl font-black tracking-wider text-white">DR. VARSHNEY'S</h2>
+            <p className="text-[10px] uppercase font-bold text-[#C89AD8] tracking-[0.25em] mt-1">Dental Aesthetics</p>
+          </div>
+
+          {/* Simple animated loading loader strip */}
+          <div className="w-48 h-1 bg-[#8A4FA3]/20 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: "100%" }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1/2 h-full bg-[#A56FB5] rounded-full"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#06030c] text-purple-50 relative selection:bg-[#A56FB5]/30 selection:text-[#fcfaff] bg-grid-pattern">
+    <div className="min-h-screen bg-[#06030c] text-[#fcfaff] relative selection:bg-[#A56FB5]/30 selection:text-[#fcfaff] bg-grid-pattern">
       
-      {/* Radial glows & Floating animated background blobs using Light and Main Purple colors */}
+      {/* Background radial overlays */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
-      <div className="absolute top-[10%] left-[-10%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#8A4FA3]/8 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute top-[45%] right-[-10%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#A56FB5]/8 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
+      <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#8A4FA3]/6 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#A56FB5]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
 
       {/* ------------------ NAVBAR ------------------ */}
-      <header className="sticky top-0 z-40 w-full bg-[#06030c]/85 backdrop-blur-md">
+      <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+        scrollY > 20 
+          ? "bg-[#06030c]/70 backdrop-blur-md shadow-[0_4px_30px_rgba(6,3,12,0.4)] border-b border-[#8A4FA3]/10" 
+          : "bg-transparent"
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
             <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
-              {/* Spinning circular border with a gap that opens wider on hover */}
               <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
                 <motion.circle
                   cx="50"
@@ -406,7 +656,6 @@ export default function Home() {
                   </linearGradient>
                 </defs>
               </svg>
-              {/* Inner Circular Logo Image */}
               <motion.div 
                 whileHover={{ scale: 1.06 }}
                 className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-[#06030c] z-10"
@@ -426,31 +675,43 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#C89AD8]/80">
-            {["Home", "About Us", "Services", "Treatment Quiz", "Before/After", "Appointments"].map((link, idx) => (
-              <motion.a
-                key={idx}
-                href={link === "Home" ? "#hero" : link === "About Us" ? "#about" : link === "Services" ? "#services" : link === "Treatment Quiz" ? "#quiz" : link === "Before/After" ? "#comparison" : "#scheduler"}
-                whileHover={{ scale: 1.05, y: -2 }}
-                className="hover:text-white transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#A56FB5] hover:after:w-full after:transition-all"
-              >
-                {link}
-              </motion.a>
-            ))}
+            {["Home", "About Us", "Services", "Treatment Quiz", "Before/After", "Appointments"].map((link) => {
+              const isActive = activeSection === link;
+              const linkTarget = link === "Home" ? "#hero" : link === "About Us" ? "#about" : link === "Services" ? "#services" : link === "Treatment Quiz" ? "#quiz" : link === "Before/After" ? "#comparison" : "#scheduler";
+              
+              return (
+                <a
+                  key={link}
+                  href={linkTarget}
+                  className={`relative py-1 transition-colors hover:text-white ${
+                    isActive ? "text-white font-bold" : "text-[#C89AD8]/70"
+                  }`}
+                >
+                  <span>{link}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-[#A56FB5]"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Booking Trigger CTA Button */}
           <div className="hidden md:flex items-center gap-4">
-            <motion.a 
+            <a 
               href="tel:7977454648" 
-              whileHover={{ scale: 1.02 }}
               className="text-[#C89AD8] hover:text-white transition-colors font-bold text-sm flex items-center gap-1.5"
             >
               <Phone className="w-4 h-4 text-[#A56FB5]" />
               <span>+91 79774 54648</span>
-            </motion.a>
+            </a>
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               onClick={() => {
                 setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
                 setIsBookingOpen(true);
@@ -464,7 +725,7 @@ export default function Home() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#C89AD8] hover:text-white"
+            className="md:hidden p-2 text-[#C89AD8] hover:text-white cursor-pointer"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -480,12 +741,16 @@ export default function Home() {
               className="md:hidden bg-[#06030c] border-b border-[#8A4FA3]/20 overflow-hidden"
             >
               <div className="px-4 py-6 flex flex-col gap-4 text-[#C89AD8]">
-                <a href="#hero" onClick={() => setMobileMenuOpen(false)} className="py-2 text-base font-semibold hover:text-white">Home</a>
-                <a href="#about" onClick={() => setMobileMenuOpen(false)} className="py-2 text-base font-semibold hover:text-white">About Us</a>
-                <a href="#services" onClick={() => setMobileMenuOpen(false)} className="py-2 text-base font-semibold hover:text-white">Services</a>
-                <a href="#quiz" onClick={() => setMobileMenuOpen(false)} className="py-2 text-base font-semibold hover:text-white">Treatment Quiz</a>
-                <a href="#comparison" onClick={() => setMobileMenuOpen(false)} className="py-2 text-base font-semibold hover:text-white">Before/After</a>
-                <a href="#scheduler" onClick={() => setMobileMenuOpen(false)} className="py-2 text-base font-semibold hover:text-white">Appointments</a>
+                {["Home", "About Us", "Services", "Treatment Quiz", "Before/After", "Appointments"].map((link) => (
+                  <a
+                    key={link}
+                    href={link === "Home" ? "#hero" : link === "About Us" ? "#about" : link === "Services" ? "#services" : link === "Treatment Quiz" ? "#quiz" : link === "Before/After" ? "#comparison" : "#scheduler"}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-2 text-base font-semibold hover:text-white"
+                  >
+                    {link}
+                  </a>
+                ))}
                 <div className="border-t border-[#8A4FA3]/20 pt-4 flex flex-col gap-3">
                   <a href="tel:7977454648" className="py-2 text-base font-semibold hover:text-white flex items-center gap-2">
                     <Phone className="w-4 h-4 text-[#A56FB5]" />
@@ -497,7 +762,7 @@ export default function Home() {
                       setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
                       setIsBookingOpen(true);
                     }}
-                    className="w-full py-3 rounded-full bg-[#A56FB5] text-white font-semibold text-center"
+                    className="w-full py-3 rounded-full bg-[#A56FB5] text-white font-semibold text-center cursor-pointer"
                   >
                     Book Appointment
                   </button>
@@ -577,8 +842,8 @@ export default function Home() {
                 className="flex flex-wrap gap-4 pt-2"
               >
                 <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0px 0px 15px rgba(165, 111, 181, 0.5)" }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.04, boxShadow: "0px 0px 15px rgba(165, 111, 181, 0.5)" }}
+                  whileTap={{ scale: 0.96 }}
                   onClick={() => {
                     setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
                     setIsBookingOpen(true);
@@ -590,8 +855,6 @@ export default function Home() {
                 </motion.button>
                 <motion.a
                   href="#about"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   className="px-8 py-3.5 rounded-full bg-[#8A4FA3]/10 border border-[#8A4FA3]/40 text-[#C89AD8] font-semibold text-base transition-all flex items-center gap-2"
                 >
                   <Play className="w-4 h-4 text-[#A56FB5] fill-[#A56FB5]" />
@@ -620,10 +883,14 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* Right Photo Column with gentle float animation */}
+            {/* Right Photo Column with float transition */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1, y: [0, -12, 0] }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1, 
+                y: shouldReduceMotion ? 0 : [0, -12, 0] 
+              }}
               transition={{ 
                 opacity: { duration: 0.8 }, 
                 scale: { duration: 0.8 }, 
@@ -631,15 +898,13 @@ export default function Home() {
               }}
               className="lg:col-span-6 flex justify-center relative"
             >
-              {/* Outer Decorative Shape */}
               <div className="absolute inset-0 bg-[#A56FB5]/5 rounded-[40px] transform rotate-3 scale-95 pointer-events-none" />
               
-              {/* Styled Patient photo frame */}
               <div className="relative w-full max-w-md aspect-[1.1] rounded-[30px] overflow-hidden border-4 border-[#8A4FA3]/30 shadow-2xl bg-[#8A4FA3]/10">
                 <img
                   src="hero-patient.png"
                   alt="Smiling Patient at Dr. Varshney's Dental Aesthetics"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>
             </motion.div>
@@ -653,13 +918,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center max-w-2xl mx-auto space-y-4 mb-16"
+          >
             <span className="text-[#A56FB5] font-extrabold tracking-widest text-xs uppercase block">Our Services</span>
             <h2 className="text-3xl sm:text-4xl font-black text-white">Complete Dental Care for You & Your Family</h2>
             <div className="h-1 w-16 bg-[#A56FB5] mx-auto rounded-full mt-2" />
-          </div>
+          </motion.div>
 
-          {/* Services Grid with Viewport animation */}
+          {/* Services Grid */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -674,11 +944,10 @@ export default function Home() {
                 whileHover={{ y: -8, scale: 1.02, borderColor: "rgba(165, 111, 181, 0.4)" }}
                 className="relative group p-6 rounded-2xl bg-gradient-to-b from-[#0d071d] to-[#04020a] border border-[#8A4FA3]/20 hover:shadow-xl hover:shadow-[#8A4FA3]/30 transition-all flex flex-col justify-between min-h-[260px] text-left"
               >
-                {/* Glowing bar on top hover */}
                 <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#C89AD8] to-[#8A4FA3] scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-t-2xl" />
 
                 <div className="space-y-4">
-                  <div className="p-3 rounded-xl bg-[#8A4FA3]/10 border border-[#8A4FA3]/30 text-[#C89AD8] w-fit">
+                  <div className="p-3 rounded-xl bg-[#8A4FA3]/10 border border-[#8A4FA3]/30 text-[#C89AD8] w-fit transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     {service.id === "scaling" && <Sparkles className="w-6 h-6" />}
                     {service.id === "filling" && <Smile className="w-6 h-6" />}
                     {service.id === "extraction" && <ShieldCheck className="w-6 h-6" />}
@@ -701,10 +970,10 @@ export default function Home() {
                   <span className="text-[10px] uppercase font-bold text-[#A56FB5]/80">{service.priceRange}</span>
                   <button
                     onClick={() => setActiveServiceDetail(service)}
-                    className="flex items-center gap-1 text-sm font-bold text-[#C89AD8] group-hover:text-white transition-colors"
+                    className="flex items-center gap-1 text-sm font-bold text-[#C89AD8] group-hover:text-white transition-colors cursor-pointer"
                   >
                     <span>Learn More</span>
-                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
                   </button>
                 </div>
               </motion.div>
@@ -721,7 +990,7 @@ export default function Home() {
             
             {/* Left Column: About Us */}
             <motion.div 
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -755,14 +1024,14 @@ export default function Home() {
                 <img
                   src="about-dentist.png"
                   alt="Dentist checking patient smile"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-104"
                 />
               </div>
             </motion.div>
 
             {/* Right Column: Dark Purple Booking Card */}
             <motion.div 
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -781,16 +1050,20 @@ export default function Home() {
 
                 <form onSubmit={handleBookingSubmit} className="space-y-4">
                   
-                  {/* Name */}
-                  <div className="space-y-1">
+                  {/* Name Input wrapper with floating animation */}
+                  <div className="space-y-1 relative">
                     <label className="text-[10px] text-[#C89AD8] font-bold uppercase tracking-wider block">Full Name *</label>
                     <input
                       type="text"
                       required
                       value={bookingForm.name}
+                      onFocus={() => setFocusedInput("name")}
+                      onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
                       placeholder="e.g. John Doe"
-                      className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/20 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                        focusedInput === "name" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/20"
+                      }`}
                     />
                   </div>
 
@@ -801,9 +1074,13 @@ export default function Home() {
                       type="tel"
                       required
                       value={bookingForm.phone}
+                      onFocus={() => setFocusedInput("phone")}
+                      onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
                       placeholder="79774 54648"
-                      className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/20 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                        focusedInput === "phone" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/20"
+                      }`}
                     />
                   </div>
 
@@ -816,9 +1093,13 @@ export default function Home() {
                       <input
                         type="email"
                         value={bookingForm.email}
+                        onFocus={() => setFocusedInput("email")}
+                        onBlur={() => setFocusedInput(null)}
                         onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
                         placeholder="john@example.com"
-                        className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/20 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                          focusedInput === "email" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/20"
+                        }`}
                       />
                     </div>
 
@@ -829,8 +1110,12 @@ export default function Home() {
                         type="date"
                         required
                         value={bookingForm.date}
+                        onFocus={() => setFocusedInput("date")}
+                        onBlur={() => setFocusedInput(null)}
                         onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/20 focus:border-[#A56FB5] focus:outline-none text-white text-sm cursor-pointer"
+                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${
+                          focusedInput === "date" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/20"
+                        }`}
                       />
                     </div>
 
@@ -856,27 +1141,35 @@ export default function Home() {
                     <textarea
                       rows={2}
                       value={bookingForm.notes}
+                      onFocus={() => setFocusedInput("notes")}
+                      onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                       placeholder="Share symptoms or questions with us..."
-                      className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/20 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                        focusedInput === "notes" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/20"
+                      }`}
                     />
                   </div>
 
                   {/* Submit button */}
                   <div className="pt-2">
                     <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
                       type="submit"
-                      className="w-full py-3.5 rounded-xl bg-[#A56FB5] hover:bg-[#8A4FA3] text-white font-bold text-base transition-all shadow-md cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 rounded-xl bg-[#A56FB5] hover:bg-[#8A4FA3] text-white font-bold text-base transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                     >
-                      Book Appointment
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                          <span>Processing...</span>
+                        </>
+                      ) : (
+                        <span>Book Appointment</span>
+                      )}
                     </motion.button>
                   </div>
-
-                  <p className="text-[10px] text-purple-300/40 text-center mt-3">
-                    ✔ Your information is secure and confidential.
-                  </p>
 
                 </form>
 
@@ -889,9 +1182,15 @@ export default function Home() {
                       exit={{ opacity: 0, scale: 0.95 }}
                       className="absolute inset-0 bg-[#07040f] rounded-3xl p-8 flex flex-col justify-center items-center text-center space-y-6 z-10 border border-[#8A4FA3]/30"
                     >
-                      <div className="w-16 h-16 rounded-full bg-[#06030c] border border-[#A56FB5] text-[#C89AD8] flex items-center justify-center mx-auto animate-bounce">
-                        <Check className="w-8 h-8" />
-                      </div>
+                      {/* Checkmark animation */}
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 120, delay: 0.2 }}
+                        className="w-16 h-16 rounded-full bg-[#06030c] border border-[#A56FB5] text-[#C89AD8] flex items-center justify-center mx-auto"
+                      >
+                        <Check className="w-8 h-8 stroke-[3]" />
+                      </motion.div>
                       
                       <div className="space-y-2">
                         <h4 className="text-2xl font-extrabold text-white">Booking Confirmed!</h4>
@@ -919,6 +1218,75 @@ export default function Home() {
             </motion.div>
 
           </div>
+        </div>
+      </section>
+
+      {/* ------------------ CLINIC SPECIALISTS (DOCTORS) SECTION ------------------ */}
+      <section className="py-24 relative bg-black/20 border-y border-[#8A4FA3]/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center max-w-2xl mx-auto space-y-4 mb-16"
+          >
+            <span className="text-[#A56FB5] font-extrabold tracking-widest text-xs uppercase block">Our Team</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-white">Meet Our Dental Specialists</h2>
+            <p className="text-purple-300/60 text-sm">
+              Highly trained professionals dedicated to aesthetic precision, comfortable care, and modern techniques.
+            </p>
+            <div className="h-1 w-16 bg-[#A56FB5] mx-auto rounded-full mt-2" />
+          </motion.div>
+
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+          >
+            {doctors.map((doc, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                whileHover={{ y: -6, borderColor: "rgba(165, 111, 181, 0.45)" }}
+                className="p-6 rounded-3xl bg-[#0d071d]/60 border border-[#8A4FA3]/20 transition-all flex flex-col sm:flex-row gap-6 items-center text-left relative overflow-hidden group shadow-lg"
+              >
+                {/* Doctor Image Container */}
+                <div className="w-32 h-32 rounded-2xl overflow-hidden shrink-0 border-2 border-[#8A4FA3]/20 relative">
+                  <img
+                    src={doc.image}
+                    alt={doc.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
+                  />
+                </div>
+
+                {/* Details */}
+                <div className="space-y-2 relative z-10">
+                  <span className="text-[10px] font-bold text-[#C89AD8] bg-[#8A4FA3]/20 border border-[#8A4FA3]/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                    {doc.experience}
+                  </span>
+                  <h3 className="text-xl font-bold text-white mt-2 leading-none">{doc.name}</h3>
+                  <p className="text-[11px] text-[#A56FB5] font-semibold">{doc.credentials}</p>
+                  <p className="text-xs text-purple-300/80 leading-relaxed font-semibold">{doc.role}</p>
+                  <p className="text-[11px] text-purple-200/65 leading-relaxed">{doc.bio}</p>
+                  
+                  {/* Sliding Social Handles on hover */}
+                  <div className="pt-2 flex items-center gap-4 text-xs text-[#C89AD8]">
+                    <a href={`mailto:${doc.email}`} className="hover:text-white transition-colors flex items-center gap-1 font-semibold">
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>Email Doctor</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Background soft hover glow shape */}
+                <div className="absolute right-[-20px] bottom-[-20px] w-24 h-24 bg-[#A56FB5]/5 rounded-full blur-xl pointer-events-none group-hover:bg-[#A56FB5]/15 transition-all" />
+              </motion.div>
+            ))}
+          </motion.div>
+
         </div>
       </section>
 
@@ -1274,7 +1642,7 @@ export default function Home() {
                         saveAppointments([]);
                       }
                     }}
-                    className="text-xs text-rose-455 hover:text-rose-300 font-bold cursor-pointer"
+                    className="text-xs text-rose-455 hover:text-rose-355 font-bold cursor-pointer animate-pulse"
                   >
                     Cancel All
                   </button>
@@ -1305,7 +1673,7 @@ export default function Home() {
                     >
                       <button
                         onClick={() => handleCancelAppointment(appt.id)}
-                        className="absolute top-4 right-4 p-1.5 rounded-lg bg-[#06030c] border border-[#8A4FA3]/30 text-purple-400 hover:text-rose-400 hover:border-rose-955 transition-colors cursor-pointer"
+                        className="absolute top-4 right-4 p-1.5 rounded-lg bg-[#06030c] border border-[#8A4FA3]/30 text-purple-400 hover:text-rose-400 hover:border-rose-955 transition-colors cursor-pointer animate-none"
                         title="Cancel Appointment"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1352,61 +1720,82 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            {/* Left Column: Testimonial Quotes Slider */}
-            <div className="lg:col-span-7 space-y-6">
-              {[
-                {
-                  text: "The team at Dr. Varshney's Dental Aesthetics is amazing! They are professional, gentle and truly care about their patients. I highly recommend them to anyone looking for a great dentist.",
-                  author: "Jessica M.",
-                  role: "Root Canal Patient",
-                  stars: 5,
-                  image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=faces"
-                }
-              ].map((review, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="p-8 rounded-3xl bg-[#0d071d]/60 border border-[#8A4FA3]/20 flex flex-col justify-between text-left space-y-6 shadow-sm"
-                >
-                  <div className="flex items-center gap-1 text-amber-400">
-                    {[...Array(review.stars)].map((_, idx) => (
-                      <Star key={idx} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-purple-200/80 text-lg leading-relaxed italic">
-                    "{review.text}"
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-[#8A4FA3]/20">
-                    <img
-                      src={review.image}
-                      alt={review.author}
-                      className="w-10 h-10 rounded-full object-cover border border-[#A56FB5]"
-                    />
-                    <div>
-                      <h4 className="font-bold text-white text-sm">{review.author}</h4>
-                      <p className="text-[#C89AD8] text-xs">{review.role}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+            {/* Left Column: Testimonial Quotes Autoplay Carousel */}
+            <div 
+              className="lg:col-span-7"
+              onMouseEnter={() => setCarouselHovered(true)}
+              onMouseLeave={() => setCarouselHovered(false)}
+            >
+              <div className="relative min-h-[220px]">
+                <AnimatePresence mode="wait">
+                  {reviews.map((review, i) => {
+                    if (i !== activeReviewIndex) return null;
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: shouldReduceMotion ? 0 : -30 }}
+                        transition={{ duration: 0.4 }}
+                        className="p-8 rounded-3xl bg-[#0d071d]/60 border border-[#8A4FA3]/20 flex flex-col justify-between text-left space-y-6 shadow-sm hover:scale-[1.01] transition-transform"
+                      >
+                        <div className="flex items-center gap-1 text-amber-400">
+                          {[...Array(review.stars)].map((_, idx) => (
+                            <Star key={idx} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                          ))}
+                        </div>
+                        <p className="text-purple-200/80 text-lg leading-relaxed italic">
+                          "{review.text}"
+                        </p>
+                        <div className="flex items-center gap-3 pt-4 border-t border-[#8A4FA3]/20">
+                          <img
+                            src={review.image}
+                            alt={review.author}
+                            className="w-10 h-10 rounded-full object-cover border border-[#A56FB5]"
+                          />
+                          <div>
+                            <h4 className="font-bold text-white text-sm">{review.author}</h4>
+                            <p className="text-[#C89AD8] text-xs font-semibold">{review.role}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
+
+              {/* Indicator Dots */}
+              <div className="flex justify-start gap-2 mt-4 px-4">
+                {reviews.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveReviewIndex(i)}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${
+                      i === activeReviewIndex ? "w-6 bg-[#A56FB5]" : "w-2 bg-[#8A4FA3]/40"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
-            {/* Right Column: Key Statistics Board */}
+            {/* Right Column: Key Statistics Board (With Count Up Anim) */}
             <div className="lg:col-span-5 grid grid-cols-3 gap-4 text-center">
               {[
-                { label: "Average Rating", value: "4.9 / 5" },
-                { label: "Happy Patients", value: "2,000+" },
-                { label: "Years Exp", value: "15+" }
+                { label: "Happy Patients", value: 2000, suffix: "+" },
+                { label: "Years Exp", value: 15, suffix: "+" },
+                { label: "Satisfaction", value: 98, suffix: "%" }
               ].map((stat, i) => (
                 <motion.div 
                   key={i}
                   whileHover={{ scale: 1.05, y: -4 }}
                   className="p-6 rounded-2xl bg-[#8A4FA3]/10 border border-[#8A4FA3]/20 shadow-sm flex flex-col justify-center space-y-2"
                 >
-                  <span className="text-3xl font-extrabold text-[#A56FB5] block">{stat.value}</span>
-                  <span className="text-[10px] font-bold text-purple-300/50 uppercase tracking-wide">{stat.label}</span>
+                  <span className="text-3xl font-extrabold text-[#A56FB5] block">
+                    <Counter value={stat.value} suffix={stat.suffix} />
+                  </span>
+                  <span className="text-[10px] font-bold text-purple-300/50 uppercase tracking-wide leading-tight">
+                    {stat.label}
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -1432,7 +1821,7 @@ export default function Home() {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-[#8A4FA3]/20 bg-gradient-to-r from-[#8A4FA3]/10 to-indigo-950/5 overflow-hidden shadow-sm transition-all duration-300"
+                  className="rounded-xl border border-[#8A4FA3]/20 bg-gradient-to-r from-[#8A4FA3]/10 to-indigo-955/5 overflow-hidden shadow-sm transition-all duration-300"
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
@@ -1440,7 +1829,13 @@ export default function Home() {
                   >
                     <span className="text-base sm:text-lg">{faq.question}</span>
                     <span className="p-1 rounded-lg bg-[#8A4FA3]/20 text-[#C89AD8] shrink-0 ml-4">
-                      {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      {/* Arrow Rotate */}
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </motion.div>
                     </span>
                   </button>
                   
@@ -1450,7 +1845,7 @@ export default function Home() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
                       >
                         <div className="p-6 pt-0 border-t border-[#8A4FA3]/20 text-sm text-purple-300/70 leading-relaxed">
                           {faq.answer}
@@ -1476,7 +1871,6 @@ export default function Home() {
             <div className="space-y-4">
               <a href="#" className="flex items-center gap-2.5 text-white">
                 <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
-                  {/* Stationary circular border with an open gap */}
                   <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
                     <circle
                       cx="50"
@@ -1576,7 +1970,7 @@ export default function Home() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveServiceDetail(null)}
-              className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 animate-none"
             />
 
             <motion.div
@@ -1680,7 +2074,7 @@ export default function Home() {
                 setIsBookingOpen(false);
                 setBookingSuccess(false);
               }}
-              className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 animate-none"
             />
 
             <motion.div
@@ -1715,7 +2109,7 @@ export default function Home() {
                   
                   <div className="space-y-2">
                     <h4 className="text-2xl font-extrabold text-white">Booking Confirmed!</h4>
-                    <p className="text-sm text-purple-200/60 max-w-xs mx-auto">
+                    <p className="text-sm text-purple-300/60 max-w-xs mx-auto">
                       Your appointment has been registered successfully. You can manage or cancel it anytime in the portal below.
                     </p>
                   </div>
@@ -1751,9 +2145,13 @@ export default function Home() {
                           type="text"
                           required
                           value={bookingForm.name}
+                          onFocus={() => setFocusedInput("popup_name")}
+                          onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
                           placeholder="e.g. John Doe"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/25 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                            focusedInput === "popup_name" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/25"
+                          }`}
                         />
                       </div>
                     </div>
@@ -1766,9 +2164,13 @@ export default function Home() {
                         <input
                           type="email"
                           value={bookingForm.email}
+                          onFocus={() => setFocusedInput("popup_email")}
+                          onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
                           placeholder="care@domain.com"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/25 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                            focusedInput === "popup_email" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/25"
+                          }`}
                         />
                       </div>
                     </div>
@@ -1786,9 +2188,13 @@ export default function Home() {
                           type="tel"
                           required
                           value={bookingForm.phone}
+                          onFocus={() => setFocusedInput("popup_phone")}
+                          onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
                           placeholder="79774 54648"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/25 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                            focusedInput === "popup_phone" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/25"
+                          }`}
                         />
                       </div>
                     </div>
@@ -1820,8 +2226,12 @@ export default function Home() {
                           type="date"
                           required
                           value={bookingForm.date}
+                          onFocus={() => setFocusedInput("popup_date")}
+                          onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/25 focus:border-[#A56FB5] focus:outline-none text-white text-sm cursor-pointer"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${
+                            focusedInput === "popup_date" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/25"
+                          }`}
                         />
                       </div>
                     </div>
@@ -1855,7 +2265,9 @@ export default function Home() {
                       onChange={(e) => setBookingForm({ ...bookingForm, doctor: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#8A4FA3]/25 focus:border-[#A56FB5] focus:outline-none text-white text-sm cursor-pointer"
                     >
-                      <option value={doctor.name} className="bg-[#090615]">{doctor.name} - {doctor.title}</option>
+                      {doctors.map((doc, idx) => (
+                        <option key={idx} value={doc.name} className="bg-[#090615]">{doc.name} - {doc.credentials}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -1865,18 +2277,30 @@ export default function Home() {
                     <textarea
                       rows={2}
                       value={bookingForm.notes}
+                      onFocus={() => setFocusedInput("popup_notes")}
+                      onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                       placeholder="e.g. sensitivity to cold water on lower left molar"
-                      className="w-full px-4 py-2 rounded-xl bg-black/40 border border-[#8A4FA3]/25 focus:border-[#A56FB5] focus:outline-none text-white text-sm"
+                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                        focusedInput === "popup_notes" ? "border-[#A56FB5] shadow-[0_0_12px_rgba(165,111,181,0.25)]" : "border-[#8A4FA3]/25"
+                      }`}
                     />
                   </div>
 
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="w-full py-3.5 rounded-xl bg-[#A56FB5] hover:bg-[#8A4FA3] text-white font-bold text-base transition-all cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 bg-[#A56FB5] hover:bg-[#8A4FA3] text-white font-bold text-base transition-all rounded-xl cursor-pointer flex items-center justify-center gap-2"
                     >
-                      Confirm Appointment Booking
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                          <span>Booking...</span>
+                        </>
+                      ) : (
+                        <span>Confirm Appointment Booking</span>
+                      )}
                     </button>
                   </div>
 
@@ -1885,6 +2309,22 @@ export default function Home() {
 
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* ------------------ BACK TO TOP BUTTON ------------------ */}
+      <AnimatePresence>
+        {scrollY > 400 && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            whileHover={{ scale: 1.1 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 p-3 rounded-full bg-[#A56FB5] hover:bg-[#8A4FA3] text-white shadow-xl z-40 transition-colors cursor-pointer border border-[#C89AD8]/30"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </motion.button>
         )}
       </AnimatePresence>
 
