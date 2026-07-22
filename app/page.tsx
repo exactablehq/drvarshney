@@ -374,7 +374,7 @@ export default function Home() {
       <div className="absolute top-[45%] right-[-10%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#A56FB5]/8 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
 
       {/* ------------------ NAVBAR ------------------ */}
-      <header className="sticky top-0 z-40 w-full bg-[#06030c]/85 backdrop-blur-md border-b border-[#8A4FA3]/20">
+      <header className="sticky top-0 z-40 w-full bg-[#06030c]/85 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo */}
@@ -506,6 +506,30 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Animated Wavy Bottom Border Divider */}
+        <div className="absolute bottom-[-4px] left-0 w-full h-2 overflow-hidden pointer-events-none">
+          <svg className="w-full h-full text-[#8A4FA3]/35" preserveAspectRatio="none" viewBox="0 0 1440 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <motion.path
+              d="M0,12 C180,22 360,2 540,12 C720,22 900,2 1080,12 C1260,22 1440,2 1620,12"
+              stroke="currentColor"
+              strokeWidth="5"
+              strokeLinecap="round"
+              animate={{
+                d: [
+                  "M0,12 C180,22 360,2 540,12 C720,22 900,2 1080,12 C1260,22 1440,2 1620,12",
+                  "M0,12 C180,2 360,22 540,12 C720,2 900,22 1080,12 C1260,2 1440,22 1620,12",
+                  "M0,12 C180,22 360,2 540,12 C720,22 900,2 1080,12 C1260,22 1440,2 1620,12"
+                ]
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </svg>
+        </div>
       </header>
 
       {/* ------------------ HERO SECTION ------------------ */}
