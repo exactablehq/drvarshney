@@ -422,10 +422,10 @@ export default function Home() {
           <a href="#" className="flex items-center gap-2.5 group">
             <motion.div 
               whileHover={{ rotate: 10, scale: 1.05 }}
-              className="w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 p-0.5 shadow-lg shadow-purple-500/20 flex items-center justify-center text-white"
+              className="w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 p-0.5 shadow-lg shadow-purple-500/20 overflow-hidden flex items-center justify-center"
             >
-              <div className="w-full h-full bg-[#05020c] rounded-[10px] flex items-center justify-center p-1 text-purple-400">
-                <VarshneyLogo className="w-full h-full" />
+              <div className="w-full h-full bg-[#05020c] rounded-[10px] overflow-hidden flex items-center justify-center">
+                <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover" />
               </div>
             </motion.div>
             <div>
@@ -1465,8 +1465,8 @@ export default function Home() {
             {/* Column 1: Brand */}
             <div className="space-y-4">
               <a href="#" className="flex items-center gap-2.5 text-white">
-                <div className="w-9 h-9 rounded-lg bg-purple-600 flex items-center justify-center text-white p-1">
-                  <VarshneyLogo className="w-full h-full text-white" />
+                <div className="w-9 h-9 rounded-lg bg-purple-600/30 border border-purple-500/30 overflow-hidden flex items-center justify-center p-0.5">
+                  <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-md" />
                 </div>
                 <div>
                   <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY'S</span>
