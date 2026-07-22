@@ -379,14 +379,41 @@ export default function Home() {
           
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
-            <motion.div 
-              whileHover={{ rotate: 10, scale: 1.05 }}
-              className="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#A56FB5] to-[#8A4FA3] p-0.5 shadow-lg shadow-[#A56FB5]/10 overflow-hidden flex items-center justify-center"
-            >
-              <div className="w-full h-full bg-[#06030c] rounded-[10px] overflow-hidden flex items-center justify-center">
-                <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover" />
-              </div>
-            </motion.div>
+            <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+              {/* Spinning circular border with a gap that opens wider on hover */}
+              <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                <motion.circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  stroke="url(#logo-gradient)"
+                  strokeWidth="4"
+                  fill="transparent"
+                  strokeLinecap="round"
+                  initial={{ strokeDasharray: "283 0" }}
+                  animate={{ strokeDasharray: "240 43", rotate: 360 }}
+                  whileHover={{ strokeDasharray: "190 93" }}
+                  transition={{ 
+                    strokeDasharray: { duration: 1.5, ease: "easeOut" },
+                    rotate: { duration: 12, repeat: Infinity, ease: "linear" } 
+                  }}
+                />
+                <defs>
+                  <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#C89AD8" />
+                    <stop offset="50%" stopColor="#A56FB5" />
+                    <stop offset="100%" stopColor="#8A4FA3" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              {/* Inner Circular Logo Image */}
+              <motion.div 
+                whileHover={{ scale: 1.06 }}
+                className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-[#06030c] z-10"
+              >
+                <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
+              </motion.div>
+            </div>
             <div>
               <span className="font-extrabold text-lg tracking-wide text-white block group-hover:text-[#C89AD8] transition-colors leading-none">
                 DR. VARSHNEY'S
@@ -1424,8 +1451,23 @@ export default function Home() {
             {/* Column 1: Brand */}
             <div className="space-y-4">
               <a href="#" className="flex items-center gap-2.5 text-white">
-                <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-[#A56FB5] to-[#8A4FA3] flex items-center justify-center text-white p-0.5">
-                  <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-md" />
+                <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
+                  {/* Stationary circular border with an open gap */}
+                  <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="45"
+                      stroke="#A56FB5"
+                      strokeWidth="4"
+                      fill="transparent"
+                      strokeLinecap="round"
+                      strokeDasharray="220 63"
+                    />
+                  </svg>
+                  <div className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[#06030c] z-10">
+                    <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
+                  </div>
                 </div>
                 <div>
                   <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY'S</span>
