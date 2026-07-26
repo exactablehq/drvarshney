@@ -482,8 +482,8 @@ export default function Home() {
   }, [carouselHovered, reviews.length]);
 
   // Framer Motion spring config details
-  const springTransition = shouldReduceMotion 
-    ? { duration: 0.1 } 
+  const springTransition = shouldReduceMotion
+    ? { duration: 0.1 }
     : { type: "spring" as const, stiffness: 90, damping: 14 };
 
   const containerVariants = {
@@ -511,11 +511,11 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-[#090611] flex flex-col justify-center items-center relative overflow-hidden bg-grid-pattern">
         <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
-        
+
         <div className="relative flex flex-col items-center space-y-6 z-10 text-center">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ 
+            animate={{
               scale: [1, 1.06, 1],
               opacity: 1,
               boxShadow: ["0 0 15px rgba(53, 6, 62, 0.2)", "0 0 35px rgba(53, 6, 62, 0.45)", "0 0 15px rgba(53, 6, 62, 0.2)"]
@@ -551,7 +551,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#090611] text-[#FFFFFF] relative selection:bg-[#35063e]/40 selection:text-[#FFFFFF] bg-grid-pattern">
-      
+
       {/* Background radial overlays */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
       <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#35063e]/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
@@ -559,7 +559,7 @@ export default function Home() {
       {/* ------------------ NAVBAR ------------------ */}
       <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl bg-black/45 backdrop-blur-[20px] border border-white/10 rounded-[28px] shadow-[0_10px_35px_rgba(0,0,0,0.5)] transition-all duration-300">
         <div className="px-6 py-3.5 flex items-center justify-between">
-          
+
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
             <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
@@ -575,9 +575,9 @@ export default function Home() {
                   initial={{ strokeDasharray: "283 0" }}
                   animate={{ strokeDasharray: "240 43", rotate: 360 }}
                   whileHover={{ strokeDasharray: "190 93" }}
-                  transition={{ 
+                  transition={{
                     strokeDasharray: { duration: 1.5, ease: "easeOut" },
-                    rotate: { duration: 12, repeat: Infinity, ease: "linear" } 
+                    rotate: { duration: 12, repeat: Infinity, ease: "linear" }
                   }}
                 />
                 <defs>
@@ -588,7 +588,7 @@ export default function Home() {
                   </linearGradient>
                 </defs>
               </svg>
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.06 }}
                 className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[#090611] z-10"
               >
@@ -609,19 +609,18 @@ export default function Home() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
             {["Home", "About Us", "Services", "Appointments", "Contact Us"].map((link) => {
               const isActive = activeSection === link;
-              const linkTarget = 
-                link === "Home" ? "#hero" : 
-                link === "About Us" ? "#about" : 
-                link === "Services" ? "#services" : 
-                link === "Appointments" ? "#scheduler" : "#faq";
-              
+              const linkTarget =
+                link === "Home" ? "#hero" :
+                  link === "About Us" ? "#about" :
+                    link === "Services" ? "#services" :
+                      link === "Appointments" ? "#scheduler" : "#faq";
+
               return (
                 <a
                   key={link}
                   href={linkTarget}
-                  className={`relative py-1 transition-colors duration-300 ease-in-out hover:text-white ${
-                    isActive ? "text-white font-bold" : "text-white/60"
-                  }`}
+                  className={`relative py-1 transition-colors duration-300 ease-in-out hover:text-white ${isActive ? "text-white font-bold" : "text-white/60"
+                    }`}
                 >
                   <span>{link}</span>
                   {isActive && (
@@ -645,7 +644,7 @@ export default function Home() {
                 setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
                 setIsBookingOpen(true);
               }}
-              className="px-5 py-2.5 rounded-xl bg-[#090611]/85 border border-[#35063e] hover:border-purple-400 text-white font-semibold text-xs flex items-center gap-2 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all cursor-pointer"
+              className="px-5 py-2.5 rounded-xl bg-[#090611]/85 border border-purple-500/40 hover:border-purple-400 text-white font-semibold text-xs flex items-center gap-2 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4 text-purple-400" />
               <span>Book Appointment</span>
@@ -700,8 +699,8 @@ export default function Home() {
       </header>
 
       {/* ------------------ HERO SECTION ------------------ */}
-      <section 
-        id="hero" 
+      <section
+        id="hero"
         onMouseMove={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
           setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
@@ -710,9 +709,9 @@ export default function Home() {
       >
         {/* Subtle background noise overlay */}
         <div className="absolute inset-0 bg-noise opacity-[0.015] mix-blend-overlay pointer-events-none z-0" />
-        
+
         {/* Subtle background depth light behind hero content */}
-        <div 
+        <div
           className="absolute pointer-events-none rounded-full blur-[150px] opacity-40 z-0"
           style={{
             width: "600px",
@@ -724,7 +723,7 @@ export default function Home() {
         />
 
         {/* Soft purple radial glow behind the image */}
-        <div 
+        <div
           className="absolute pointer-events-none rounded-full blur-[160px] opacity-30 z-0"
           style={{
             width: "600px",
@@ -736,7 +735,7 @@ export default function Home() {
         />
 
         {/* Mouse follow spotlight glow */}
-        <div 
+        <div
           className="absolute pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-500 rounded-full blur-[130px] z-0"
           style={{
             width: "400px",
@@ -754,12 +753,12 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 my-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            
+
             {/* Left Content Column */}
             <div className="lg:col-span-6 flex flex-col justify-center text-left space-y-7">
-              
+
               {/* Doctor Badge */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -774,7 +773,7 @@ export default function Home() {
               {/* Serif Heading */}
               <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-serif font-light text-white tracking-tight leading-[1.05] flex flex-col gap-1.5">
                 <span className="block overflow-hidden py-0.5">
-                  <motion.span 
+                  <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
@@ -784,7 +783,7 @@ export default function Home() {
                   </motion.span>
                 </span>
                 <span className="block overflow-hidden py-0.5">
-                  <motion.span 
+                  <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
@@ -794,7 +793,7 @@ export default function Home() {
                   </motion.span>
                 </span>
                 <span className="block overflow-hidden py-0.5">
-                  <motion.span 
+                  <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
@@ -806,7 +805,7 @@ export default function Home() {
               </h1>
 
               {/* Description Paragraph */}
-              <motion.p 
+              <motion.p
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}
@@ -831,7 +830,7 @@ export default function Home() {
                     setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
                     setIsBookingOpen(true);
                   }}
-                  className="px-8 py-3.5 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer border border-[#35063e]/20"
+                  className="px-8 py-3.5 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer border border-purple-500/50 hover:border-purple-400"
                 >
                   <CalendarDays className="w-5 h-5 text-white" />
                   <span>Book Appointment</span>
@@ -864,44 +863,36 @@ export default function Home() {
 
             {/* Right Column: Hero Image with Polished Glass Frame */}
             <div className="lg:col-span-6 flex justify-center relative z-10">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-                className="relative w-full max-w-lg aspect-[4/3] rounded-[32px] overflow-visible"
+                className="relative w-full max-w-lg aspect-[4/3] rounded-[36px] overflow-visible"
               >
-                {/* Ambient Glow: radial gradient, heavy blur, extremely low opacity */}
-                <div 
-                  className="absolute inset-[-25px] rounded-[48px] blur-[40px] pointer-events-none -z-10" 
-                  style={{
-                    background: "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0) 70%)"
-                  }}
-                />
+                {/* Faint purple ambient glow behind the image to blend it into the background */}
+                <div className="absolute inset-[-15px] bg-purple-500/5 rounded-[40px] blur-[30px] pointer-events-none -z-10" />
 
-                {/* Slow float animation container */}
+                {/* Slow float animation */}
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-full h-full premium-glass-frame"
+                  className="relative w-full h-full p-[1.5px] rounded-[36px] bg-gradient-to-tr from-purple-400/50 via-purple-500/15 to-purple-400/50 shadow-[0_15px_35px_rgba(0,0,0,0.6),_0_0_20px_rgba(168,85,247,0.06),_inset_0_0_15px_rgba(168,85,247,0.15)]"
                 >
-                  {/* Image wrapper with relative position, overflow hidden, border radius 32px */}
-                  <div className="w-full h-full rounded-[32px] overflow-hidden relative bg-black/40">
-                    
-                    {/* Main Image with subtle glass treatment: 7% lower brightness, slightly lower contrast */}
+                  {/* Inner image container */}
+                  <div className="w-full h-full rounded-[35px] overflow-hidden bg-black/40 relative">
                     <motion.img
                       src="hero-dental.png"
                       alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                      className="w-full h-full object-cover filter brightness-[0.93] contrast-[0.97]"
+                      className="w-full h-full object-cover"
                     />
 
-                    {/* Glass Overlay: black transparent gradient, 4% opacity, subtle backdrop blur */}
-                    <div className="premium-glass-layer" />
+                    {/* Subtle semi-transparent glass layer (4% dark tint overlay to blend naturally) */}
+                    <div className="absolute inset-0 bg-[#090514]/4 mix-blend-multiply pointer-events-none" />
 
-                    {/* Inner Glow: subtle inset purple edge glow and sharp glass edge highlight */}
-                    <div className="premium-glass-inner-glow" />
-
+                    {/* Inner edge shadow glow where the border meets the image */}
+                    <div className="absolute inset-0 rounded-[35px] shadow-[inset_0_0_12px_rgba(168,85,247,0.15)] pointer-events-none border border-white/5" />
                   </div>
                 </motion.div>
               </motion.div>
@@ -994,9 +985,9 @@ export default function Home() {
       {/* ------------------ SERVICES SECTION ------------------ */}
       <section id="services" className="py-24 relative border-y border-[#35063e]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* Section Header */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1008,7 +999,7 @@ export default function Home() {
           </motion.div>
 
           {/* Services Grid */}
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -1065,9 +1056,9 @@ export default function Home() {
       <section id="about" className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Column: About Us */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -1108,7 +1099,7 @@ export default function Home() {
             </motion.div>
 
             {/* Right Column: Dark Purple Booking Card */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -1116,7 +1107,7 @@ export default function Home() {
               className="lg:col-span-6"
             >
               <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] text-white border border-[#35063e]/30 shadow-2xl relative text-left">
-                
+
                 {/* Heading */}
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center gap-2.5 text-[#D8B4FE]">
@@ -1127,7 +1118,7 @@ export default function Home() {
                 </div>
 
                 <form onSubmit={handleBookingSubmit} className="space-y-4">
-                  
+
                   {/* Name Input wrapper with floating animation */}
                   <div className="space-y-1 relative">
                     <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Full Name *</label>
@@ -1139,9 +1130,8 @@ export default function Home() {
                       onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
                       placeholder="e.g. John Doe"
-                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                        focusedInput === "name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                      }`}
+                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
+                        }`}
                     />
                   </div>
 
@@ -1156,15 +1146,14 @@ export default function Home() {
                       onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
                       placeholder="79774 54648"
-                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                        focusedInput === "phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                      }`}
+                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
+                        }`}
                     />
                   </div>
 
                   {/* Email & Date Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    
+
                     {/* Email */}
                     <div className="space-y-1">
                       <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Email Address</label>
@@ -1175,9 +1164,8 @@ export default function Home() {
                         onBlur={() => setFocusedInput(null)}
                         onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
                         placeholder="john@example.com"
-                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                          focusedInput === "email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                        }`}
+                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
+                          }`}
                       />
                     </div>
 
@@ -1191,9 +1179,8 @@ export default function Home() {
                         onFocus={() => setFocusedInput("date")}
                         onBlur={() => setFocusedInput(null)}
                         onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${
-                          focusedInput === "date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                        }`}
+                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${focusedInput === "date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
+                          }`}
                       />
                     </div>
 
@@ -1223,9 +1210,8 @@ export default function Home() {
                       onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                       placeholder="Share symptoms or questions with us..."
-                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                        focusedInput === "notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                      }`}
+                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
+                        }`}
                     />
                   </div>
 
@@ -1261,7 +1247,7 @@ export default function Home() {
                       className="absolute inset-0 bg-[#0e071b] rounded-3xl p-8 flex flex-col justify-center items-center text-center space-y-6 z-10 border border-[#35063e]/30"
                     >
                       {/* Checkmark animation */}
-                      <motion.div 
+                      <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 120, delay: 0.2 }}
@@ -1269,7 +1255,7 @@ export default function Home() {
                       >
                         <Check className="w-8 h-8 stroke-[3]" />
                       </motion.div>
-                      
+
                       <div className="space-y-2">
                         <h4 className="text-2xl font-extrabold text-white">Booking Confirmed!</h4>
                         <p className="text-sm text-text-secondary/60 max-w-xs mx-auto">
@@ -1302,8 +1288,8 @@ export default function Home() {
       {/* ------------------ CLINIC SPECIALISTS (DOCTORS) SECTION ------------------ */}
       <section className="py-24 relative border-y border-[#35063e]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1317,7 +1303,7 @@ export default function Home() {
             <div className="h-1 w-16 bg-[#35063e] mx-auto rounded-full mt-2" />
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -1349,7 +1335,7 @@ export default function Home() {
                   <p className="text-[11px] text-[#D8B4FE] font-semibold">{doc.credentials}</p>
                   <p className="text-xs text-text-muted/80 leading-relaxed font-semibold">{doc.role}</p>
                   <p className="text-[11px] text-text-secondary/65 leading-relaxed">{doc.bio}</p>
-                  
+
                   {/* Sliding Social Handles on hover */}
                   <div className="pt-2 flex items-center gap-4 text-xs text-[#D8B4FE]">
                     <a href={`mailto:${doc.email}`} className="hover:text-white transition-colors flex items-center gap-1 font-semibold">
@@ -1375,7 +1361,7 @@ export default function Home() {
       {/* ------------------ APPOINTMENT SCHEDULER SECTION ------------------ */}
       <section id="scheduler" className="py-24 relative border-t border-[#35063e]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
             <span className="text-[#D8B4FE] font-bold tracking-widest text-xs uppercase block">Self Service Portal</span>
@@ -1386,9 +1372,9 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            
+
             {/* Quick booking trigger block */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -5 }}
               className="lg:col-span-4 p-8 rounded-2xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] border border-[#35063e]/25 text-left space-y-6 shadow-sm"
             >
@@ -1412,7 +1398,7 @@ export default function Home() {
 
             {/* Appointments List Board */}
             <div className="lg:col-span-8 space-y-6">
-              
+
               <div className="flex justify-between items-center">
                 <h3 className="font-extrabold text-white text-lg">Active Bookings ({appointments.length})</h3>
                 {appointments.length > 0 && (
@@ -1493,7 +1479,7 @@ export default function Home() {
       {/* ------------------ FAQ SECTION ------------------ */}
       <section id="faq" className="py-24 relative">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          
+
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
             <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">FAQ</span>
             <h2 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
@@ -1523,7 +1509,7 @@ export default function Home() {
                       </motion.div>
                     </span>
                   </button>
-                  
+
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
@@ -1549,9 +1535,9 @@ export default function Home() {
       {/* ------------------ FOOTER ------------------ */}
       <footer className="bg-[#090611] text-white py-16 relative border-t border-[#35063e]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-left mb-12">
-            
+
             {/* Column 1: Brand */}
             <div className="space-y-4">
               <a href="#" className="flex items-center gap-2.5 text-white">
@@ -1666,7 +1652,7 @@ export default function Home() {
               className="fixed inset-y-0 right-0 w-full max-w-md bg-[#0e071b] border-l border-[#35063e]/30 p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
             >
               <div className="space-y-8">
-                
+
                 {/* Close */}
                 <div className="flex justify-between items-center">
                   <span className="text-[10px] font-bold tracking-widest text-[#D8B4FE] uppercase">Treatment Guide</span>
@@ -1769,7 +1755,7 @@ export default function Home() {
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
               className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl bg-[#0e071b] border border-[#35063e]/30 p-6 sm:p-8 rounded-3xl shadow-2xl z-50 overflow-y-auto max-h-[90vh] text-left text-[#FFFFFF]"
             >
-              
+
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <h3 className="text-2xl font-extrabold text-white">Book Your Visit</h3>
@@ -1791,7 +1777,7 @@ export default function Home() {
                   <div className="w-16 h-16 rounded-full bg-[#090611] border border-[#35063e] text-[#D8B4FE] flex items-center justify-center mx-auto animate-bounce">
                     <Check className="w-8 h-8 stroke-[3]" />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h4 className="text-2xl font-extrabold text-white">Booking Confirmed!</h4>
                     <p className="text-sm text-text-muted/60 max-w-xs mx-auto">
@@ -1818,9 +1804,9 @@ export default function Home() {
                 </div>
               ) : (
                 <form onSubmit={handleBookingSubmit} className="space-y-4">
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    
+
                     {/* Name */}
                     <div className="space-y-1.5">
                       <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Your Full Name *</label>
@@ -1834,9 +1820,8 @@ export default function Home() {
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
                           placeholder="e.g. John Doe"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                            focusedInput === "popup_name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                          }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                            }`}
                         />
                       </div>
                     </div>
@@ -1853,9 +1838,8 @@ export default function Home() {
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
                           placeholder="care@domain.com"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                            focusedInput === "popup_email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                          }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                            }`}
                         />
                       </div>
                     </div>
@@ -1863,7 +1847,7 @@ export default function Home() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    
+
                     {/* Phone */}
                     <div className="space-y-1.5">
                       <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Phone Number *</label>
@@ -1877,9 +1861,8 @@ export default function Home() {
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
                           placeholder="79774 54648"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                            focusedInput === "popup_phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                          }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                            }`}
                         />
                       </div>
                     </div>
@@ -1901,7 +1884,7 @@ export default function Home() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    
+
                     {/* Date */}
                     <div className="space-y-1.5">
                       <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Preferred Date *</label>
@@ -1914,9 +1897,8 @@ export default function Home() {
                           onFocus={() => setFocusedInput("popup_date")}
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${
-                            focusedInput === "popup_date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                          }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${focusedInput === "popup_date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                            }`}
                         />
                       </div>
                     </div>
@@ -1966,9 +1948,8 @@ export default function Home() {
                       onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                       placeholder="e.g. sensitivity to cold water on lower left molar"
-                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
-                        focusedInput === "popup_notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                      }`}
+                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                        }`}
                     />
                   </div>
 
