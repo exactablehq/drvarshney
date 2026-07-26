@@ -876,24 +876,21 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full p-[1.5px] rounded-[36px] bg-gradient-to-tr from-purple-400/50 via-purple-500/15 to-purple-400/50 shadow-[0_15px_35px_rgba(0,0,0,0.6),_0_0_20px_rgba(168,85,247,0.06),_inset_0_0_15px_rgba(168,85,247,0.15)]"
+                  className="relative w-full h-full border border-purple-500/30 rounded-[36px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15)] overflow-hidden bg-[#0a0516]/70 backdrop-blur-[20px]"
                 >
-                  {/* Inner image container */}
-                  <div className="w-full h-full rounded-[35px] overflow-hidden bg-black/40 relative">
-                    <motion.img
-                      src="hero-dental.png"
-                      alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                      className="w-full h-full object-cover"
-                    />
+                  <motion.img
+                    src="hero-dental.png"
+                    alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full h-full object-cover"
+                  />
 
-                    {/* Subtle semi-transparent glass layer (4% dark tint overlay to blend naturally) */}
-                    <div className="absolute inset-0 bg-[#090514]/4 mix-blend-multiply pointer-events-none" />
+                  {/* Glass overlay: 4% dark tint to blend naturally */}
+                  <div className="absolute inset-0 bg-[#090514]/4 mix-blend-multiply pointer-events-none" />
 
-                    {/* Inner edge shadow glow where the border meets the image */}
-                    <div className="absolute inset-0 rounded-[35px] shadow-[inset_0_0_12px_rgba(168,85,247,0.15)] pointer-events-none border border-white/5" />
-                  </div>
+                  {/* Inset shadows: top highlight and internal glow matching the navbar */}
+                  <div className="absolute inset-0 pointer-events-none shadow-[inset_0_1px_0_rgba(255,255,255,0.15),_inset_0_0_12px_rgba(168,85,247,0.12)]" />
                 </motion.div>
               </motion.div>
             </div>
