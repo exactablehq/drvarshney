@@ -835,28 +835,6 @@ export default function Home() {
                   <CalendarDays className="w-5 h-5 text-white" />
                   <span>Book Appointment</span>
                 </motion.button>
-
-                {/* Watch Clinic Tour (Secondary) */}
-                <motion.button
-                  initial={{ y: 12, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    y: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.4 },
-                    opacity: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.4 }
-                  }}
-                  whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    const el = document.getElementById("services");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="px-8 py-3.5 rounded-full bg-transparent border border-white/20 text-white font-semibold text-base shadow-sm transition-all duration-300 flex items-center gap-2 cursor-pointer"
-                >
-                  <div className="w-5 h-5 rounded-full border border-white/40 flex items-center justify-center p-1 shrink-0">
-                    <Play className="w-2.5 h-2.5 fill-white text-white translate-x-[0.5px]" />
-                  </div>
-                  <span>Watch Clinic Tour</span>
-                </motion.button>
               </div>
 
             </div>
