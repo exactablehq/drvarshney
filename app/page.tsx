@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import DoctorProfile from "./components/DoctorProfile";
 import {
   Calendar,
   Clock,
@@ -621,10 +622,10 @@ export default function Home() {
               </motion.div>
             </div>
             <div>
-              <span className="font-extrabold text-base tracking-wide text-white block group-hover:text-[#D8B4FE] transition-colors leading-none">
+              <span className="font-extrabold text-sm sm:text-base tracking-wide text-white block group-hover:text-[#D8B4FE] transition-colors leading-none">
                 DR. VARSHNEY'S
               </span>
-              <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.2em] block mt-0.5">
+              <span className="text-[7px] sm:text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] sm:tracking-[0.2em] block mt-0.5">
                 Dental Aesthetics
               </span>
             </div>
@@ -632,7 +633,7 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
-            {["Home", "About Us", "Services", "Appointments", "Contact Us"].map((link) => {
+            {["Home", "Services", "About Us", "Appointments", "Contact Us"].map((link) => {
               const isActive = activeSection === link;
               const linkTarget =
                 link === "Home" ? "#hero" :
@@ -695,7 +696,7 @@ export default function Home() {
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
               <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "About Us", "Services", "Appointments", "Contact Us"].map((link) => (
+                {["Home", "Services", "About Us", "Appointments", "Contact Us"].map((link) => (
                   <a
                     key={link}
                     href={link === "Home" ? "#hero" : link === "About Us" ? "#about" : link === "Services" ? "#services" : link === "Appointments" ? "#scheduler" : "#faq"}
@@ -730,7 +731,7 @@ export default function Home() {
           const rect = e.currentTarget.getBoundingClientRect();
           setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }}
-        className="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden group/hero min-h-screen flex flex-col justify-between"
+        className="relative pt-32 pb-8 md:pt-40 md:pb-10 overflow-hidden group/hero min-h-screen flex flex-col justify-between"
       >
         {/* Subtle background noise overlay */}
         <div className="absolute inset-0 bg-noise opacity-[0.015] mix-blend-overlay pointer-events-none z-0" />
@@ -780,7 +781,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
             {/* Left Content Column */}
-            <div className="lg:col-span-6 flex flex-col justify-center text-left space-y-7">
+            <div className="lg:col-span-6 flex flex-col justify-center text-center lg:text-left items-center lg:items-start space-y-7">
 
               {/* Doctor Badge */}
               <motion.div
@@ -796,7 +797,7 @@ export default function Home() {
               </motion.div>
 
               {/* Modern Sans Heading */}
-              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
+              <h1 className="text-4xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
                 <span className="block overflow-hidden py-0.5">
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
@@ -817,16 +818,6 @@ export default function Home() {
                     Beautiful Smiles.
                   </motion.span>
                 </span>
-                {/* <span className="block overflow-hidden py-0.5">
-                  <motion.span
-                    initial={{ y: "100%", opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-                    className="block"
-                  >
-                    Forever.
-                  </motion.span>
-                </span> */}
               </h1>
 
               {/* Description Paragraph */}
@@ -840,7 +831,7 @@ export default function Home() {
               </motion.p>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start">
                 {/* Book Appointment (Primary) */}
                 <motion.button
                   initial={{ y: 12, opacity: 0 }}
@@ -925,7 +916,7 @@ export default function Home() {
             </div>
 
             {/* Stat 2 */}
-            <div className="flex items-center gap-4 text-left px-4 lg:border-l lg:border-white/10">
+            <div className="flex items-center gap-4 text-left px-4 sm:border-l sm:border-white/10">
               <div className="w-12 h-12 rounded-full border border-purple-500/20 bg-purple-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
                 <Smile className="w-5 h-5 text-purple-400" />
               </div>
@@ -955,7 +946,7 @@ export default function Home() {
             </div>
 
             {/* Stat 4 */}
-            <div className="flex items-center gap-4 text-left px-4 lg:border-l lg:border-white/10">
+            <div className="flex items-center gap-4 text-left px-4 sm:border-l lg:border-white/10">
               <div className="w-12 h-12 rounded-full border border-purple-500/20 bg-purple-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
                 <Sparkles className="w-5 h-5 text-purple-400" />
               </div>
@@ -973,7 +964,7 @@ export default function Home() {
       </section>
 
       {/* ------------------ SERVICES SECTION ------------------ */}
-      <section id="services" className="py-32 lg:py-40 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
+      <section id="services" className="pt-12 pb-12 lg:pt-16 lg:pb-16 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
         
         {/* Soft radial purple gradients */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10" />
@@ -1026,7 +1017,7 @@ export default function Home() {
                 variants={serviceCardVariants}
                 whileHover="hover"
                 onClick={() => setActiveServiceDetail(service)}
-                className="relative group flex flex-col justify-between rounded-[28px] bg-gradient-to-b from-[#120a24]/50 to-[#0a0516]/70 backdrop-blur-[24px] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55),_0_0_20px_rgba(168,85,247,0.03),_inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 text-left overflow-hidden min-h-[480px] cursor-pointer"
+                className="relative group flex flex-col justify-between rounded-[28px] bg-gradient-to-b from-[#120a24]/50 to-[#0a0516]/70 backdrop-blur-[24px] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55),_0_0_20px_rgba(168,85,247,0.03),_inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 text-left overflow-hidden min-h-[420px] sm:min-h-[480px] cursor-pointer"
               >
                 <div>
                   {/* Image container */}
@@ -1081,6 +1072,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ------------------ MEET YOUR DOCTOR SECTION ------------------ */}
+      <DoctorProfile />
+
       {/* ------------------ ABOUT US & BOOKING CARD SIDE-BY-SIDE ------------------ */}
       <section id="about" className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1117,196 +1111,22 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Image beneath text */}
-              <div className="pt-4 max-w-md aspect-[16/9] rounded-2xl overflow-hidden border border-[#35063e]/30 shadow-md bg-[#35063e]/10">
-                <img
-                  src="about-dentist.png"
-                  alt="Dentist checking patient smile"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-104"
-                />
-              </div>
             </motion.div>
 
-            {/* Right Column: Dark Purple Booking Card */}
+            {/* Right Column: About Us Image */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="lg:col-span-6"
+              className="lg:col-span-6 flex justify-center"
             >
-              <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] text-white border border-[#35063e]/30 shadow-2xl relative text-left">
-
-                {/* Heading */}
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2.5 text-[#D8B4FE]">
-                    <CalendarDays className="w-6 h-6" />
-                    <span className="font-extrabold text-lg tracking-wide uppercase">Book Your Appointment</span>
-                  </div>
-                  <p className="text-text-secondary/60 text-sm">We'll help you take the first step to a healthier smile.</p>
-                </div>
-
-                <form onSubmit={handleBookingSubmit} className="space-y-4">
-
-                  {/* Name Input wrapper with floating animation */}
-                  <div className="space-y-1 relative">
-                    <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={bookingForm.name}
-                      onFocus={() => setFocusedInput("name")}
-                      onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
-                      placeholder="e.g. John Doe"
-                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                        }`}
-                    />
-                  </div>
-
-                  {/* Phone */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Phone Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      value={bookingForm.phone}
-                      onFocus={() => setFocusedInput("phone")}
-                      onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
-                      placeholder="79774 54648"
-                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                        }`}
-                    />
-                  </div>
-
-                  {/* Email & Date Row */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                    {/* Email */}
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Email Address</label>
-                      <input
-                        type="email"
-                        value={bookingForm.email}
-                        onFocus={() => setFocusedInput("email")}
-                        onBlur={() => setFocusedInput(null)}
-                        onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
-                        placeholder="john@example.com"
-                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                          }`}
-                      />
-                    </div>
-
-                    {/* Date */}
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Preferred Date *</label>
-                      <input
-                        type="date"
-                        required
-                        value={bookingForm.date}
-                        onFocus={() => setFocusedInput("date")}
-                        onBlur={() => setFocusedInput(null)}
-                        onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                        className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${focusedInput === "date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                          }`}
-                      />
-                    </div>
-
-                  </div>
-
-                  {/* Service Choice */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Select Service *</label>
-                    <select
-                      value={bookingForm.service}
-                      onChange={(e) => setBookingForm({ ...bookingForm, service: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#0e071b] border border-[#35063e]/20 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
-                    >
-                      {services.map((s) => (
-                        <option key={s.id} value={s.title} className="bg-[#0e071b]">{s.title}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Notes / Message */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-[#D8B4FE] font-bold uppercase tracking-wider block">Message (Optional)</label>
-                    <textarea
-                      rows={2}
-                      value={bookingForm.notes}
-                      onFocus={() => setFocusedInput("notes")}
-                      onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
-                      placeholder="Share symptoms or questions with us..."
-                      className={`w-full px-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/20"
-                        }`}
-                    />
-                  </div>
-
-                  {/* Submit button */}
-                  <div className="pt-2">
-                    <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3.5 rounded-xl bg-[#35063e] hover:bg-[#4a0956] text-white font-bold text-base transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                          <span>Processing...</span>
-                        </>
-                      ) : (
-                        <span>Book Appointment</span>
-                      )}
-                    </motion.button>
-                  </div>
-
-                </form>
-
-                {/* Form success confirmation layer */}
-                <AnimatePresence>
-                  {bookingSuccess && lastBookedAppointment && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      className="absolute inset-0 bg-[#0e071b] rounded-3xl p-8 flex flex-col justify-center items-center text-center space-y-6 z-10 border border-[#35063e]/30"
-                    >
-                      {/* Checkmark animation */}
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: "spring", stiffness: 120, delay: 0.2 }}
-                        className="w-16 h-16 rounded-full bg-[#090611] border border-[#35063e] text-[#D8B4FE] flex items-center justify-center mx-auto"
-                      >
-                        <Check className="w-8 h-8 stroke-[3]" />
-                      </motion.div>
-
-                      <div className="space-y-2">
-                        <h4 className="text-2xl font-extrabold text-white">Booking Confirmed!</h4>
-                        <p className="text-sm text-text-secondary/60 max-w-xs mx-auto">
-                          Hi {lastBookedAppointment.name}, your request for {lastBookedAppointment.service} has been successfully logged.
-                        </p>
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-[#0e071b] border border-[#35063e]/20 text-left text-xs space-y-2 w-full max-w-sm">
-                        <div><span className="text-[#D8B4FE]">Practitioner:</span> <span className="text-white font-bold">{lastBookedAppointment.doctor}</span></div>
-                        <div><span className="text-[#D8B4FE]">Date & Time:</span> <span className="text-white font-bold">{lastBookedAppointment.date} at {lastBookedAppointment.timeSlot}</span></div>
-                      </div>
-
-                      <button
-                        onClick={() => setBookingSuccess(false)}
-                        className="px-6 py-2 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-xs transition-all cursor-pointer"
-                      >
-                        Book Another Session
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
+              <div className="w-full max-w-lg aspect-[4/3] rounded-[32px] overflow-hidden border border-[#35063e]/30 shadow-2xl bg-[#0a0516]/70 backdrop-blur-[20px]">
+                <img
+                  src="about-dentist.png"
+                  alt="Dentist checking patient smile"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-104"
+                />
               </div>
             </motion.div>
 
@@ -1344,7 +1164,7 @@ export default function Home() {
                 key={idx}
                 variants={itemVariants}
                 whileHover={{ y: -6, borderColor: "rgba(53, 6, 62, 0.45)" }}
-                className="p-6 rounded-3xl bg-[#0e071b]/60 border border-[#35063e]/20 transition-all flex flex-col sm:flex-row gap-6 items-center text-left relative overflow-hidden group shadow-lg"
+                className="p-6 rounded-3xl bg-[#0e071b]/60 border border-[#35063e]/20 transition-all flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left relative overflow-hidden group shadow-lg"
               >
                 {/* Doctor Image Container */}
                 <div className="w-32 h-32 rounded-2xl overflow-hidden shrink-0 border-2 border-[#35063e]/20 relative">
@@ -1396,108 +1216,71 @@ export default function Home() {
             <span className="text-[#D8B4FE] font-bold tracking-widest text-xs uppercase block">Self Service Portal</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Your Scheduled Appointments</h2>
             <p className="text-text-muted/60 text-base">
-              Add new sessions or manage existing visits in real-time. Changes sync instantly on your browser.
+              Manage your booked visits in real-time. Changes sync instantly on your browser.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="max-w-4xl mx-auto space-y-6">
 
-            {/* Quick booking trigger block */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="lg:col-span-4 p-8 rounded-2xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] border border-[#35063e]/25 text-left space-y-6 shadow-sm"
-            >
-              <div className="p-3 rounded-lg bg-[#35063e]/15 border border-[#35063e]/30 w-fit text-[#D8B4FE]">
-                <CalendarDays className="w-6 h-6" />
+            <div className="flex justify-between items-center">
+              <h3 className="font-extrabold text-white text-lg">Active Bookings ({appointments.length})</h3>
+              {appointments.length > 0 && (
+                <button
+                  onClick={() => {
+                    if (confirm("Clear all appointments?")) {
+                      saveAppointments([]);
+                    }
+                  }}
+                  className="text-xs text-rose-455 hover:text-rose-355 font-bold cursor-pointer animate-pulse"
+                >
+                  Cancel All
+                </button>
+              )}
+            </div>
+
+            {appointments.length === 0 ? (
+              /* Empty State Board */
+              <div className="p-12 rounded-2xl border border-dashed border-[#35063e]/35 text-center space-y-4 bg-[#35063e]/5">
+                <p className="text-text-muted/40 text-sm italic">You have no active appointments booked on this device.</p>
               </div>
-              <h3 className="text-xl font-bold text-white">New Appointment</h3>
-              <p className="text-text-muted/60 text-sm leading-relaxed">
-                Click below to launch our step-by-step interactive booking form to select dates, times, and specific treatments.
-              </p>
-              <button
-                onClick={() => {
-                  setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
-                  setIsBookingOpen(true);
-                }}
-                className="w-full py-3 rounded-xl bg-[#35063e] hover:bg-[#4a0956] text-white font-bold text-sm transition-all shadow-sm cursor-pointer"
-              >
-                Launch Scheduler Form
-              </button>
-            </motion.div>
-
-            {/* Appointments List Board */}
-            <div className="lg:col-span-8 space-y-6">
-
-              <div className="flex justify-between items-center">
-                <h3 className="font-extrabold text-white text-lg">Active Bookings ({appointments.length})</h3>
-                {appointments.length > 0 && (
-                  <button
-                    onClick={() => {
-                      if (confirm("Clear all appointments?")) {
-                        saveAppointments([]);
-                      }
-                    }}
-                    className="text-xs text-rose-455 hover:text-rose-355 font-bold cursor-pointer animate-pulse"
+            ) : (
+              /* Appointment Cards list */
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {appointments.map((appt) => (
+                  <div
+                    key={appt.id}
+                    className="p-6 rounded-2xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] border border-[#35063e]/20 hover:border-[#35063e]/40 transition-all flex flex-col justify-between text-left space-y-4 relative group shadow-sm"
                   >
-                    Cancel All
-                  </button>
-                )}
-              </div>
-
-              {appointments.length === 0 ? (
-                /* Empty State Board */
-                <div className="p-12 rounded-2xl border border-dashed border-[#35063e]/35 text-center space-y-4 bg-[#35063e]/5">
-                  <p className="text-text-muted/40 text-sm italic">You have no active appointments booked on this device.</p>
-                  <button
-                    onClick={() => {
-                      setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
-                      setIsBookingOpen(true);
-                    }}
-                    className="px-5 py-2.5 rounded-full bg-[#35063e]/15 border border-[#35063e]/40 hover:bg-[#4a0956]/30 text-[#D8B4FE] font-bold text-xs transition-all cursor-pointer"
-                  >
-                    Book Your First Session
-                  </button>
-                </div>
-              ) : (
-                /* Appointment Cards list */
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {appointments.map((appt) => (
-                    <div
-                      key={appt.id}
-                      className="p-6 rounded-2xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] border border-[#35063e]/20 hover:border-[#35063e]/40 transition-all flex flex-col justify-between text-left space-y-4 relative group shadow-sm"
+                    <button
+                      onClick={() => handleCancelAppointment(appt.id)}
+                      className="absolute top-4 right-4 p-1.5 rounded-lg bg-[#090611] border border-[#35063e]/30 text-text-muted hover:text-rose-400 hover:border-rose-955 transition-colors cursor-pointer animate-none"
+                      title="Cancel Appointment"
                     >
-                      <button
-                        onClick={() => handleCancelAppointment(appt.id)}
-                        className="absolute top-4 right-4 p-1.5 rounded-lg bg-[#090611] border border-[#35063e]/30 text-text-muted hover:text-rose-400 hover:border-rose-955 transition-colors cursor-pointer animate-none"
-                        title="Cancel Appointment"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <Trash2 className="w-4 h-4" />
+                    </button>
 
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-bold text-[#D8B4FE] bg-[#35063e]/15 border border-[#35063e]/25 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                          {appt.service}
-                        </span>
-                        <h4 className="text-white font-bold text-base mt-2">{appt.name}</h4>
-                        <p className="text-text-muted/60 text-xs">{appt.doctor}</p>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold text-[#D8B4FE] bg-[#35063e]/15 border border-[#35063e]/25 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        {appt.service}
+                      </span>
+                      <h4 className="text-white font-bold text-base mt-2">{appt.name}</h4>
+                      <p className="text-text-muted/60 text-xs">{appt.doctor}</p>
+                    </div>
+
+                    <div className="pt-4 border-t border-[#35063e]/20 grid grid-cols-2 gap-2 text-xs">
+                      <div className="flex items-center gap-1.5 text-text-muted">
+                        <Calendar className="w-3.5 h-3.5 text-[#D8B4FE]" />
+                        <span>{appt.date}</span>
                       </div>
-
-                      <div className="pt-4 border-t border-[#35063e]/20 grid grid-cols-2 gap-2 text-xs">
-                        <div className="flex items-center gap-1.5 text-text-muted">
-                          <Calendar className="w-3.5 h-3.5 text-[#D8B4FE]" />
-                          <span>{appt.date}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-text-muted">
-                          <Clock className="w-3.5 h-3.5 text-[#D8B4FE]" />
-                          <span>{appt.timeSlot}</span>
-                        </div>
+                      <div className="flex items-center gap-1.5 text-text-muted">
+                        <Clock className="w-3.5 h-3.5 text-[#D8B4FE]" />
+                        <span>{appt.timeSlot}</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
           </div>
         </div>
@@ -1525,7 +1308,7 @@ export default function Home() {
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full p-6 flex justify-between items-center text-left text-white font-semibold hover:text-[#D8B4FE] transition-colors cursor-pointer"
+                    className="w-full p-4 sm:p-6 flex justify-between items-center text-left text-white font-semibold hover:text-[#D8B4FE] transition-colors cursor-pointer"
                   >
                     <span className="text-base sm:text-lg">{faq.question}</span>
                     <span className="p-1 rounded-lg bg-[#35063e]/20 text-[#D8B4FE] shrink-0 ml-4">
@@ -1547,7 +1330,7 @@ export default function Home() {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: "easeInOut" }}
                       >
-                        <div className="p-6 pt-0 border-t border-[#35063e]/20 text-sm text-text-muted/70 leading-relaxed">
+                        <div className="p-4 sm:p-6 pt-0 sm:pt-0 border-t border-[#35063e]/20 text-sm text-text-muted/70 leading-relaxed">
                           {faq.answer}
                         </div>
                       </motion.div>
@@ -1565,7 +1348,7 @@ export default function Home() {
       <footer className="bg-[#090611] text-white py-16 relative border-t border-[#35063e]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-left mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 text-left mb-12">
 
             {/* Column 1: Brand */}
             <div className="space-y-4">
@@ -1678,7 +1461,7 @@ export default function Home() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 w-full max-w-md bg-[#0e071b] border-l border-[#35063e]/30 p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
+              className="fixed inset-y-0 right-0 w-full max-w-md bg-[#0e071b] border-l border-[#35063e]/30 p-5 sm:p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
             >
               <div className="space-y-8">
 
@@ -1751,22 +1534,7 @@ export default function Home() {
 
               </div>
 
-              {/* Action Button */}
-              <div className="pt-8 mt-8 border-t border-[#35063e]/20">
-                <button
-                  onClick={() => {
-                    setBookingForm(prev => ({
-                      ...prev,
-                      service: activeServiceDetail.title
-                    }));
-                    setActiveServiceDetail(null);
-                    setIsBookingOpen(true);
-                  }}
-                  className="w-full py-3.5 rounded-xl bg-[#35063e] hover:bg-[#4a0956] text-white font-bold text-sm transition-all cursor-pointer"
-                >
-                  Schedule this Service
-                </button>
-              </div>
+
 
             </motion.div>
           </>
@@ -1793,7 +1561,7 @@ export default function Home() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl bg-[#0e071b] border border-[#35063e]/30 p-6 sm:p-8 rounded-3xl shadow-2xl z-50 overflow-y-auto max-h-[90vh] text-left text-[#FFFFFF]"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] sm:w-full sm:max-w-xl bg-[#0e071b] border border-[#35063e]/30 p-6 sm:p-8 rounded-3xl shadow-2xl z-50 overflow-y-auto max-h-[90vh] text-left text-[#FFFFFF]"
             >
 
               <div className="flex justify-between items-center mb-6">
