@@ -868,32 +868,40 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-                className="relative w-full max-w-lg aspect-[4/3] rounded-[36px] overflow-visible"
+                className="relative w-full max-w-lg aspect-[4/3] rounded-[32px] overflow-visible"
               >
-                {/* Faint purple ambient glow behind the image to blend it into the background */}
-                <div className="absolute inset-[-15px] bg-purple-500/5 rounded-[40px] blur-[30px] pointer-events-none -z-10" />
+                {/* Ambient Glow: radial gradient, heavy blur, extremely low opacity */}
+                <div 
+                  className="absolute inset-[-25px] rounded-[48px] blur-[40px] pointer-events-none -z-10" 
+                  style={{
+                    background: "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0) 70%)"
+                  }}
+                />
 
-                {/* Slow float animation */}
+                {/* Slow float animation container */}
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full p-[1.5px] rounded-[36px] bg-gradient-to-tr from-purple-400/50 via-purple-500/15 to-purple-400/50 shadow-[0_15px_35px_rgba(0,0,0,0.6),_0_0_20px_rgba(168,85,247,0.06),_inset_0_0_15px_rgba(168,85,247,0.15)]"
+                  className="w-full h-full premium-glass-frame"
                 >
-                  {/* Inner image container */}
-                  <div className="w-full h-full rounded-[35px] overflow-hidden bg-black/40 relative">
+                  {/* Image wrapper with relative position, overflow hidden, border radius 32px */}
+                  <div className="w-full h-full rounded-[32px] overflow-hidden relative bg-black/40">
+                    
+                    {/* Main Image with subtle glass treatment: 7% lower brightness, slightly lower contrast */}
                     <motion.img
                       src="hero-dental.png"
                       alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover filter brightness-[0.93] contrast-[0.97]"
                     />
 
-                    {/* Subtle semi-transparent glass layer (4% dark tint overlay to blend naturally) */}
-                    <div className="absolute inset-0 bg-[#090514]/4 mix-blend-multiply pointer-events-none" />
+                    {/* Glass Overlay: black transparent gradient, 4% opacity, subtle backdrop blur */}
+                    <div className="premium-glass-layer" />
 
-                    {/* Inner edge shadow glow where the border meets the image */}
-                    <div className="absolute inset-0 rounded-[35px] shadow-[inset_0_0_12px_rgba(168,85,247,0.15)] pointer-events-none border border-white/5" />
+                    {/* Inner Glow: subtle inset purple edge glow and sharp glass edge highlight */}
+                    <div className="premium-glass-inner-glow" />
+
                   </div>
                 </motion.div>
               </motion.div>
