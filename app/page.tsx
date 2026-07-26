@@ -770,8 +770,8 @@ export default function Home() {
                 <span>Dr. Ayush Varshney B.D.S, (Dental Surgeon)</span>
               </motion.div>
 
-              {/* Serif Heading */}
-              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-serif font-light text-white tracking-tight leading-[1.05] flex flex-col gap-1.5">
+              {/* Modern Sans Heading */}
+              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
                 <span className="block overflow-hidden py-0.5">
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
