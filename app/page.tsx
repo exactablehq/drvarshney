@@ -41,6 +41,7 @@ interface ServiceDetail {
   duration: string;
   benefits: string[];
   faqs: { q: string; a: string }[];
+  image: string;
 }
 
 interface Appointment {
@@ -296,107 +297,87 @@ export default function Home() {
   // Services Data
   const services: ServiceDetail[] = [
     {
-      id: "scaling",
-      title: "Scaling & Polishing",
-      description: "Routine checkups, cleanings, and preventative care to keep your gums healthy and remove stubborn plaque.",
-      fullDetails: "Our professional scaling uses ultrasonic cleaners to safely break down stubborn plaque and tartar deposits without scratching your enamel. Complete with stain-lifting abrasive polish.",
-      priceRange: "Standard clinical rates",
+      id: "cleaning",
+      title: "Teeth Cleaning",
+      image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=600&q=80",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      fullDetails: "Our professional teeth cleaning uses state-of-the-art scaling to gently remove plaque and tartar deposits, leaving your teeth refreshed and polished.",
+      priceRange: "Standard Rate",
       duration: "30 - 45 mins",
-      benefits: ["Prevents gum swelling", "Removes deep coffee/tobacco stains", "Freshens breath instantly", "Eliminates harmful oral bacteria"],
+      benefits: ["Removes plaque and tartar", "Freshens breath", "Prevents gum disease", "Brightens your smile"],
       faqs: [
-        { q: "Does scaling damage teeth enamel?", a: "Not at all. Ultrasonic scalers only vibrate off foreign tartar deposits without affecting the hard structure of your teeth." },
-        { q: "How often should I get scaling done?", a: "Every 6 months is recommended to prevent gingivitis and severe gum recession." }
+        { q: "Is teeth cleaning painful?", a: "No, our gentle methods ensure a comfortable experience." },
+        { q: "How often should I get my teeth cleaned?", a: "Every 6 months is highly recommended." }
       ]
     },
     {
-      id: "filling",
-      title: "Tooth Filling",
-      description: "Restore teeth structure decayed by cavities using high-durability composite resins that color-match natural enamel.",
-      fullDetails: "We utilize modern biocompatible tooth-colored composite resins. After removing decay, the resin is layered, shaped, and cured with a high-intensity light for immediate chewing function.",
-      priceRange: "Based on cavity depth",
-      duration: "20 - 40 mins",
-      benefits: ["Blends perfectly with your tooth shade", "Restores structural stability", "Prevents decay spreading deeper", "Mercury-free biocompatible materials"],
+      id: "implants",
+      title: "Dental Implants",
+      image: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=600&q=80",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      fullDetails: "Permanent replacement tooth roots made of bio-compatible titanium posts, capped with high-quality porcelain crowns that blend perfectly.",
+      priceRange: "Custom Pricing",
+      duration: "3 - 6 months",
+      benefits: ["Looks and feels like natural teeth", "Prevents jawbone loss", "Improves chewing and speech", "Durable lifetime solution"],
       faqs: [
-        { q: "How long do composite fillings last?", a: "Typically 5–10 years depending on location, chewing force, and your routine flossing habits." },
-        { q: "Is the filling procedure painful?", a: "No. Local anesthesia ensures you feel zero discomfort during decay removal." }
-      ]
-    },
-    {
-      id: "extraction",
-      title: "Tooth Extraction",
-      description: "Safe, sterile, and pain-free removal of severely broken, heavily infected, or problematic wisdom teeth.",
-      fullDetails: "If a tooth is too damaged to be saved by a filling or root canal, we perform gentle extractions under controlled anesthesia. We focus on preserving surrounding jawbone structure.",
-      priceRange: "Dependent on case complexity",
-      duration: "30 - 60 mins",
-      benefits: ["Stops severe localized pain", "Prevents spread of deep abscesses", "Creates room for orthodontic alignment", "Fast recovery protocol"],
-      faqs: [
-        { q: "What is the recovery time after extraction?", a: "Initial socket clotting occurs within 24 hours. Full tissue healing takes about 7 to 10 days." },
-        { q: "Do wisdom teeth always need to be removed?", a: "Only if they are impacted, causing pain, crowding adjacent molars, or leading to recurrent decay." }
+        { q: "Are dental implants safe?", a: "Yes, they have a success rate of over 95% and are highly biocompatible." },
+        { q: "How long do implants last?", a: "With proper care, they can last a lifetime." }
       ]
     },
     {
       id: "rct",
       title: "Root Canal Treatment",
-      description: "Save deeply decayed or infected teeth. Painless cleaning of root canal tissues, sealed to prevent tooth loss.",
-      fullDetails: "When decay reaches the inner pulp of the tooth, RCT is necessary to save it. We clean the infected pulp channels, sterilize, fill with gutta-percha, and seal with a protective crown.",
-      priceRange: "Varies by tooth roots",
+      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      fullDetails: "Save deeply infected teeth. Gently cleans, disinfects, and seals the root canals to prevent tooth loss and eliminate throbbing pain.",
+      priceRange: "Varies by roots",
       duration: "1 - 2 visits",
-      benefits: ["Resolves throbbing, acute pain", "Saves natural tooth structure", "Prevents bone infection in the jaw", "Restores normal biting pressure"],
+      benefits: ["Relieves acute dental pain", "Preserves natural tooth structure", "Prevents spread of infection", "Restores normal chewing"],
       faqs: [
-        { q: "Is Root Canal Treatment painful?", a: "It actually relieves pain. Modern local anesthetics make it as comfortable as getting a standard filling." },
-        { q: "Is a crown always necessary after RCT?", a: "Yes, because removing the pulp leaves the tooth brittle. A crown protects it from cracking under bite pressure." }
+        { q: "Is root canal treatment painful?", a: "No, modern anesthesia ensures the procedure is comfortable and pain-free." },
+        { q: "Will I need a crown after RCT?", a: "Yes, a crown is recommended to protect the treated tooth from fracture." }
       ]
     },
     {
-      id: "crowns",
-      title: "Crowns & Bridges, Dentures",
-      description: "Aesthetic porcelain caps and multi-unit bridge structures to replace missing teeth and restore chewing strength.",
-      fullDetails: "Whether you need a single crown to protect a cracked tooth, a bridge spanning a gap, or customized partial/full dentures, we build custom dental prosthetics with comfortable fitment.",
-      priceRange: "Based on selected material",
-      duration: "2 visits",
-      benefits: ["Restores proper bite alignment", "Prevents adjacent teeth from shifting", "Enhances smile aesthetics", "Restores clear speaking and chewing"],
+      id: "cosmetic",
+      title: "Cosmetic Dentistry",
+      image: "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=600&q=80",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      fullDetails: "Transform your smile with porcelain veneers, dental bonding, and smile contouring custom-tailored to enhance your natural beauty.",
+      priceRange: "Based on treatment",
+      duration: "1 - 3 visits",
+      benefits: ["Enhances smile aesthetics", "Boosts confidence", "Corrects chipped or gapped teeth", "Custom shade matching"],
       faqs: [
-        { q: "What is the difference between a crown and a bridge?", a: "A crown covers a single damaged tooth. A bridge uses neighboring teeth as anchors to fill a gap left by missing teeth." },
-        { q: "How do I care for my dental bridge?", a: "Clean under the bridge daily using specialized floss threaders, alongside standard brushing." }
-      ]
-    },
-    {
-      id: "implants",
-      title: "Implants",
-      description: "Permanent replacement roots made of bio-compatible titanium posts, capped with premium porcelain crowns.",
-      fullDetails: "Implants anchor directly into the jawbone, acting as synthetic tooth roots. Once integrated, a custom crown is secured onto the post. This prevents bone loss and looks identical to natural teeth.",
-      priceRange: "Consultation required",
-      duration: "3 - 6 months (healing phase)",
-      benefits: ["Prevents jawbone erosion", "No slipping, shifts, or speech issues", "Matches surrounding teeth perfectly", "Lifetime durability with good hygiene"],
-      faqs: [
-        { q: "Are dental implants safe?", a: "Yes, they have a success rate of over 95% and utilize biocompatible titanium which integrates naturally with bone." },
-        { q: "How long does a dental implant last?", a: "While the crown may need replacement after 10-15 years, the implant screw itself can last a lifetime." }
+        { q: "What is cosmetic dentistry?", a: "Any dental procedure focused on improving the appearance of your teeth, gums, or bite." },
+        { q: "Are veneers permanent?", a: "Porcelain veneers are durable and can last 10–15 years with proper hygiene." }
       ]
     },
     {
       id: "ortho",
-      title: "Braces & Aligners",
-      description: "Straighten crowded or spaced teeth using traditional brackets or modern clear invisible aligners.",
-      fullDetails: "We provide orthodontic assessments for both children and adults. Options range from durable metal braces to advanced removable clear aligners that straighten teeth discreetly.",
-      priceRange: "Custom plan duration dependent",
+      title: "Orthodontics",
+      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      fullDetails: "Align crowded or spaced teeth using traditional brackets or modern clear invisible aligners for a perfectly balanced smile.",
+      priceRange: "Custom Plan",
       duration: "6 - 24 months",
-      benefits: ["Closes gaps and aligns teeth", "Corrects overbites, underbites, and crossbites", "Discreet clear options available", "Improves long-term oral hygiene"],
+      benefits: ["Corrects bite alignment", "Closes gaps and crowdings", "Discreet clear aligner options", "Improves long-term oral health"],
       faqs: [
-        { q: "Am I too old for braces/aligners?", a: "Orthodontic movement can be done at any age as long as your teeth and gums are healthy." },
-        { q: "How often do aligners need to be worn?", a: "Clear aligners should be worn for 20 to 22 hours per day, only removed when eating or brushing." }
+        { q: "Am I too old for braces?", a: "No, teeth can be aligned at any age if your gums and bone structure are healthy." },
+        { q: "How long does treatment take?", a: "It varies by complexity but typically takes 12 to 24 months." }
       ]
     },
     {
-      id: "kids",
-      title: "Children Dental Care",
-      description: "Gentle, stress-free dental checkups, sealants, and cavity prevention methods customized for young patients.",
-      fullDetails: "We create a welcoming, friendly space for kids. Our treatments focus on monitoring dental development, applying protective fluoride coatings, sealing deep grooves, and building healthy habits.",
-      priceRange: "Special pediatric rates",
-      duration: "20 - 30 mins",
-      benefits: ["Stress-free, gentle handling", "Protective dental sealants", "Early developmental monitoring", "Fun, educational checkup style"],
+      id: "whitening",
+      title: "Teeth Whitening",
+      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      fullDetails: "Professional, fast, and safe teeth whitening systems to lift deep stains and brighten your smile by several shades.",
+      priceRange: "Per Session",
+      duration: "45 - 60 mins",
+      benefits: ["Instant aesthetic brightness", "Lifts coffee and tobacco stains", "Safe, controlled application", "Long-lasting results"],
       faqs: [
-        { q: "When should a child have their first visit?", a: "Within six months of their first tooth erupting, or by their first birthday." },
-        { q: "What are dental sealants for kids?", a: "Thin plastic coatings painted on the chewing surfaces of back teeth to prevent food from getting trapped in deep grooves." }
+        { q: "Will whitening make my teeth sensitive?", a: "Temporary sensitivity is normal and resolves within 24 to 48 hours." },
+        { q: "How long does the whitening effect last?", a: "Typically 1 to 3 years depending on dietary habits and oral care." }
       ]
     }
   ];
@@ -503,6 +484,50 @@ export default function Home() {
       opacity: 1,
       y: 0,
       transition: springTransition
+    }
+  };
+
+  const serviceHeaderVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut" as const
+      }
+    }
+  };
+
+  const serviceContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const serviceCardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut" as const
+      }
+    },
+    hover: {
+      y: -8,
+      borderColor: "rgba(168, 85, 247, 0.4)",
+      boxShadow: "0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(168, 85, 247, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12)",
+      transition: {
+        duration: 0.4,
+        ease: "easeOut" as const
+      }
     }
   };
 
@@ -948,67 +973,106 @@ export default function Home() {
       </section>
 
       {/* ------------------ SERVICES SECTION ------------------ */}
-      <section id="services" className="py-24 relative border-y border-[#35063e]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="services" className="py-32 lg:py-40 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
+        
+        {/* Soft radial purple gradients */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10" />
+        <div className="absolute bottom-1/4 left-[10%] w-[350px] h-[350px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
+
+        {/* Low-opacity oversized background typography for depth */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] sm:text-[200px] lg:text-[320px] font-black text-white/[0.012] tracking-[0.25em] select-none pointer-events-none -z-10 font-sans uppercase">
+          SERVICES
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-2xl mx-auto space-y-4 mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={serviceHeaderVariants}
+            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-16 lg:mb-24"
           >
-            <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">Our Services</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">Complete Dental Care for You & Your Family</h2>
-            <div className="h-1 w-16 bg-[#35063e] mx-auto rounded-full mt-2" />
+            {/* Small glassmorphism pill label */}
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0a0516]/65 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1),_inset_0_1px_0_rgba(255,255,255,0.1)] text-xs font-semibold text-purple-300 tracking-wider uppercase backdrop-blur-[10px]">
+              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+              <span>Our Services</span>
+            </div>
+
+            {/* Large elegant heading matching hero/site UI */}
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mt-6">
+              Elevating Oral Health <br />
+              <span className="beautiful-smiles-glow">With Artistic Precision</span>
+            </h2>
+
+            {/* Short supporting description */}
+            <p className="text-text-secondary/70 text-base sm:text-lg font-light leading-relaxed mt-6 max-w-2xl">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
           </motion.div>
 
           {/* Services Grid */}
           <motion.div
-            variants={containerVariants}
+            variants={serviceContainerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-4 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
           >
             {services.map((service) => (
               <motion.div
                 key={service.id}
-                variants={itemVariants}
-                whileHover={{ y: -8, scale: 1.02, borderColor: "rgba(139, 92, 246, 0.4)" }}
-                className="relative group p-6 rounded-2xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] border border-[#35063e]/20 hover:shadow-xl hover:shadow-[#35063e]/40 transition-all flex flex-col justify-between min-h-[260px] text-left"
+                variants={serviceCardVariants}
+                whileHover="hover"
+                onClick={() => setActiveServiceDetail(service)}
+                className="relative group flex flex-col justify-between rounded-[28px] bg-gradient-to-b from-[#120a24]/50 to-[#0a0516]/70 backdrop-blur-[24px] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55),_0_0_20px_rgba(168,85,247,0.03),_inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 text-left overflow-hidden min-h-[480px] cursor-pointer"
               >
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#D8B4FE] to-[#35063e] scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-t-2xl" />
-
-                <div className="space-y-4">
-                  <div className="p-3 rounded-xl bg-[#35063e]/10 border border-[#35063e]/30 text-[#D8B4FE] w-fit transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                    {service.id === "scaling" && <Sparkles className="w-6 h-6" />}
-                    {service.id === "filling" && <Smile className="w-6 h-6" />}
-                    {service.id === "extraction" && <ShieldCheck className="w-6 h-6" />}
-                    {service.id === "rct" && <Heart className="w-6 h-6" />}
-                    {service.id === "crowns" && <Activity className="w-6 h-6" />}
-                    {service.id === "implants" && <Award className="w-6 h-6" />}
-                    {service.id === "ortho" && <Info className="w-6 h-6" />}
-                    {service.id === "kids" && <Smile className="w-6 h-6" />}
+                <div>
+                  {/* Image container */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-white/5">
+                    <motion.img
+                      src={service.image}
+                      alt={service.title}
+                      variants={{
+                        hover: { scale: 1.05 }
+                      }}
+                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-[#090514]/40 mix-blend-multiply pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0516]/95 via-transparent to-transparent pointer-events-none" />
                   </div>
 
-                  <h3 className="text-lg font-bold text-white group-hover:text-[#D8B4FE] transition-colors leading-snug">
-                    {service.title}
-                  </h3>
-                  <p className="text-text-muted/60 text-sm leading-relaxed line-clamp-3">
-                    {service.description}
-                  </p>
+                  {/* Content */}
+                  <div className="p-8">
+                    <h3 className="text-xl font-bold text-white tracking-tight leading-snug group-hover:text-purple-300 transition-colors duration-300 font-sans">
+                      {service.title}
+                    </h3>
+                    <p className="text-white/60 text-sm leading-relaxed mt-3 line-clamp-3 font-light">
+                      {service.description}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="pt-4 mt-6 border-t border-[#35063e]/20 flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold text-[#D8B4FE]/80">{service.priceRange}</span>
-                  <button
+                {/* Bottom Action Footer */}
+                <div className="p-8 pt-0 flex items-center justify-between mt-auto">
+                  <span className="text-[11px] uppercase font-semibold text-purple-300/80 tracking-wider bg-purple-500/10 px-3.5 py-1 rounded-full border border-purple-500/20">{service.priceRange}</span>
+                  <motion.button
                     onClick={() => setActiveServiceDetail(service)}
-                    className="flex items-center gap-1 text-sm font-bold text-[#D8B4FE] group-hover:text-white transition-colors cursor-pointer"
+                    className="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300 cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <span>Learn More</span>
-                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
-                  </button>
+                    <motion.div
+                      variants={{
+                        hover: { x: 2, rotate: -45 }
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.div>
+                  </motion.button>
                 </div>
               </motion.div>
             ))}
@@ -1627,6 +1691,17 @@ export default function Home() {
                   >
                     <X className="w-5 h-5" />
                   </button>
+                </div>
+
+                {/* Service Image */}
+                <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-[#0e071b]">
+                  <img
+                    src={activeServiceDetail.image}
+                    alt={activeServiceDetail.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[#090514]/20 mix-blend-multiply pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e071b] via-transparent to-transparent pointer-events-none" />
                 </div>
 
                 {/* Content */}
