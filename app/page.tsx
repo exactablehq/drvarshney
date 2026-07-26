@@ -557,7 +557,7 @@ export default function Home() {
       <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#35063e]/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
       <div className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#35063e]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
       {/* ------------------ NAVBAR ------------------ */}
-      <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl bg-gradient-to-b from-white/[0.07] to-white/[0.02] backdrop-blur-[24px] border border-white/10 rounded-[28px] shadow-[0_10px_30px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(255,255,255,0.1),_inset_0_0_15px_rgba(255,255,255,0.05)] transition-all duration-300">
+      <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl bg-[#0a0516]/70 backdrop-blur-[20px] border border-purple-500/30 rounded-[28px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15),_inset_0_1px_0_rgba(255,255,255,0.1),_inset_0_0_12px_rgba(168,85,247,0.1)] transition-all duration-300">
         <div className="px-6 py-3.5 flex items-center justify-between">
 
           {/* Logo */}
