@@ -792,7 +792,7 @@ export default function Home() {
                     Beautiful Smiles.
                   </motion.span>
                 </span>
-                <span className="block overflow-hidden py-0.5">
+                {/* <span className="block overflow-hidden py-0.5">
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -801,7 +801,7 @@ export default function Home() {
                   >
                     Forever.
                   </motion.span>
-                </span>
+                </span> */}
               </h1>
 
               {/* Description Paragraph */}
@@ -964,17 +964,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Scroll to explore */}
-          <div className="flex flex-col items-center justify-center gap-1.5 mt-8 text-white/40 text-[11px] font-medium tracking-widest uppercase">
-            <div className="w-5 h-8 rounded-full border border-white/20 flex justify-center p-1.5">
-              <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="w-1.5 h-1.5 bg-purple-400 rounded-full"
-              />
-            </div>
-            <span>Scroll to explore</span>
-          </div>
+
         </div>
 
       </section>
