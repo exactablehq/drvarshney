@@ -717,22 +717,40 @@ export default function Home() {
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
               <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "Services", "About Doctor", "Why Choose Us", "FAQ", "Contact Us"].map((link) => (
-                  <a
-                    key={link}
-                    href={
-                      link === "Home" ? "#hero" :
-                        link === "Services" ? "#services" :
-                          link === "About Doctor" ? "#doctor" :
-                            link === "Why Choose Us" ? "#why-choose-us" :
-                              link === "FAQ" ? "#faq" : "#contact"
-                    }
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="py-2 text-base font-semibold hover:text-white transition-colors duration-300"
-                  >
-                    {link}
-                  </a>
-                ))}
+                {["Home", "Services", "About Doctor", "Why Choose Us", "FAQ", "Contact Us"].map((link) => {
+                  const targetId =
+                    link === "Home" ? "hero" :
+                      link === "Services" ? "services" :
+                        link === "About Doctor" ? "doctor" :
+                          link === "Why Choose Us" ? "why-choose-us" :
+                            link === "FAQ" ? "faq" : "contact";
+
+                  return (
+                    <a
+                      key={link}
+                      href={`#${targetId}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setMobileMenuOpen(false);
+                        setTimeout(() => {
+                          const targetElement = document.getElementById(targetId);
+                          if (targetElement) {
+                            const offset = 90; // Height of fixed header + padding
+                            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                            const offsetPosition = elementPosition - offset;
+                            window.scrollTo({
+                              top: offsetPosition,
+                              behavior: "smooth"
+                            });
+                          }
+                        }, 150);
+                      }}
+                      className="py-2 text-base font-semibold hover:text-white transition-colors duration-300"
+                    >
+                      {link}
+                    </a>
+                  );
+                })}
                 <div className="border-t border-white/10 pt-4">
                   <a
                     href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
