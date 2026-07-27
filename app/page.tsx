@@ -596,7 +596,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#090611] text-[#FFFFFF] relative selection:bg-[#35063e]/40 selection:text-[#FFFFFF] bg-grid-pattern">
+    <div className="min-h-screen bg-[#090611] text-[#FFFFFF] relative selection:bg-[#35063e]/40 selection:text-[#FFFFFF] bg-grid-pattern overflow-x-hidden">
 
       {/* Background radial overlays */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
@@ -814,7 +814,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-[20px] bg-[#18022a]/30 backdrop-blur-md border border-[#35063e]/40 text-white text-xs font-semibold tracking-wide w-fit transition-colors duration-300 hover:border-[#35063e]/80"
+                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-[20px] bg-[#18022a]/30 backdrop-blur-md border border-[#35063e]/40 text-white text-[10px] sm:text-xs font-semibold tracking-wide w-fit transition-colors duration-300 hover:border-[#35063e]/80"
               >
                 <div className="w-5 h-5 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center shrink-0">
                   <Sparkles className="w-3 h-3 text-[#D8B4FE]" />
@@ -823,13 +823,13 @@ export default function Home() {
               </motion.div>
 
               {/* Modern Sans Heading */}
-              <h1 className="text-4xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
+              <h1 className="text-3xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
                 <span className="block overflow-hidden py-0.5">
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                    className="block text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.15em] mb-2"
+                    className="block text-[11px] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2"
                   >
                     Dr. Varshney's Dental Aesthetics
                   </motion.span>
