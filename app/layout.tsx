@@ -25,7 +25,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Dr. Varshney's Dental Aesthetics",
+  title: "Dr. Varshney's Dental Clinic",
   description:
     "Advanced dental care with a gentle touch, modern technology, and a commitment to your perfect smile.",
 };

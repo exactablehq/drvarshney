@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import DoctorProfile from "./components/DoctorProfile";
+import DoctorProfile, { doctorsData as doctors } from "./components/DoctorProfile";
+import WhyChooseUs from "./components/WhyChooseUs";
+import ContactUs from "./components/ContactUs";
 import {
   Calendar,
   Clock,
@@ -203,31 +205,43 @@ export default function Home() {
     const handleScroll = () => {
       setScrollY(window.scrollY);
 
-      // Simple viewport checking to switch active links
-      const sections = ["hero", "about", "services", "scheduler", "faq"];
-      const scrollPos = window.scrollY + 220;
+      const sections = ["hero", "services", "doctor", "why-choose-us", "faq", "contact"];
+      let activeSec = "hero";
+      let maxVisibleHeight = 0;
 
       for (const sec of sections) {
         const el = document.getElementById(sec);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            const labelMap: Record<string, string> = {
-              hero: "Home",
-              about: "About Us",
-              services: "Services",
-              scheduler: "Appointments"
-            };
-            if (labelMap[sec]) {
-              setActiveSection(labelMap[sec]);
-            }
+          const rect = el.getBoundingClientRect();
+          // Calculate visible height of the section in the viewport
+          const visibleTop = Math.max(0, rect.top);
+          const visibleBottom = Math.min(window.innerHeight || document.documentElement.clientHeight, rect.bottom);
+          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+
+          if (visibleHeight > maxVisibleHeight) {
+            maxVisibleHeight = visibleHeight;
+            activeSec = sec;
           }
         }
+      }
+
+      const labelMap: Record<string, string> = {
+        hero: "Home",
+        services: "Services",
+        doctor: "Doctor's Profile",
+        "why-choose-us": "Why Choose Us",
+        faq: "FAQ",
+        contact: "Contact Us"
+      };
+
+      if (labelMap[activeSec]) {
+        setActiveSection(labelMap[activeSec]);
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    // Run once initially to set the correct active tab
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -383,29 +397,7 @@ export default function Home() {
     }
   ];
 
-  // Doctors / Clinic Specialists list
-  const doctors = [
-    {
-      name: "Dr. Ayush Varshney",
-      credentials: "B.D.S. (Dental Surgeon)",
-      role: "Lead Dental Surgeon & Aesthetics Specialist",
-      reg: "Reg. No.: A-22861",
-      experience: "8+ Years Exp",
-      image: "about-dentist.png",
-      bio: "Expert in aesthetic teeth restorations, cosmetic design, root canals, and modern implant solutions.",
-      email: "dr.varshneydental@gmail.com"
-    },
-    {
-      name: "Dr. Ananya Sharma",
-      credentials: "M.D.S. (Orthodontist)",
-      role: "Consultant Orthodontist & Aligner Specialist",
-      reg: "Reg. No.: A-25412",
-      experience: "6+ Years Exp",
-      image: "dental_patient.png",
-      bio: "Expert in digital aligner systems, braces for adults and kids, and developmental pediatric checkups.",
-      email: "dr.varshneydental@gmail.com"
-    }
-  ];
+
 
   // FAQs List
   const generalFaqs = [
@@ -430,7 +422,7 @@ export default function Home() {
   // Testimonials Carousel Logic
   const reviews = [
     {
-      text: "The team at Dr. Varshney's Dental Aesthetics is amazing! They are professional, gentle and truly care about their patients. I highly recommend them to anyone looking for a great dentist.",
+      text: "The team at Dr. Varshney's Dental Clinic is amazing! They are professional, gentle and truly care about their patients. I highly recommend them to anyone looking for a great dentist.",
       author: "Jessica M.",
       role: "Root Canal Patient",
       stars: 5,
@@ -551,14 +543,14 @@ export default function Home() {
               opacity: { duration: 0.4 },
               boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
             }}
-            className="w-20 h-20 rounded-full bg-[#0e071b] border-2 border-[#35063e] flex items-center justify-center p-3 text-[#D8B4FE]"
+            className="w-20 h-20 rounded-full bg-[#0e071b] border-2 border-[#35063e] flex items-center justify-center overflow-hidden z-10"
           >
-            <VarshneyLogo className="w-full h-full text-[#D8B4FE]" />
+            <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
           </motion.div>
 
           <div>
             <h2 className="text-2xl font-black tracking-wider text-white">DR. VARSHNEY'S</h2>
-            <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">Dental Aesthetics</p>
+            <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">Dental Clinic</p>
           </div>
 
           {/* Simple animated loading loader strip */}
@@ -626,25 +618,27 @@ export default function Home() {
                 DR. VARSHNEY'S
               </span>
               <span className="text-[7px] sm:text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] sm:tracking-[0.2em] block mt-0.5">
-                Dental Aesthetics
+                Dental Clinic
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
-            {["Home", "Services", "About Us", "Appointments", "Contact Us"].map((link) => {
+            {["Home", "Services", "Doctor's Profile", "Why Choose Us", "FAQ", "Contact Us"].map((link) => {
               const isActive = activeSection === link;
               const linkTarget =
                 link === "Home" ? "#hero" :
-                  link === "About Us" ? "#about" :
-                    link === "Services" ? "#services" :
-                      link === "Appointments" ? "#scheduler" : "#faq";
+                  link === "Services" ? "#services" :
+                    link === "Doctor's Profile" ? "#doctor" :
+                      link === "Why Choose Us" ? "#why-choose-us" :
+                        link === "FAQ" ? "#faq" : "#contact";
 
               return (
                 <a
                   key={link}
                   href={linkTarget}
+                  onClick={() => setActiveSection(link)}
                   className={`relative py-1 transition-colors duration-300 ease-in-out hover:text-white ${isActive ? "text-white font-bold" : "text-white/60"
                     }`}
                 >
@@ -663,18 +657,17 @@ export default function Home() {
 
           {/* Booking Trigger CTA Button */}
           <div className="hidden md:flex items-center">
-            <motion.button
+            <motion.a
+              href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ y: -1.5, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
-                setIsBookingOpen(true);
-              }}
               className="px-5 py-2.5 rounded-xl bg-[#090611]/85 border border-purple-500/40 hover:border-purple-400 text-white font-semibold text-xs flex items-center gap-2 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4 text-purple-400" />
               <span>Book Appointment</span>
-            </motion.button>
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -696,10 +689,16 @@ export default function Home() {
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
               <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "Services", "About Us", "Appointments", "Contact Us"].map((link) => (
+                {["Home", "Services", "Doctor's Profile", "Why Choose Us", "FAQ", "Contact Us"].map((link) => (
                   <a
                     key={link}
-                    href={link === "Home" ? "#hero" : link === "About Us" ? "#about" : link === "Services" ? "#services" : link === "Appointments" ? "#scheduler" : "#faq"}
+                    href={
+                      link === "Home" ? "#hero" :
+                        link === "Services" ? "#services" :
+                          link === "Doctor's Profile" ? "#doctor" :
+                            link === "Why Choose Us" ? "#why-choose-us" :
+                              link === "FAQ" ? "#faq" : "#contact"
+                    }
                     onClick={() => setMobileMenuOpen(false)}
                     className="py-2 text-base font-semibold hover:text-white transition-colors duration-300"
                   >
@@ -707,16 +706,15 @@ export default function Home() {
                   </a>
                 ))}
                 <div className="border-t border-white/10 pt-4">
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
-                      setIsBookingOpen(true);
-                    }}
-                    className="w-full py-3 rounded-full bg-gradient-to-r from-purple-800 to-indigo-900 border border-purple-500/30 text-white font-semibold text-center cursor-pointer transition-all duration-300"
+                  <a
+                    href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full py-3 rounded-full bg-gradient-to-r from-purple-800 to-indigo-900 border border-purple-500/30 text-white font-semibold text-center cursor-pointer transition-all duration-300"
                   >
                     Book Appointment
-                  </button>
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -833,7 +831,10 @@ export default function Home() {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start">
                 {/* Book Appointment (Primary) */}
-                <motion.button
+                <motion.a
+                  href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{
@@ -842,15 +843,11 @@ export default function Home() {
                   }}
                   whileHover={{ y: -2, scale: 1.01, boxShadow: "0px 10px 25px -5px rgba(168, 85, 247, 0.3)" }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    setBookingForm(prev => ({ ...prev, service: "Scaling & Polishing" }));
-                    setIsBookingOpen(true);
-                  }}
                   className="px-8 py-3.5 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer border border-purple-500/50 hover:border-purple-400"
                 >
                   <CalendarDays className="w-5 h-5 text-white" />
                   <span>Book Appointment</span>
-                </motion.button>
+                </motion.a>
               </div>
 
             </div>
@@ -874,7 +871,7 @@ export default function Home() {
                 >
                   <motion.img
                     src="hero-dental.png"
-                    alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
+                    alt="Premium Dental Care at Dr. Varshney's Dental Clinic"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="w-full h-full object-cover"
@@ -964,7 +961,7 @@ export default function Home() {
       </section>
 
       {/* ------------------ SERVICES SECTION ------------------ */}
-      <section id="services" className="pt-12 pb-12 lg:pt-16 lg:pb-16 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
+      <section id="services" className="pt-12 pb-20 lg:pt-16 lg:pb-28 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
         
         {/* Soft radial purple gradients */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10" />
@@ -983,7 +980,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={serviceHeaderVariants}
-            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-16 lg:mb-24"
+            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8 lg:mb-12"
           >
             {/* Small glassmorphism pill label */}
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0a0516]/65 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1),_inset_0_1px_0_rgba(255,255,255,0.1)] text-xs font-semibold text-purple-300 tracking-wider uppercase backdrop-blur-[10px]">
@@ -992,15 +989,10 @@ export default function Home() {
             </div>
 
             {/* Large elegant heading matching hero/site UI */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mt-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mt-6">
               Elevating Oral Health <br />
               <span className="beautiful-smiles-glow">With Artistic Precision</span>
             </h2>
-
-            {/* Short supporting description */}
-            <p className="text-text-secondary/70 text-base sm:text-lg font-light leading-relaxed mt-6 max-w-2xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
           </motion.div>
 
           {/* Services Grid */}
@@ -1075,221 +1067,23 @@ export default function Home() {
       {/* ------------------ MEET YOUR DOCTOR SECTION ------------------ */}
       <DoctorProfile />
 
-      {/* ------------------ ABOUT US & BOOKING CARD SIDE-BY-SIDE ------------------ */}
-      <section id="about" className="py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-            {/* Left Column: About Us */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-6 space-y-6 text-left"
-            >
-              <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">About Us</span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">Your Smile is Our Passion</h2>
-              <p className="text-text-secondary/70 text-base leading-relaxed">
-                At Dr. Varshney's Dental Aesthetics, we combine advanced clinical technology with a compassionate approach to deliver exceptional dental care for patients of all ages. Dr. Ayush Varshney specializes in modern restorations, implants, root canals, and pediatric dental solutions.
-              </p>
-
-              {/* Checklist */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
-                {[
-                  "Experienced & Caring Dentists",
-                  "State-of-the-art Technology",
-                  "Personalized Treatment Plans",
-                  "Comfort-Focused Care"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5 text-sm font-semibold text-text-secondary">
-                    <div className="w-5 h-5 rounded-full bg-[#35063e]/25 text-[#D8B4FE] flex items-center justify-center shrink-0">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
-                    </div>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-
-            </motion.div>
-
-            {/* Right Column: About Us Image */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-6 flex justify-center"
-            >
-              <div className="w-full max-w-lg aspect-[4/3] rounded-[32px] overflow-hidden border border-[#35063e]/30 shadow-2xl bg-[#0a0516]/70 backdrop-blur-[20px]">
-                <img
-                  src="about-dentist.png"
-                  alt="Dentist checking patient smile"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-104"
-                />
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------ CLINIC SPECIALISTS (DOCTORS) SECTION ------------------ */}
-      <section className="py-24 relative border-y border-[#35063e]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-2xl mx-auto space-y-4 mb-16"
-          >
-            <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">Our Team</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">Meet Our Dental Specialists</h2>
-            <p className="text-text-muted/60 text-sm">
-              Highly trained professionals dedicated to aesthetic precision, comfortable care, and modern techniques.
-            </p>
-            <div className="h-1 w-16 bg-[#35063e] mx-auto rounded-full mt-2" />
-          </motion.div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-          >
-            {doctors.map((doc, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                whileHover={{ y: -6, borderColor: "rgba(53, 6, 62, 0.45)" }}
-                className="p-6 rounded-3xl bg-[#0e071b]/60 border border-[#35063e]/20 transition-all flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left relative overflow-hidden group shadow-lg"
-              >
-                {/* Doctor Image Container */}
-                <div className="w-32 h-32 rounded-2xl overflow-hidden shrink-0 border-2 border-[#35063e]/20 relative">
-                  <img
-                    src={doc.image}
-                    alt={doc.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
-                  />
-                </div>
-
-                {/* Details */}
-                <div className="space-y-2 relative z-10">
-                  <span className="text-[10px] font-bold text-[#D8B4FE] bg-[#35063e]/20 border border-[#35063e]/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                    {doc.experience}
-                  </span>
-                  <h3 className="text-xl font-bold text-white mt-2 leading-none">{doc.name}</h3>
-                  <p className="text-[11px] text-[#D8B4FE] font-semibold">{doc.credentials}</p>
-                  <p className="text-xs text-text-muted/80 leading-relaxed font-semibold">{doc.role}</p>
-                  <p className="text-[11px] text-text-secondary/65 leading-relaxed">{doc.bio}</p>
-
-                  {/* Sliding Social Handles on hover */}
-                  <div className="pt-2 flex items-center gap-4 text-xs text-[#D8B4FE]">
-                    <a href={`mailto:${doc.email}`} className="hover:text-white transition-colors flex items-center gap-1 font-semibold">
-                      <Mail className="w-3.5 h-3.5" />
-                      <span>Email Doctor</span>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Background soft hover glow shape */}
-                <div className="absolute right-[-20px] bottom-[-20px] w-24 h-24 bg-[#35063e]/5 rounded-full blur-xl pointer-events-none group-hover:bg-[#35063e]/15 transition-all" />
-              </motion.div>
-            ))}
-          </motion.div>
-
-        </div>
-      </section>
+      {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
+      <WhyChooseUs />
 
 
 
 
 
-      {/* ------------------ APPOINTMENT SCHEDULER SECTION ------------------ */}
-      <section id="scheduler" className="py-24 relative border-t border-[#35063e]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-            <span className="text-[#D8B4FE] font-bold tracking-widest text-xs uppercase block">Self Service Portal</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Your Scheduled Appointments</h2>
-            <p className="text-text-muted/60 text-base">
-              Manage your booked visits in real-time. Changes sync instantly on your browser.
-            </p>
-          </div>
 
-          <div className="max-w-4xl mx-auto space-y-6">
 
-            <div className="flex justify-between items-center">
-              <h3 className="font-extrabold text-white text-lg">Active Bookings ({appointments.length})</h3>
-              {appointments.length > 0 && (
-                <button
-                  onClick={() => {
-                    if (confirm("Clear all appointments?")) {
-                      saveAppointments([]);
-                    }
-                  }}
-                  className="text-xs text-rose-455 hover:text-rose-355 font-bold cursor-pointer animate-pulse"
-                >
-                  Cancel All
-                </button>
-              )}
-            </div>
 
-            {appointments.length === 0 ? (
-              /* Empty State Board */
-              <div className="p-12 rounded-2xl border border-dashed border-[#35063e]/35 text-center space-y-4 bg-[#35063e]/5">
-                <p className="text-text-muted/40 text-sm italic">You have no active appointments booked on this device.</p>
-              </div>
-            ) : (
-              /* Appointment Cards list */
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {appointments.map((appt) => (
-                  <div
-                    key={appt.id}
-                    className="p-6 rounded-2xl bg-gradient-to-b from-[#0e071b] to-[#0b0715] border border-[#35063e]/20 hover:border-[#35063e]/40 transition-all flex flex-col justify-between text-left space-y-4 relative group shadow-sm"
-                  >
-                    <button
-                      onClick={() => handleCancelAppointment(appt.id)}
-                      className="absolute top-4 right-4 p-1.5 rounded-lg bg-[#090611] border border-[#35063e]/30 text-text-muted hover:text-rose-400 hover:border-rose-955 transition-colors cursor-pointer animate-none"
-                      title="Cancel Appointment"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
 
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-bold text-[#D8B4FE] bg-[#35063e]/15 border border-[#35063e]/25 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                        {appt.service}
-                      </span>
-                      <h4 className="text-white font-bold text-base mt-2">{appt.name}</h4>
-                      <p className="text-text-muted/60 text-xs">{appt.doctor}</p>
-                    </div>
-
-                    <div className="pt-4 border-t border-[#35063e]/20 grid grid-cols-2 gap-2 text-xs">
-                      <div className="flex items-center gap-1.5 text-text-muted">
-                        <Calendar className="w-3.5 h-3.5 text-[#D8B4FE]" />
-                        <span>{appt.date}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-text-muted">
-                        <Clock className="w-3.5 h-3.5 text-[#D8B4FE]" />
-                        <span>{appt.timeSlot}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-          </div>
-        </div>
-      </section>
 
 
 
       {/* ------------------ FAQ SECTION ------------------ */}
-      <section id="faq" className="py-24 relative">
+      <section id="faq" className="relative pt-10 pb-20 lg:pt-14 lg:pb-24 border-t border-[#35063e]/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
 
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
@@ -1344,6 +1138,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ------------------ CONTACT US SECTION ------------------ */}
+      <ContactUs />
+
       {/* ------------------ FOOTER ------------------ */}
       <footer className="bg-[#090611] text-white py-16 relative border-t border-[#35063e]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1372,7 +1169,7 @@ export default function Home() {
                 </div>
                 <div>
                   <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY'S</span>
-                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Aesthetics</span>
+                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Clinic</span>
                 </div>
               </a>
               <p className="text-xs text-text-muted/60 leading-relaxed">
@@ -1385,9 +1182,11 @@ export default function Home() {
               <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Quick Links</h4>
               <ul className="text-xs text-text-muted/70 space-y-2 font-semibold">
                 <li><a href="#hero" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
                 <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                <li><a href="#scheduler" className="hover:text-white transition-colors">Appointments</a></li>
+                <li><a href="#doctor" className="hover:text-white transition-colors">Doctor's Profile</a></li>
+                <li><a href="#why-choose-us" className="hover:text-white transition-colors">Why Choose Us</a></li>
+                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
               </ul>
             </div>
 
@@ -1409,7 +1208,7 @@ export default function Home() {
               <ul className="text-xs text-text-muted/70 space-y-2.5">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-[#D8B4FE] shrink-0 mt-0.5" />
-                  <span>Shop No. 105, Dutt Sagar Appt. Above IDBI Bank, Airport Road, Nani Daman</span>
+                  <span>Airport Road, Nani Daman</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5 text-[#D8B4FE]" />
@@ -1419,21 +1218,13 @@ export default function Home() {
                   <Mail className="w-3.5 h-3.5 text-[#D8B4FE]" />
                   <a href="mailto:dr.varshneydental@gmail.com" className="hover:text-white transition-colors">dr.varshneydental@gmail.com</a>
                 </li>
-                <li className="flex items-start gap-2">
-                  <Clock className="w-3.5 h-3.5 text-[#D8B4FE] shrink-0 mt-0.5" />
-                  <div className="leading-tight text-[11px]">
-                    <p>Mon - Sat: 10:00 AM - 1:00 PM</p>
-                    <p className="mt-1">Mon - Sat: 4:00 PM - 8:00 PM</p>
-                    <p className="mt-1 text-rose-455 font-bold">Sun: Closed</p>
-                  </div>
-                </li>
               </ul>
             </div>
 
           </div>
 
           <div className="pt-8 border-t border-[#35063e]/20 text-center text-xs text-text-muted/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>© {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
+            <p>© {new Date().getFullYear()} Dr. Varshney's Dental Clinic. All rights reserved. Reg. No. A-22861.</p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-white">Privacy Policy</a>
               <span>|</span>
