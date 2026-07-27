@@ -142,11 +142,11 @@ export default function DoctorProfile() {
                 </motion.div>
 
                 {/* Relative Wrapper for Carousel & Side Arrows */}
-                <div className="relative w-full px-4 sm:px-12 lg:px-0">
+                <div className="relative w-full px-4 sm:px-12 lg:px-0 pb-16 sm:pb-0">
                     {/* Left Navigation Arrow */}
                     <button 
                         onClick={() => scroll('left')}
-                        className="absolute left-0 lg:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border border-purple-500/30 bg-[#0a0516]/80 text-purple-300 hover:text-white hover:border-purple-400 flex items-center justify-center transition-all backdrop-blur-[12px] cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.15)] active:scale-95 z-30"
+                        className="absolute left-[calc(50%-58px)] sm:left-0 lg:-left-16 bottom-2 sm:bottom-auto top-auto sm:top-1/2 translate-y-0 sm:-translate-y-1/2 w-11 h-11 rounded-full border border-purple-500/30 bg-[#0a0516]/80 text-purple-300 hover:text-white hover:border-purple-400 flex items-center justify-center transition-all backdrop-blur-[12px] cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.15)] active:scale-95 z-30"
                         aria-label="Previous Doctor"
                     >
                         <ChevronLeft className="w-5 h-5" />
@@ -155,7 +155,7 @@ export default function DoctorProfile() {
                     {/* Right Navigation Arrow */}
                     <button 
                         onClick={() => scroll('right')}
-                        className="absolute right-0 lg:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border border-purple-500/30 bg-[#0a0516]/80 text-purple-300 hover:text-white hover:border-purple-400 flex items-center justify-center transition-all backdrop-blur-[12px] cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.15)] active:scale-95 z-30"
+                        className="absolute right-[calc(50%-58px)] sm:right-0 lg:-right-16 bottom-2 sm:bottom-auto top-auto sm:top-1/2 translate-y-0 sm:-translate-y-1/2 w-11 h-11 rounded-full border border-purple-500/30 bg-[#0a0516]/80 text-purple-300 hover:text-white hover:border-purple-400 flex items-center justify-center transition-all backdrop-blur-[12px] cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.15)] active:scale-95 z-30"
                         aria-label="Next Doctor"
                     >
                         <ChevronRight className="w-5 h-5" />

@@ -25,9 +25,49 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Dr. Varshney's Dental Aesthetics",
+  title: "Dr. Varshney's Dental Aesthetics | Best Dentist in Nani Daman",
   description:
-    "Modern dental care by Dr. Ayush Varshney in Nani Daman, offering root canal treatment, dental implants, braces, teeth cleaning, and complete family dental care.",
+    "Modern dental care by Dr. Ayush Varshney in Nani Daman. Offering root canal treatment, dental implants, crowns, bridges, dentures, braces, aligners, scaling, and children dental care.",
+  keywords: [
+    "Dentist in Nani Daman",
+    "Best Dental Clinic in Daman",
+    "Dr. Ayush Varshney",
+    "Root Canal Treatment Nani Daman",
+    "Dental Implants Daman",
+    "Teeth Scaling & Cleaning Daman",
+    "Braces and Aligners Daman",
+    "Children Dentistry Daman",
+    "Dental Surgeon Nani Daman",
+    "Varshney Dental Clinic"
+  ],
+  openGraph: {
+    title: "Dr. Varshney's Dental Aesthetics | Best Dentist in Nani Daman",
+    description:
+      "Modern dental care by Dr. Ayush Varshney in Nani Daman. Offering root canal treatment, dental implants, crowns, bridges, dentures, braces, aligners, scaling, and children dental care.",
+    url: "https://drvarshneysdental.com",
+    siteName: "Dr. Varshney's Dental Aesthetics",
+    images: [
+      {
+        url: "https://drvarshneysdental.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Dr. Varshney's Dental Aesthetics Logo"
+      }
+    ],
+    locale: "en_US",
+    type: "website"
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1
+    }
+  }
 };
 
 const jsonLd = {

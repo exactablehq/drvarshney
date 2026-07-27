@@ -828,7 +828,17 @@ export default function Home() {
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                    className="block text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.15em] mb-2"
+                  >
+                    Dr. Varshney's Dental Aesthetics
+                  </motion.span>
+                </span>
+                <span className="block overflow-hidden py-0.5">
+                  <motion.span
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                     className="block"
                   >
                     Healthy Teeth.
@@ -838,7 +848,7 @@ export default function Home() {
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
                     className="block beautiful-smiles-glow"
                   >
                     Beautiful Smiles.
