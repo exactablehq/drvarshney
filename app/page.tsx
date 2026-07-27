@@ -228,7 +228,7 @@ export default function Home() {
       const labelMap: Record<string, string> = {
         hero: "Home",
         services: "Services",
-        doctor: "Doctor's Profile",
+        doctor: "About Doctor",
         "why-choose-us": "Why Choose Us",
         faq: "FAQ",
         contact: "Contact Us"
@@ -653,12 +653,12 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
-            {["Home", "Services", "Doctor's Profile", "Why Choose Us", "FAQ", "Contact Us"].map((link) => {
+            {["Home", "Services", "About Doctor", "Why Choose Us", "FAQ", "Contact Us"].map((link) => {
               const isActive = activeSection === link;
               const linkTarget =
                 link === "Home" ? "#hero" :
                   link === "Services" ? "#services" :
-                    link === "Doctor's Profile" ? "#doctor" :
+                    link === "About Doctor" ? "#doctor" :
                       link === "Why Choose Us" ? "#why-choose-us" :
                         link === "FAQ" ? "#faq" : "#contact";
 
@@ -717,13 +717,13 @@ export default function Home() {
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
               <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "Services", "Doctor's Profile", "Why Choose Us", "FAQ", "Contact Us"].map((link) => (
+                {["Home", "Services", "About Doctor", "Why Choose Us", "FAQ", "Contact Us"].map((link) => (
                   <a
                     key={link}
                     href={
                       link === "Home" ? "#hero" :
                         link === "Services" ? "#services" :
-                          link === "Doctor's Profile" ? "#doctor" :
+                          link === "About Doctor" ? "#doctor" :
                             link === "Why Choose Us" ? "#why-choose-us" :
                               link === "FAQ" ? "#faq" : "#contact"
                     }
@@ -853,7 +853,7 @@ export default function Home() {
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}
                 className="text-white/60 text-base sm:text-lg max-w-lg leading-relaxed font-sans"
               >
-                Advanced dental care with a gentle touch, modern technology, and a commitment to your perfect smile.
+                Modern dental care by Dr. Ayush Varshney in Nani Daman, offering root canal treatment, dental implants, braces, teeth cleaning, and complete family dental care.
               </motion.p>
 
               {/* Action Buttons */}
@@ -1211,7 +1211,7 @@ export default function Home() {
               <ul className="text-xs text-text-muted/70 space-y-2 font-semibold">
                 <li><a href="#hero" className="hover:text-white transition-colors">Home</a></li>
                 <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                <li><a href="#doctor" className="hover:text-white transition-colors">Doctor's Profile</a></li>
+                <li><a href="#doctor" className="hover:text-white transition-colors">About Doctor</a></li>
                 <li><a href="#why-choose-us" className="hover:text-white transition-colors">Why Choose Us</a></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
                 <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
