@@ -114,7 +114,7 @@ export default function WhyChooseUs() {
 
           {/* Supporting description */}
           <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-2xl font-light">
-            Combining cutting-edge dental technology with artistic clinical care, Dr. Varshney's Dental Clinic elevates oral wellness and aesthetic beauty to premium standards.
+            Combining cutting-edge dental technology with artistic clinical care, Dr. Varshney's Dental Aesthetics elevates oral wellness and aesthetic beauty to premium standards.
           </p>
         </motion.div>
 

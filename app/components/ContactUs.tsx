@@ -172,7 +172,7 @@ export default function ContactUs() {
                 style={{ border: 0, filter: "grayscale(1) invert(0.9) contrast(1.2) brightness(0.8)" }}
                 allowFullScreen={false}
                 loading="lazy"
-                title="Dr. Varshney's Dental Clinic Location Map"
+                title="Dr. Varshney's Dental Aesthetics Location Map"
                 className="w-full h-full rounded-[28px]"
               />
             </div>

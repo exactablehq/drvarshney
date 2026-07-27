@@ -170,7 +170,7 @@ export default function Home() {
     name: "",
     email: "",
     phone: "",
-    service: "Scaling & Polishing",
+    service: "Scaling",
     doctor: "Dr. Ayush Varshney, B.D.S. (Dental Surgeon)",
     date: "",
     timeSlot: "10:00 AM",
@@ -284,7 +284,7 @@ export default function Home() {
       // Reset Form
       setBookingForm(prev => ({
         ...prev,
-        service: "Scaling & Polishing",
+        service: "Scaling",
         doctor: "Dr. Ayush Varshney, B.D.S. (Dental Surgeon)",
         date: "",
         notes: ""
@@ -312,87 +312,115 @@ export default function Home() {
   // Services Data
   const services: ServiceDetail[] = [
     {
-      id: "cleaning",
-      title: "Teeth Cleaning",
+      id: "scaling",
+      title: "Scaling",
       image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=600&q=80",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      fullDetails: "Our professional teeth cleaning uses state-of-the-art scaling to gently remove plaque and tartar deposits, leaving your teeth refreshed and polished.",
+      description: "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
+      fullDetails: "Our professional scaling and polishing utilizes ultrasonic scalers to safely and gently clear away plaque and hardened tartar from above and below the gumline, followed by a polishing paste to remove stubborn external stains.",
       priceRange: "Standard Rate",
       duration: "30 - 45 mins",
       benefits: ["Removes plaque and tartar", "Freshens breath", "Prevents gum disease", "Brightens your smile"],
       faqs: [
-        { q: "Is teeth cleaning painful?", a: "No, our gentle methods ensure a comfortable experience." },
-        { q: "How often should I get my teeth cleaned?", a: "Every 6 months is highly recommended." }
+        { q: "Is scaling painful?", a: "No, ultrasonic scaling is generally comfortable. We adjust the settings for sensitive teeth." },
+        { q: "How often should I get it done?", a: "Every 6 months to maintain optimal gum health." }
       ]
     },
     {
-      id: "implants",
-      title: "Dental Implants",
-      image: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=600&q=80",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      fullDetails: "Permanent replacement tooth roots made of bio-compatible titanium posts, capped with high-quality porcelain crowns that blend perfectly.",
-      priceRange: "Custom Pricing",
-      duration: "3 - 6 months",
-      benefits: ["Looks and feels like natural teeth", "Prevents jawbone loss", "Improves chewing and speech", "Durable lifetime solution"],
+      id: "filling",
+      title: "Tooth Filling",
+      image: "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=600&q=80",
+      description: "Restore decayed or chipped teeth with aesthetic composite resin fillings that blend seamlessly.",
+      fullDetails: "We utilize advanced, biocompatible tooth-colored composite resins to repair cavities, restore chipped edges, and close small gaps, ensuring a completely natural appearance and long-lasting durability.",
+      priceRange: "Per Tooth",
+      duration: "30 - 40 mins",
+      benefits: ["Natural tooth-colored appearance", "Prevents further decay", "Bonds directly to tooth structure", "Mercury-free materials"],
       faqs: [
-        { q: "Are dental implants safe?", a: "Yes, they have a success rate of over 95% and are highly biocompatible." },
-        { q: "How long do implants last?", a: "With proper care, they can last a lifetime." }
+        { q: "How long do composite fillings last?", a: "Typically 5 to 10 years with good oral hygiene." },
+        { q: "Will it look natural?", a: "Yes, the composite is customized to match the exact shade of your tooth." }
+      ]
+    },
+    {
+      id: "extraction",
+      title: "Tooth Extraction",
+      image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80",
+      description: "Safe and pain-free removal of severely damaged, infected, or crowded teeth, including wisdom teeth.",
+      fullDetails: "When a tooth cannot be saved due to extensive decay, fracture, or crowding, our team performs gentle extractions under local anesthesia, prioritizing your comfort and rapid post-care healing.",
+      priceRange: "Based on complexity",
+      duration: "30 - 60 mins",
+      benefits: ["Relieves chronic pain and pressure", "Prevents spread of infection", "Relieves crowding for orthodontics", "Comfortable, safe procedure"],
+      faqs: [
+        { q: "Is extraction painful?", a: "No, local anesthesia numbs the area completely. You will only feel some pressure, not pain." },
+        { q: "How long does healing take?", a: "The initial socket heals in 1-2 weeks. We provide clear post-extraction guidelines." }
       ]
     },
     {
       id: "rct",
       title: "Root Canal Treatment",
       image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      fullDetails: "Save deeply infected teeth. Gently cleans, disinfects, and seals the root canals to prevent tooth loss and eliminate throbbing pain.",
+      description: "Save deeply infected or damaged teeth by removing diseased pulp and sealing the canals.",
+      fullDetails: "Our modern, single-visit or multi-visit root canal treatments utilize rotary instruments to clean, disinfect, and seal infected pulp space, alleviating severe toothaches and preserving your natural teeth.",
       priceRange: "Varies by roots",
-      duration: "1 - 2 visits",
-      benefits: ["Relieves acute dental pain", "Preserves natural tooth structure", "Prevents spread of infection", "Restores normal chewing"],
+      duration: "45 - 60 mins",
+      benefits: ["Stops progressive toothache", "Preserves natural tooth structure", "Prevents abscess spread", "Restores normal bite force"],
       faqs: [
-        { q: "Is root canal treatment painful?", a: "No, modern anesthesia ensures the procedure is comfortable and pain-free." },
-        { q: "Will I need a crown after RCT?", a: "Yes, a crown is recommended to protect the treated tooth from fracture." }
+        { q: "Is root canal treatment painful?", a: "No, modern anesthesia and tools make root canal therapy as comfortable as a routine filling." },
+        { q: "Will I need a crown after RCT?", a: "Yes, a crown is recommended to protect and strengthen the treated tooth." }
       ]
     },
     {
-      id: "cosmetic",
-      title: "Cosmetic Dentistry",
+      id: "crowns_bridges",
+      title: "Crowns & Bridges, Dentures",
       image: "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=600&q=80",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      fullDetails: "Transform your smile with porcelain veneers, dental bonding, and smile contouring custom-tailored to enhance your natural beauty.",
-      priceRange: "Based on treatment",
-      duration: "1 - 3 visits",
-      benefits: ["Enhances smile aesthetics", "Boosts confidence", "Corrects chipped or gapped teeth", "Custom shade matching"],
+      description: "Restore missing or damaged teeth with custom-fabricated crowns, bridges, or full and partial dentures.",
+      fullDetails: "We provide comprehensive prosthodontic options, including strong ceramic crowns to protect damaged teeth, dental bridges to fill gaps, and custom-designed dentures to restore complete function and confidence.",
+      priceRange: "Custom Pricing",
+      duration: "2 - 3 visits",
+      benefits: ["Restores chewing and speech", "Prevents adjacent teeth shifting", "Aesthetic and durable", "Custom-fit for ultimate comfort"],
       faqs: [
-        { q: "What is cosmetic dentistry?", a: "Any dental procedure focused on improving the appearance of your teeth, gums, or bite." },
-        { q: "Are veneers permanent?", a: "Porcelain veneers are durable and can last 10–15 years with proper hygiene." }
+        { q: "What is the difference between a crown and a bridge?", a: "A crown covers a single damaged tooth, while a bridge uses adjacent teeth to suspend a replacement tooth in a gap." },
+        { q: "How do I care for dentures?", a: "Clean them daily with a soft brush and soak them overnight in water or a denture cleaning solution." }
       ]
     },
     {
-      id: "ortho",
-      title: "Orthodontics",
+      id: "implants",
+      title: "Implants",
+      image: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=600&q=80",
+      description: "Permanent, bio-compatible titanium implants capped with crowns to replace missing teeth from the root up.",
+      fullDetails: "Dental implants are the gold standard for tooth replacement. They anchor directly into the jawbone, acting as artificial roots that support custom porcelain crowns for a strong, natural smile.",
+      priceRange: "Custom Plan",
+      duration: "3 - 6 months",
+      benefits: ["Feels and acts like a natural tooth", "Prevents jawbone deterioration", "No support needed from adjacent teeth", "Lifetime durability with care"],
+      faqs: [
+        { q: "Am I a candidate for implants?", a: "Most adults with healthy gums and sufficient jawbone density are excellent candidates." },
+        { q: "How successful are implants?", a: "They have a success rate of over 95%." }
+      ]
+    },
+    {
+      id: "braces_aligners",
+      title: "Braces & Aligners",
       image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      fullDetails: "Align crowded or spaced teeth using traditional brackets or modern clear invisible aligners for a perfectly balanced smile.",
+      description: "Straighten misaligned teeth and correct bites with traditional braces or discreet clear aligners.",
+      fullDetails: "Whether you prefer traditional ceramic braces or modern clear aligners (like Invisalign), we design personalized orthodontic plans to guide your teeth into perfect, healthy alignment.",
       priceRange: "Custom Plan",
       duration: "6 - 24 months",
-      benefits: ["Corrects bite alignment", "Closes gaps and crowdings", "Discreet clear aligner options", "Improves long-term oral health"],
+      benefits: ["Perfects smile symmetry", "Improves bite alignment", "Clear, removable aligner options", "Boosts confidence and oral hygiene"],
       faqs: [
-        { q: "Am I too old for braces?", a: "No, teeth can be aligned at any age if your gums and bone structure are healthy." },
-        { q: "How long does treatment take?", a: "It varies by complexity but typically takes 12 to 24 months." }
+        { q: "Are clear aligners suitable for everyone?", a: "Aligners work well for mild to moderate crowding or spacing. Complex cases may need braces." },
+        { q: "Do aligners hurt?", a: "You may feel temporary pressure for a few days when changing to a new set of aligners." }
       ]
     },
     {
-      id: "whitening",
-      title: "Teeth Whitening",
-      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      fullDetails: "Professional, fast, and safe teeth whitening systems to lift deep stains and brighten your smile by several shades.",
-      priceRange: "Per Session",
-      duration: "45 - 60 mins",
-      benefits: ["Instant aesthetic brightness", "Lifts coffee and tobacco stains", "Safe, controlled application", "Long-lasting results"],
+      id: "children",
+      title: "Children Dental Care",
+      image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=600&q=80",
+      description: "Friendly, gentle pediatric dental treatments including sealants, fluorides, and early cavity prevention.",
+      fullDetails: "We provide a warm, encouraging environment to guide children through their first dental experiences. Our services include checkups, fluoride treatments, protective sealants, and cavity fillings.",
+      priceRange: "Standard Rate",
+      duration: "30 - 45 mins",
+      benefits: ["Creates positive dental habits", "Prevents childhood cavities", "Protective dental sealants", "Gentle, child-friendly approach"],
       faqs: [
-        { q: "Will whitening make my teeth sensitive?", a: "Temporary sensitivity is normal and resolves within 24 to 48 hours." },
-        { q: "How long does the whitening effect last?", a: "Typically 1 to 3 years depending on dietary habits and oral care." }
+        { q: "When should a child first visit the dentist?", a: "Around their first birthday, or when their first tooth emerges." },
+        { q: "What are dental sealants?", a: "Thin protective coatings applied to chewing surfaces of back teeth to prevent decay." }
       ]
     }
   ];
@@ -422,7 +450,7 @@ export default function Home() {
   // Testimonials Carousel Logic
   const reviews = [
     {
-      text: "The team at Dr. Varshney's Dental Clinic is amazing! They are professional, gentle and truly care about their patients. I highly recommend them to anyone looking for a great dentist.",
+      text: "The team at Dr. Varshney's Dental Aesthetics is amazing! They are professional, gentle and truly care about their patients. I highly recommend them to anyone looking for a great dentist.",
       author: "Jessica M.",
       role: "Root Canal Patient",
       stars: 5,
@@ -550,7 +578,7 @@ export default function Home() {
 
           <div>
             <h2 className="text-2xl font-black tracking-wider text-white">DR. VARSHNEY'S</h2>
-            <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">Dental Clinic</p>
+            <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">Dental Aesthetics</p>
           </div>
 
           {/* Simple animated loading loader strip */}
@@ -618,7 +646,7 @@ export default function Home() {
                 DR. VARSHNEY'S
               </span>
               <span className="text-[7px] sm:text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] sm:tracking-[0.2em] block mt-0.5">
-                Dental Clinic
+                Dental Aesthetics
               </span>
             </div>
           </a>
@@ -871,7 +899,7 @@ export default function Home() {
                 >
                   <motion.img
                     src="hero-dental.png"
-                    alt="Premium Dental Care at Dr. Varshney's Dental Clinic"
+                    alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="w-full h-full object-cover"
@@ -1169,7 +1197,7 @@ export default function Home() {
                 </div>
                 <div>
                   <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY'S</span>
-                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Clinic</span>
+                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Aesthetics</span>
                 </div>
               </a>
               <p className="text-xs text-text-muted/60 leading-relaxed">
@@ -1194,10 +1222,13 @@ export default function Home() {
             <div className="space-y-3">
               <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Our Services</h4>
               <ul className="text-xs text-text-muted/70 space-y-2">
-                <li>Scaling & Polishing</li>
+                <li>Scaling</li>
+                <li>Tooth Filling</li>
+                <li>Tooth Extraction</li>
                 <li>Root Canal Treatment</li>
-                <li>Crowns & Bridges</li>
-                <li>Dental Implants</li>
+                <li>Crowns & Bridges, Dentures</li>
+                <li>Implants</li>
+                <li>Braces & Aligners</li>
                 <li>Children Dental Care</li>
               </ul>
             </div>
@@ -1224,7 +1255,7 @@ export default function Home() {
           </div>
 
           <div className="pt-8 border-t border-[#35063e]/20 text-center text-xs text-text-muted/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>© {new Date().getFullYear()} Dr. Varshney's Dental Clinic. All rights reserved. Reg. No. A-22861.</p>
+            <p>© {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-white">Privacy Policy</a>
               <span>|</span>
