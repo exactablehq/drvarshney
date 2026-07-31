@@ -960,7 +960,7 @@ export default function Home() {
               </div>
               <div>
                 <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">15</span>
+                  <span className="text-2xl font-bold text-white leading-none">3</span>
                   <span className="text-xl font-bold text-purple-400 leading-none">+</span>
                 </div>
                 <div className="text-xs font-semibold text-white/90 mt-1">Years Experience</div>
@@ -975,7 +975,7 @@ export default function Home() {
               </div>
               <div>
                 <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">5000</span>
+                  <span className="text-2xl font-bold text-white leading-none">2500</span>
                   <span className="text-xl font-bold text-purple-400 leading-none">+</span>
                 </div>
                 <div className="text-xs font-semibold text-white/90 mt-1">Happy Patients</div>
