@@ -122,7 +122,7 @@ export const doctorsData = [
             "Surgeries Under Sedation & GA"
         ],
         image: "dr5_nobg.png",
-        imageClass: "scale-90 sm:scale-85 lg:scale-90",
+        
         
     },
     {
@@ -217,7 +217,7 @@ export default function DoctorProfile() {
     };
 
     return (
-        <section id="doctor" className="relative min-h-[85vh] lg:min-h-[80vh] pt-8 pb-12 lg:pt-12 lg:pb-16 overflow-hidden bg-[#090611] border-t border-[#35063e]/20 flex flex-col justify-center">
+        <section id="doctor" className="relative min-h-[85vh] lg:min-h-[80vh] pt-8 pb-12 lg:pt-12 lg:pb-16 overflow-x-clip bg-[#090611] border-t border-[#35063e]/20 flex flex-col justify-center">
             {/* Oversized Background Typography - "DOCTOR" */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
                 <span className="text-[10vw] sm:text-[12vw] lg:text-[10vw] font-black text-purple-950/[0.035] tracking-[0.15em] uppercase leading-none select-none">
@@ -266,13 +266,13 @@ export default function DoctorProfile() {
                     {/* Horizontal Scrollable Container */}
                     <div
                         ref={scrollRef}
-                        className="w-full flex gap-12 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        className="w-full flex gap-6 sm:gap-12 overflow-x-auto scroll-smooth pb-4 snap-x snap-proximity overscroll-x-contain touch-pan-x touch-pan-y"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', touchAction: 'pan-x pan-y' }}
                     >
                         {doctorsData.map((doctor, index) => (
                             <div
                                 key={index}
-                                className="w-full shrink-0 snap-center snap-always grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 xl:gap-16 items-center"
+                                className="w-full shrink-0 snap-center grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 xl:gap-16 items-center"
                             >
                                 {/* Left Column: Large Portrait (~45%) */}
                                 <motion.div
