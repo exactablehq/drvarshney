@@ -312,20 +312,6 @@ export default function Home() {
   // Services Data
   const services: ServiceDetail[] = [
     {
-      id: "scaling",
-      title: "Scaling",
-      image: "Scaling.jpg",
-      description: "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
-      fullDetails: "Our professional scaling and polishing utilizes ultrasonic scalers to safely and gently clear away plaque and hardened tartar from above and below the gumline, followed by a polishing paste to remove stubborn external stains.",
-      priceRange: "Standard Rate",
-      duration: "30 - 45 mins",
-      benefits: ["Removes plaque and tartar", "Freshens breath", "Prevents gum disease", "Brightens your smile"],
-      faqs: [
-        { q: "Is scaling painful?", a: "No, ultrasonic scaling is generally comfortable. We adjust the settings for sensitive teeth." },
-        { q: "How often should I get it done?", a: "Every 6 months to maintain optimal gum health." }
-      ]
-    },
-    {
       id: "filling",
       title: "Tooth Filling",
       image: "teethFilling.jpg",
@@ -407,6 +393,20 @@ export default function Home() {
       faqs: [
         { q: "Are clear aligners suitable for everyone?", a: "Aligners work well for mild to moderate crowding or spacing. Complex cases may need braces." },
         { q: "Do aligners hurt?", a: "You may feel temporary pressure for a few days when changing to a new set of aligners." }
+      ]
+    },
+       {
+      id: "scaling",
+      title: "Scaling",
+      image: "Scaling.jpg",
+      description: "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
+      fullDetails: "Our professional scaling and polishing utilizes ultrasonic scalers to safely and gently clear away plaque and hardened tartar from above and below the gumline, followed by a polishing paste to remove stubborn external stains.",
+      priceRange: "Standard Rate",
+      duration: "30 - 45 mins",
+      benefits: ["Removes plaque and tartar", "Freshens breath", "Prevents gum disease", "Brightens your smile"],
+      faqs: [
+        { q: "Is scaling painful?", a: "No, ultrasonic scaling is generally comfortable. We adjust the settings for sensitive teeth." },
+        { q: "How often should I get it done?", a: "Every 6 months to maintain optimal gum health." }
       ]
     },
     {
