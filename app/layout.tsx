@@ -77,7 +77,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image_opt.png",
         width: 1200,
         height: 630,
         alt: "Dr. Varshney's Dental Aesthetics",
@@ -93,7 +93,7 @@ export const metadata: Metadata = {
     description:
       "Your smile deserves the best. Experience advanced, patient-focused dentistry—from routine dental care to smile makeovers and dental implants—designed to keep every smile healthy, confident, and beautiful.",
 
-    images: ["/og-image.png"],
+    images: ["/og-image_opt.png"],
   },
 
   robots: {
@@ -131,7 +131,7 @@ const jsonLd = {
 
   url: "https://drvarshney.in",
 
-  image: "https://drvarshney.in/og-image.png",
+  image: "https://drvarshney.in/og-image_opt.png",
 
   logo: "https://drvarshney.in/logo.png",
 
@@ -220,113 +220,248 @@ const jsonLd = {
 
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Dental Services",
+    name: "Comprehensive Dental Services Catalog",
     itemListElement: [
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
-          name: "Dental Implants",
-        },
+          "@type": "MedicalProcedure",
+          name: "Tooth Filling",
+          description: "Restore decayed or chipped teeth with aesthetic composite resin fillings that blend seamlessly.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
+          "@type": "MedicalProcedure",
+          name: "Tooth Extraction",
+          description: "Safe and pain-free removal of severely damaged, infected, or crowded teeth, including wisdom teeth.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
           name: "Root Canal Treatment",
-        },
+          description: "Save deeply infected or damaged teeth by removing diseased pulp and sealing the canals.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
-          name: "Teeth Whitening",
-        },
+          "@type": "MedicalProcedure",
+          name: "Crowns & Bridges, Dentures",
+          description: "Restore missing or damaged teeth with custom-fabricated crowns, bridges, or full and partial dentures.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
-          name: "Dental Veneers",
-        },
+          "@type": "MedicalProcedure",
+          name: "Dental Implants",
+          description: "Permanent, bio-compatible titanium implants capped with crowns to replace missing teeth from the root up.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
+          "@type": "MedicalProcedure",
+          name: "Braces & Aligners",
+          description: "Straighten misaligned teeth and correct bites with traditional braces or discreet clear aligners.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Scaling & Cleaning",
+          description: "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Children Dental Care",
+          description: "Friendly, gentle pediatric dental treatments including sealants, fluorides, and early cavity prevention.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
           name: "Wisdom Tooth Removal",
-        },
+          description: "Specialized extraction of impacted, painful, or misaligned wisdom teeth with surgical precision.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
-          name: "Smile Makeover",
-        },
+          "@type": "MedicalProcedure",
+          name: "Teeth Whitening",
+          description: "Professional in-office laser whitening to remove deep stains and dramatically brighten your smile.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
-          name: "Digital Smile Design",
-        },
+          "@type": "MedicalProcedure",
+          name: "Dental Veneers",
+          description: "Ultra-thin custom porcelain or composite shells that transform shape, shade, and alignment.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
       {
         "@type": "Offer",
         itemOffered: {
-          "@type": "Service",
-          name: "Full Mouth Rehabilitation",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Complete Dentures",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Implant Supported Dentures",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Bone Grafting",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Gingivectomy",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Gingivoplasty",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Gum Contouring",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
+          "@type": "MedicalProcedure",
           name: "Post and Core Treatment",
-        },
+          description: "Rebuild heavily broken or root-canal-treated teeth to provide a sturdy foundation for a crown.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
       },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Gingivectomy",
+          description: "Surgical removal of diseased or excess gum tissue to treat periodontal pockets or gummy smiles.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Gingivoplasty",
+          description: "Cosmetic surgical sculpting of gum margins for symmetrical, aesthetically pleasing gumlines.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Bone Grafting",
+          description: "Rebuild jawbone volume and density to prepare for stable dental implant placement.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Complete Dentures",
+          description: "Custom full-arch removable prosthetics to restore chewing function, speech, and youthful facial support.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Implant-Supported Dentures",
+          description: "Snap-on overdentures fixed onto dental implants for superior stability without slippage.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Gum Contouring",
+          description: "Laser or surgical reshaping of uneven gumlines to reveal longer, beautifully proportioned teeth.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Night Guards for Teeth Grinding",
+          description: "Custom-fit protective night appliances to prevent tooth wear, jaw pain, and bruxism damage.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Sports Guards",
+          description: "Shock-absorbing custom athletic mouthguards to safeguard teeth and gums during sports.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Inlays and Onlays",
+          description: "Custom porcelain or composite partial crowns to repair moderately damaged back teeth.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Gum (Flap Surgery)",
+          description: "Advanced periodontic surgery to clean deep root surfaces and regenerate damaged bone structures.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Fluoride Application",
+          description: "High-potency mineral varnish treatment to remineralize enamel and shield against decay.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: "Full Mouth Rehabilitation",
+          description: "Comprehensive multi-disciplinary treatment to rebuild worn, broken, or missing teeth across the entire mouth.",
+          url: "https://drvarshney.in/#services",
+          provider: { "@type": "Dentist", name: "Dr. Varshney's Dental Aesthetics" }
+        }
+      }
     ],
   },
 

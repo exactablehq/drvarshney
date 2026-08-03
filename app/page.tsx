@@ -31,13 +31,16 @@ import {
   HelpCircle,
   CalendarDays,
   Play,
-  ArrowUp
+  ArrowUp,
+  Search,
+  Filter
 } from "lucide-react";
 
 // Types
 interface ServiceDetail {
   id: string;
   title: string;
+  category: string;
   description: string;
   fullDetails: string;
   priceRange: string;
@@ -304,7 +307,9 @@ export default function Home() {
   // Selected Service Detail Modal/Drawer State
   const [activeServiceDetail, setActiveServiceDetail] = useState<ServiceDetail | null>(null);
 
-
+  // Category filter state & search query for services
+  const [selectedServiceCategory, setSelectedServiceCategory] = useState<string>("All");
+  const [serviceSearchQuery, setServiceSearchQuery] = useState<string>("");
 
   // Active FAQ index
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -314,6 +319,7 @@ export default function Home() {
     {
       id: "filling",
       title: "Tooth Filling",
+      category: "General & Preventive",
       image: "teethFilling.jpg",
       description: "Restore decayed or chipped teeth with aesthetic composite resin fillings that blend seamlessly.",
       fullDetails: "We utilize advanced, biocompatible tooth-colored composite resins to repair cavities, restore chipped edges, and close small gaps, ensuring a completely natural appearance and long-lasting durability.",
@@ -328,6 +334,7 @@ export default function Home() {
     {
       id: "extraction",
       title: "Tooth Extraction",
+      category: "Surgical & Gum Care",
       image: "teethExtration.jpg",
       description: "Safe and pain-free removal of severely damaged, infected, or crowded teeth, including wisdom teeth.",
       fullDetails: "When a tooth cannot be saved due to extensive decay, fracture, or crowding, our team performs gentle extractions under local anesthesia, prioritizing your comfort and rapid post-care healing.",
@@ -342,6 +349,7 @@ export default function Home() {
     {
       id: "rct",
       title: "Root Canal Treatment",
+      category: "Implants & Restorative",
       image: "root-canal-treatment.jpg",
       description: "Save deeply infected or damaged teeth by removing diseased pulp and sealing the canals.",
       fullDetails: "Our modern, single-visit or multi-visit root canal treatments utilize rotary instruments to clean, disinfect, and seal infected pulp space, alleviating severe toothaches and preserving your natural teeth.",
@@ -356,6 +364,7 @@ export default function Home() {
     {
       id: "crowns_bridges",
       title: "Crowns & Bridges, Dentures",
+      category: "Implants & Restorative",
       image: "crown-1.jpg",
       description: "Restore missing or damaged teeth with custom-fabricated crowns, bridges, or full and partial dentures.",
       fullDetails: "We provide comprehensive prosthodontic options, including strong ceramic crowns to protect damaged teeth, dental bridges to fill gaps, and custom-designed dentures to restore complete function and confidence.",
@@ -370,6 +379,7 @@ export default function Home() {
     {
       id: "implants",
       title: "Implants",
+      category: "Implants & Restorative",
       image: "implant-supported-dentures-.jpg",
       description: "Permanent, bio-compatible titanium implants capped with crowns to replace missing teeth from the root up.",
       fullDetails: "Dental implants are the gold standard for tooth replacement. They anchor directly into the jawbone, acting as artificial roots that support custom porcelain crowns for a strong, natural smile.",
@@ -384,6 +394,7 @@ export default function Home() {
     {
       id: "braces_aligners",
       title: "Braces & Aligners",
+      category: "Orthodontics",
       image: "braces.jpg",
       description: "Straighten misaligned teeth and correct bites with traditional braces or discreet clear aligners.",
       fullDetails: "Whether you prefer traditional ceramic braces or modern clear aligners (like Invisalign), we design personalized orthodontic plans to guide your teeth into perfect, healthy alignment.",
@@ -395,9 +406,10 @@ export default function Home() {
         { q: "Do aligners hurt?", a: "You may feel temporary pressure for a few days when changing to a new set of aligners." }
       ]
     },
-       {
+    {
       id: "scaling",
       title: "Scaling",
+      category: "General & Preventive",
       image: "Scaling.jpg",
       description: "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
       fullDetails: "Our professional scaling and polishing utilizes ultrasonic scalers to safely and gently clear away plaque and hardened tartar from above and below the gumline, followed by a polishing paste to remove stubborn external stains.",
@@ -412,6 +424,7 @@ export default function Home() {
     {
       id: "children",
       title: "Children Dental Care",
+      category: "Pediatric Care",
       image: "Child.jpg",
       description: "Friendly, gentle pediatric dental treatments including sealants, fluorides, and early cavity prevention.",
       fullDetails: "We provide a warm, encouraging environment to guide children through their first dental experiences. Our services include checkups, fluoride treatments, protective sealants, and cavity fillings.",
@@ -426,6 +439,7 @@ export default function Home() {
     {
       id: "wisdom_tooth_removal",
       title: "Wisdom Tooth Removal",
+      category: "Surgical & Gum Care",
       image: "wisdom.jpg",
       description: "Specialized extraction of impacted, painful, or misaligned wisdom teeth with surgical precision.",
       fullDetails: "Safe and surgical removal of third molars (wisdom teeth) that are impacted, causing pressure, tooth crowding, or recurring gum infections. Performed under gentle local anesthesia for maximum patient comfort.",
@@ -440,6 +454,7 @@ export default function Home() {
     {
       id: "teeth_whitening",
       title: "Teeth Whitening",
+      category: "Cosmetic & Aesthetics",
       image: "teethWhitening.jpeg",
       description: "Professional in-office laser whitening to remove deep stains and dramatically brighten your smile.",
       fullDetails: "Safe, effective clinical teeth bleaching treatment that lifts deep discoloration caused by coffee, tea, smoking, and aging, brightening teeth by several shades in a single comfortable session.",
@@ -454,6 +469,7 @@ export default function Home() {
     {
       id: "dental_veneers",
       title: "Dental Veneers",
+      category: "Cosmetic & Aesthetics",
       image: "dentalV.jpg",
       description: "Ultra-thin custom porcelain or composite shells that transform shape, shade, and alignment.",
       fullDetails: "Custom-crafted thin porcelain laminates bonded to the front surface of teeth to instantly correct discoloration, chipped edges, minor gaps, and irregular tooth shapes for a flawless Hollywood smile.",
@@ -468,6 +484,7 @@ export default function Home() {
     {
       id: "post_and_core",
       title: "Post and Core Treatment",
+      category: "Implants & Restorative",
       image: "post.jpeg",
       description: "Rebuild heavily broken or root-canal-treated teeth to provide a sturdy foundation for a crown.",
       fullDetails: "When a tooth has lost significant natural structure due to extensive decay or fracture, a post is anchored into the root canal space, built up with a durable core material to securely anchor a protective dental crown.",
@@ -482,6 +499,7 @@ export default function Home() {
     {
       id: "gingivectomy",
       title: "Gingivectomy",
+      category: "Surgical & Gum Care",
       image: "Gingivectomy.jpg",
       description: "Surgical removal of diseased or excess gum tissue to treat periodontal pockets or gummy smiles.",
       fullDetails: "Precision excision of overgrown or diseased gum tissue. Gingivectomy eliminates deep periodontal pockets where bacteria hide, halts progressive gum disease, and reshapes excess gum tissue.",
@@ -496,6 +514,7 @@ export default function Home() {
     {
       id: "gingivoplasty",
       title: "Gingivoplasty",
+      category: "Cosmetic & Aesthetics",
       image: "Gingivoplasty.jpeg",
       description: "Cosmetic surgical sculpting of gum margins for symmetrical, aesthetically pleasing gumlines.",
       fullDetails: "Surgical reshaping of healthy gum tissue around teeth to correct asymmetrical margins, thick ledges, or irregular contours, enhancing overall cosmetic smile harmony.",
@@ -510,6 +529,7 @@ export default function Home() {
     {
       id: "bone_grafting",
       title: "Bone Grafting",
+      category: "Surgical & Gum Care",
       image: "BoneGrafting.jpg",
       description: "Rebuild jawbone volume and density to prepare for stable dental implant placement.",
       fullDetails: "Surgical procedure utilizing specialized bio-compatible bone graft material to regenerate lost bone height and width caused by extraction, trauma, or gum disease, providing solid anchorage for implants.",
@@ -524,6 +544,7 @@ export default function Home() {
     {
       id: "complete_dentures",
       title: "Complete Dentures",
+      category: "Implants & Restorative",
       image: "Complete-denture.jpg",
       description: "Custom full-arch removable prosthetics to restore chewing function, speech, and youthful facial support.",
       fullDetails: "Custom-designed, lightweight removable full dentures tailored to fit the exact contours of your upper or lower arches, replacing all missing teeth while providing natural facial esthetics and chewing ability.",
@@ -538,6 +559,7 @@ export default function Home() {
     {
       id: "implant_supported_dentures",
       title: "Implant-Supported Dentures",
+      category: "Implants & Restorative",
       image: "Implant-SupportedDentures.jpg",
       description: "Snap-on overdentures fixed onto dental implants for superior stability without slippage.",
       fullDetails: "An advanced solution combining dental implants with custom dentures. Special attachments snap onto 2 to 4 titanium implants in the jaw, eliminating slipping, palate coverage, and messy adhesives.",
@@ -552,6 +574,7 @@ export default function Home() {
     {
       id: "gum_contouring",
       title: "Gum Contouring",
+      category: "Cosmetic & Aesthetics",
       image: "Gum Contouring.jpg",
       description: "Laser or surgical reshaping of uneven gumlines to reveal longer, beautifully proportioned teeth.",
       fullDetails: "Minimally invasive cosmetic sculpting designed to correct a 'gummy' smile or uneven gum level, exposing more natural enamel for a balanced, harmonious aesthetic smile line.",
@@ -566,6 +589,7 @@ export default function Home() {
     {
       id: "night_guards",
       title: "Night Guards for Teeth Grinding",
+      category: "General & Preventive",
       image: "Night-Guards.jpg",
       description: "Custom-fit protective night appliances to prevent tooth wear, jaw pain, and bruxism damage.",
       fullDetails: "Custom-fabricated durable night guards engineered to cushion your upper and lower teeth during sleep, protecting enamel from heavy nighttime clenching, grinding (bruxism), and TMJ strain.",
@@ -580,6 +604,7 @@ export default function Home() {
     {
       id: "sports_guards",
       title: "Sports Guards",
+      category: "General & Preventive",
       image: "Sports-Mouth-Guard.jpg",
       description: "Shock-absorbing custom athletic mouthguards to safeguard teeth and gums during sports.",
       fullDetails: "High-impact custom mouthguards designed for athletes and sports enthusiasts. Protects teeth, lips, tongue, and jaw from impact injuries during contact sports and high-intensity activities.",
@@ -594,6 +619,7 @@ export default function Home() {
     {
       id: "inlays_and_onlays",
       title: "Inlay and Onlays",
+      category: "Cosmetic & Aesthetics",
       image: "Inlays_Onlays.jpg",
       description: "Custom porcelain or composite partial crowns to repair moderately damaged back teeth.",
       fullDetails: "Lab-crafted indirect restorations used when a tooth has too much damage for a standard filling but enough healthy enamel to avoid a full crown. Inlays fit within cusps, while onlays cover one or more cusps.",
@@ -608,6 +634,7 @@ export default function Home() {
     {
       id: "gum_flap_surgery",
       title: "Gum (Flap Surgery)",
+      category: "Surgical & Gum Care",
       image: "Gum-jpg",
       description: "Advanced periodontic surgery to clean deep root surfaces and regenerate damaged bone structures.",
       fullDetails: "Specialized periodontal procedure where gum tissue is gently separated from teeth to gain direct visual access for deep scaling, root planing, and bacterial debridement in severe periodontitis cases.",
@@ -622,6 +649,7 @@ export default function Home() {
     {
       id: "fluoride_application",
       title: "Fluoride Application",
+      category: "General & Preventive",
       image: "Fluoride-Application.jpg",
       description: "High-potency mineral varnish treatment to remineralize enamel and shield against decay.",
       fullDetails: "A quick, painless preventive treatment where a concentrated fluoride gel or varnish is applied directly to teeth to strengthen weakened enamel, reduce root sensitivity, and prevent future cavities.",
@@ -636,6 +664,7 @@ export default function Home() {
     {
       id: "full_mouth_rehabilitation",
       title: "Full Mouth Rehabilitation",
+      category: "Implants & Restorative",
       image: "Full-Mouth-Rehabilitation.jpg",
       description: "Comprehensive multi-disciplinary treatment to rebuild worn, broken, or missing teeth across the entire mouth.",
       fullDetails: "A customized master treatment plan combining prosthodontics, implantology, endodontics, and periodontics to fully restore severely worn, broken, misaligned, or missing teeth for optimal bite function and jaw harmony.",
@@ -648,6 +677,26 @@ export default function Home() {
       ]
     }
   ];
+
+  const serviceCategories = [
+    "All",
+    "General & Preventive",
+    "Cosmetic & Aesthetics",
+    "Implants & Restorative",
+    "Surgical & Gum Care",
+    "Orthodontics",
+    "Pediatric Care",
+  ];
+
+  const filteredServices = services.filter((service) => {
+    const matchesCategory =
+      selectedServiceCategory === "All" || service.category === selectedServiceCategory;
+    const matchesSearch =
+      service.title.toLowerCase().includes(serviceSearchQuery.toLowerCase()) ||
+      service.description.toLowerCase().includes(serviceSearchQuery.toLowerCase()) ||
+      service.fullDetails.toLowerCase().includes(serviceSearchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
 
 
@@ -1260,12 +1309,12 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={serviceHeaderVariants}
-            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8 lg:mb-12"
+            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8 lg:mb-10"
           >
             {/* Small glassmorphism pill label */}
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0a0516]/65 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1),_inset_0_1px_0_rgba(255,255,255,0.1)] text-xs font-semibold text-purple-300 tracking-wider uppercase backdrop-blur-[10px]">
               <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-              <span>Our Services</span>
+              <span>Our Services ({services.length})</span>
             </div>
 
             {/* Large elegant heading matching hero/site UI */}
@@ -1273,73 +1322,154 @@ export default function Home() {
               Elevating Oral Health <br />
               <span className="beautiful-smiles-glow">With Artistic Precision</span>
             </h2>
+
+            <p className="text-white/60 text-sm sm:text-base mt-4 max-w-2xl font-light">
+              Explore our comprehensive range of specialized dental treatments. Click on any treatment to view full procedures, clinical benefits, and specific FAQs.
+            </p>
           </motion.div>
 
-          {/* Services Grid */}
-          <motion.div
-            variants={serviceContainerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
-          >
-            {services.map((service) => (
-              <motion.div
-                key={service.id}
-                variants={serviceCardVariants}
-                whileHover="hover"
-                onClick={() => setActiveServiceDetail(service)}
-                className="relative group flex flex-col justify-between rounded-[28px] bg-gradient-to-b from-[#120a24]/50 to-[#0a0516]/70 backdrop-blur-[24px] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55),_0_0_20px_rgba(168,85,247,0.03),_inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 text-left overflow-hidden min-h-[420px] sm:min-h-[480px] cursor-pointer"
-              >
-                <div>
-                  {/* Image container */}
-                  <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-white/5">
-                    <motion.img
-                      src={service.image}
-                      alt={service.title}
-                      variants={{
-                        hover: { scale: 1.05 }
-                      }}
-                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-[#090514]/40 mix-blend-multiply pointer-events-none" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0516]/95 via-transparent to-transparent pointer-events-none" />
-                  </div>
+          {/* Search & Category Filter Controls */}
+          <div className="mb-10 lg:mb-12 space-y-6">
+            
+            {/* Search Input Bar */}
+            <div className="max-w-md mx-auto relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-300/60" />
+              <input
+                type="text"
+                value={serviceSearchQuery}
+                onChange={(e) => setServiceSearchQuery(e.target.value)}
+                placeholder="Search treatments or symptoms (e.g. root canal, whitening)..."
+                className="w-full pl-11 pr-10 py-3 rounded-2xl bg-[#120a24]/80 border border-purple-500/20 focus:border-purple-500 focus:outline-none text-white text-sm placeholder:text-white/40 shadow-lg backdrop-blur-md transition-all"
+              />
+              {serviceSearchQuery && (
+                <button
+                  onClick={() => setServiceSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs p-1"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
 
-                  {/* Content */}
-                  <div className="p-8">
-                    <h3 className="text-xl font-bold text-white tracking-tight leading-snug group-hover:text-purple-300 transition-colors duration-300 font-sans">
-                      {service.title}
-                    </h3>
-                    <p className="text-white/60 text-sm leading-relaxed mt-3 line-clamp-3 font-light">
-                      {service.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Bottom Action Footer */}
-                <div className="p-8 pt-0 flex items-center justify-between mt-auto">
-                  <span className="text-[11px] uppercase font-semibold text-purple-300/80 tracking-wider bg-purple-500/10 px-3.5 py-1 rounded-full border border-purple-500/20">{service.priceRange}</span>
-                  <motion.button
-                    onClick={() => setActiveServiceDetail(service)}
-                    className="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300 cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
+              {serviceCategories.map((cat) => {
+                const isSelected = selectedServiceCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedServiceCategory(cat)}
+                    className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 cursor-pointer flex items-center gap-1.5 ${
+                      isSelected
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.35)] border border-purple-400/40"
+                        : "bg-[#120a24]/50 border border-white/10 text-white/70 hover:text-white hover:bg-purple-500/20"
+                    }`}
                   >
-                    <motion.div
-                      variants={{
-                        hover: { x: 2, rotate: -45 }
+                    <span>{cat}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+          </div>
+
+          {/* Empty Search / Filter State */}
+          {filteredServices.length === 0 && (
+            <div className="text-center py-16 px-4 rounded-3xl bg-[#120a24]/30 border border-white/5 max-w-md mx-auto space-y-4">
+              <HelpCircle className="w-10 h-10 text-purple-400/60 mx-auto" />
+              <div>
+                <h3 className="text-lg font-bold text-white">No treatments found</h3>
+                <p className="text-xs text-white/60 mt-1">Try resetting your search query or selecting a different category filter.</p>
+              </div>
+              <button
+                onClick={() => {
+                  setSelectedServiceCategory("All");
+                  setServiceSearchQuery("");
+                }}
+                className="px-5 py-2 rounded-full bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs font-semibold border border-purple-500/30 transition-all cursor-pointer"
+              >
+                Reset Filters & Search
+              </button>
+            </div>
+          )}
+
+          {/* Services Grid with Microdata SEO */}
+          {filteredServices.length > 0 && (
+            <motion.div
+              variants={serviceContainerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+            >
+              {filteredServices.map((service) => (
+                <motion.article
+                  key={service.id}
+                  variants={serviceCardVariants}
+                  whileHover="hover"
+                  onClick={() => setActiveServiceDetail(service)}
+                  itemScope
+                  itemType="https://schema.org/MedicalProcedure"
+                  className="relative group flex flex-col justify-between rounded-[28px] bg-gradient-to-b from-[#120a24]/50 to-[#0a0516]/70 backdrop-blur-[24px] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55),_0_0_20px_rgba(168,85,247,0.03),_inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 text-left overflow-hidden min-h-[420px] sm:min-h-[480px] cursor-pointer"
+                >
+                  <div>
+                    {/* Image container */}
+                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-white/5">
+                      <motion.img
+                        itemProp="image"
+                        src={service.image}
+                        alt={`${service.title} treatment at Dr. Varshney's Dental Aesthetics in Nani Daman`}
+                        variants={{
+                          hover: { scale: 1.05 }
+                        }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-[#090514]/40 mix-blend-multiply pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0516]/95 via-transparent to-transparent pointer-events-none" />
+                      <span className="absolute top-4 left-4 text-[10px] uppercase font-bold tracking-wider text-purple-200 bg-[#0a0516]/80 backdrop-blur-md px-3 py-1 rounded-full border border-purple-500/30">
+                        {service.category}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-8">
+                      <h3 itemProp="name" className="text-xl font-bold text-white tracking-tight leading-snug group-hover:text-purple-300 transition-colors duration-300 font-sans">
+                        {service.title}
+                      </h3>
+                      <p itemProp="description" className="text-white/60 text-sm leading-relaxed mt-3 line-clamp-3 font-light">
+                        {service.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Bottom Action Footer */}
+                  <div className="p-8 pt-0 flex items-center justify-between mt-auto">
+                    <span className="text-[11px] uppercase font-semibold text-purple-300/80 tracking-wider bg-purple-500/10 px-3.5 py-1 rounded-full border border-purple-500/20">{service.priceRange}</span>
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveServiceDetail(service);
                       }}
-                      transition={{ duration: 0.3 }}
+                      aria-label={`View detailed information for ${service.title}`}
+                      className="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300 cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.div>
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                      <motion.div
+                        variants={{
+                          hover: { x: 2, rotate: -45 }
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ArrowRight className="w-5 h-5" />
+                      </motion.div>
+                    </motion.button>
+                  </div>
+                </motion.article>
+              ))}
+            </motion.div>
+          )}
 
         </div>
       </section>
@@ -1606,9 +1736,22 @@ export default function Home() {
                   ))}
                 </div>
 
+                {/* Book Visit CTA inside Drawer */}
+                <div className="pt-6 border-t border-purple-500/20">
+                  <button
+                    onClick={() => {
+                      setBookingForm(prev => ({ ...prev, service: activeServiceDetail.title }));
+                      setActiveServiceDetail(null);
+                      setIsBookingOpen(true);
+                    }}
+                    className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer border border-purple-400/30"
+                  >
+                    <CalendarDays className="w-4 h-4" />
+                    <span>Book Visit for {activeServiceDetail.title}</span>
+                  </button>
+                </div>
+
               </div>
-
-
 
             </motion.div>
           </>
