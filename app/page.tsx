@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import DoctorProfile, { doctorsData as doctors } from "./components/DoctorProfile";
 import WhyChooseUs from "./components/WhyChooseUs";
@@ -1639,9 +1640,9 @@ export default function Home() {
           <div className="pt-8 border-t border-[#35063e]/20 text-center text-xs text-text-muted/50 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>© {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
             <div className="flex gap-4">
-              <a href="#" className="hover:text-white">Privacy Policy</a>
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <span>|</span>
-              <a href="#" className="hover:text-white">Terms of Service</a>
+              <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
             </div>
           </div>
 
