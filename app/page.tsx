@@ -1736,21 +1736,6 @@ export default function Home() {
                   ))}
                 </div>
 
-                {/* Book Visit CTA inside Drawer */}
-                <div className="pt-6 border-t border-purple-500/20">
-                  <button
-                    onClick={() => {
-                      setBookingForm(prev => ({ ...prev, service: activeServiceDetail.title }));
-                      setActiveServiceDetail(null);
-                      setIsBookingOpen(true);
-                    }}
-                    className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer border border-purple-400/30"
-                  >
-                    <CalendarDays className="w-4 h-4" />
-                    <span>Book Visit for {activeServiceDetail.title}</span>
-                  </button>
-                </div>
-
               </div>
 
             </motion.div>
