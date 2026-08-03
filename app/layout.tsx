@@ -30,12 +30,12 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      "Dr. Varshney's Dental Aesthetics | Trusted Dental Care in Daman",
+      "Dr. Varshney's Dental Aesthetics | Best Dentist in Daman",
     template: "%s | Dr. Varshney's Dental Aesthetics",
   },
 
   description:
-    "Your smile deserves the best. Experience advanced, patient-focused dentistry—from routine dental care to smile makeovers, dental implants, and full mouth rehabilitation—at Dr. Varshney's Dental Aesthetics in Nani Daman.",
+    "Experience advanced, patient-focused dentistry in Nani Daman. From dental implants to root canals and smile makeovers at Dr. Varshney's Dental Aesthetics.",
 
   keywords: [
     "Dentist in Nani Daman",
@@ -62,10 +62,10 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Dr. Varshney's Dental Aesthetics | Trusted Dental Care in Nani Daman",
+      "Dr. Varshney's Dental Aesthetics | Best Dentist in Daman",
 
     description:
-      "Your smile deserves the best. Experience advanced, patient-focused dentistry—from routine dental care to smile makeovers and dental implants—designed to keep every smile healthy, confident, and beautiful.",
+      "Advanced dental care in Nani Daman. From implants to smile makeovers, experience expert, patient-focused dentistry for a healthy smile.",
 
     url: "https://drvarshney.in",
 
@@ -88,10 +88,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Dr. Varshney's Dental Aesthetics | Trusted Dental Care in Nani Daman",
+      "Dr. Varshney's Dental Aesthetics | Best Dentist in Daman",
 
     description:
-      "Your smile deserves the best. Experience advanced, patient-focused dentistry—from routine dental care to smile makeovers and dental implants—designed to keep every smile healthy, confident, and beautiful.",
+      "Advanced, patient-focused dental care in Nani Daman. Implants, root canals, braces & smile makeovers at Dr. Varshney's Dental Aesthetics.",
 
     images: ["/og-image_opt.png"],
   },
