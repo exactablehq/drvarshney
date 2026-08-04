@@ -127,8 +127,6 @@ const jsonLd = {
   description:
     "Dr. Varshney's Dental Aesthetics is a modern dental clinic in Nani Daman led by Dr. Ayush Varshney (B.D.S.), providing comprehensive dental care including dental implants, root canal treatment, cosmetic dentistry, smile makeovers, and family dental care.",
 
-  inLanguage: "en-IN",
-
   url: "https://drvarshney.in",
 
   image: "https://drvarshney.in/og-image_opt.png",
