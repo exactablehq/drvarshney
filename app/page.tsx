@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import DoctorProfile, { doctorsData as doctors } from "./components/DoctorProfile";
 import WhyChooseUs from "./components/WhyChooseUs";
+import Gallery from "./components/Gallery";
+import Reviews from "./components/Reviews";
 import ContactUs from "./components/ContactUs";
 import {
   Calendar,
@@ -209,7 +211,7 @@ export default function Home() {
     const handleScroll = () => {
       setScrollY(window.scrollY);
 
-      const sections = ["hero", "services", "doctor", "why-choose-us", "faq", "contact"];
+      const sections = ["hero", "services", "doctor", "why-choose-us", "gallery", "faq", "reviews", "contact"];
       let activeSec = "hero";
       let maxVisibleHeight = 0;
 
@@ -234,7 +236,9 @@ export default function Home() {
         services: "Services",
         doctor: "About Doctor",
         "why-choose-us": "Why Choose Us",
+        gallery: "Gallery",
         faq: "FAQ",
+        reviews: "Reviews",
         contact: "Contact Us"
       };
 
@@ -927,14 +931,16 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
-            {["Home", "Services", "About Doctor", "Why Choose Us", "FAQ", "Contact Us"].map((link) => {
+            {["Home", "Services", "About Doctor", "Why Choose Us", "Gallery", "FAQ", "Reviews", "Contact Us"].map((link) => {
               const isActive = activeSection === link;
               const linkTarget =
                 link === "Home" ? "#hero" :
                   link === "Services" ? "#services" :
                     link === "About Doctor" ? "#doctor" :
                       link === "Why Choose Us" ? "#why-choose-us" :
-                        link === "FAQ" ? "#faq" : "#contact";
+                        link === "Gallery" ? "#gallery" :
+                          link === "FAQ" ? "#faq" :
+                            link === "Reviews" ? "#reviews" : "#contact";
 
               return (
                 <a
@@ -991,13 +997,15 @@ export default function Home() {
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
               <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "Services", "About Doctor", "Why Choose Us", "FAQ", "Contact Us"].map((link) => {
+                {["Home", "Services", "About Doctor", "Why Choose Us", "Gallery", "FAQ", "Reviews", "Contact Us"].map((link) => {
                   const targetId =
                     link === "Home" ? "hero" :
                       link === "Services" ? "services" :
                         link === "About Doctor" ? "doctor" :
                           link === "Why Choose Us" ? "why-choose-us" :
-                            link === "FAQ" ? "faq" : "contact";
+                            link === "Gallery" ? "gallery" :
+                              link === "FAQ" ? "faq" :
+                                link === "Reviews" ? "reviews" : "contact";
 
                   return (
                     <a
@@ -1481,17 +1489,8 @@ export default function Home() {
       {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
       <WhyChooseUs />
 
-
-
-
-
-
-
-
-
-
-
-
+      {/* ------------------ GALLERY SECTION ------------------ */}
+      <Gallery />
 
       {/* ------------------ FAQ SECTION ------------------ */}
       <section id="faq" className="relative pt-10 pb-20 lg:pt-14 lg:pb-24 border-t border-[#35063e]/20">
@@ -1548,6 +1547,9 @@ export default function Home() {
 
         </div>
       </section>
+
+      {/* ------------------ PATIENT REVIEWS SECTION ------------------ */}
+      <Reviews />
 
       {/* ------------------ CONTACT US SECTION ------------------ */}
       <ContactUs />
