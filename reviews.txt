@@ -1,10 +1,10 @@
 ================================================================================
-DR. VARSHNEY'S DENTAL AESTHETICS - HORIZONTAL SCROLLABLE REVIEWS SECTION
+DR. VARSHNEY'S DENTAL AESTHETICS - AUTO-SCROLLABLE REVIEWS SECTION
 ================================================================================
 
 Description:
-This file contains the horizontal scrollable Patient Reviews section code and configuration for Dr. Varshney's Dental Aesthetics website.
-It places the review cards in a smooth horizontal scrollable row, with previous/next chevron navigation control buttons centered directly below the review cards.
+This file contains the auto-scrollable Patient Reviews section code and configuration for Dr. Varshney's Dental Aesthetics website.
+It features automatic scrolling at a 2-second interval, smooth infinite looping, pause-on-hover interaction, and centered bottom navigation buttons.
 
 --------------------------------------------------------------------------------
 1. REVIEWS DATA STRUCTURE & DATASET
@@ -125,12 +125,31 @@ export const reviewsData: ReviewItem[] = [
 
 "use client";
 
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Star, CheckCircle2, ShieldCheck, Sparkles, Award, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Reviews() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto scroll interval timer (2 seconds)
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 15) {
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+        }
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -140,7 +159,12 @@ export default function Reviews() {
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      if (scrollLeft + clientWidth >= scrollWidth - 15) {
+        scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+      }
     }
   };
 
@@ -148,8 +172,16 @@ export default function Reviews() {
     <section id="reviews" className="relative pt-16 pb-24 lg:pt-20 lg:pb-32 overflow-hidden bg-[#090611] border-t border-purple-500/15 flex flex-col justify-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
         
-        {/* Horizontal Scroll Row */}
-        <div ref={scrollContainerRef} className="w-full flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 px-1">
+        {/* Auto Scrollable Row */}
+        <div
+          ref={scrollContainerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          className="w-full flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 px-1"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {reviewsData.map((item) => (
             <div key={item.id} className="w-[300px] sm:w-[380px] shrink-0 snap-start rounded-3xl bg-gradient-to-b from-[#120726]/80 to-[#0a0516]/95 border border-purple-500/25 p-7 backdrop-blur-xl flex flex-col justify-between">
               <div>
@@ -182,7 +214,7 @@ export default function Reviews() {
           ))}
         </div>
 
-        {/* Centered Navigation Control Buttons Below Review Cards */}
+        {/* Centered Controls */}
         <div className="flex items-center justify-center gap-3 mt-6 mb-4">
           <button onClick={scrollLeft} className="p-3 rounded-full bg-[#0e071b] border border-purple-500/30 text-white hover:bg-purple-600/40">
             <ChevronLeft className="w-5 h-5" />

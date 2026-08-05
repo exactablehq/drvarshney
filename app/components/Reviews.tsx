@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -124,6 +124,26 @@ export const reviewsData: ReviewItem[] = [
 
 export default function Reviews() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto scroll interval timer (2 seconds)
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        // Loop back smoothly if reached near end
+        if (scrollLeft + clientWidth >= scrollWidth - 15) {
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+        }
+      }
+    }, 2000); // 2-second auto scroll
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -133,7 +153,12 @@ export default function Reviews() {
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      if (scrollLeft + clientWidth >= scrollWidth - 15) {
+        scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        scrollContainerRef.current.scrollBy({ left: 380, behavior: "smooth" });
+      }
     }
   };
 
@@ -217,9 +242,13 @@ export default function Reviews() {
           </div>
         </motion.div>
 
-        {/* Horizontal Scrollable Review Cards Row */}
+        {/* Auto-Scrollable Horizontal Review Cards Row */}
         <div
           ref={scrollContainerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
           className="w-full flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 px-1"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >

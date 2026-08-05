@@ -26,7 +26,7 @@ export const doctorsData = [
         name: "Dr. Ayush Varshney",
         credentials: "B.D.S. (Dental Surgeon)",
         regNo: "Reg. No.: A-22861",
-        experience: " 3+ Years of Clinical Practice (Dental Surgeon) ",
+        experience: "Chief Dental Surgeon at Dr. Varshney's Dental Aesthetics · 3+ Years of Clinical Practice (Dental Surgeon)",
         education: "B.D.S. from Gujarat University ",
         specialization: "Aesthetic & Restorative Dentistry, Implantology, Root Canal Therapy",
         bio: "A dedicated and compassionate dental surgeon with over three years of experience in transforming smiles and restoring oral health. Dr. Varshney combines advanced clinical techniques with a gentle, patient-centric approach to deliver exceptional care. Committed to continuous learning and innovation, he specializes in modern aesthetic restorations, pain-free root canal treatments, and long-lasting dental implant solutions.",
@@ -129,7 +129,7 @@ export const doctorsData = [
         name: "Dr. Heli Patel",
         credentials: "M.D.S. (Periodontology & Implantology) · B.D.S.",
         regNo: "Consultant Periodontist & Implantologist",
-        experience: "Chief Dentist at Ekdantam Dental Clinic · Periodontist & Implantologist",
+        experience: "Periodontist & Implantologist",
         education: "M.D.S. Periodontology & Implantology (Karnavati School of Dentistry) · B.D.S. (Dharamsinh Desai University)",
         specialization: "Periodontology, Dental Implantology, Bone Grafting & Laser Dentistry",
         bio: "Passionate and detail-oriented Periodontist and Implantologist with extensive training in diagnosing and treating periodontal diseases, soft and hard tissue management, and implant placements. Skilled in patient education, surgical procedures, and interdisciplinary treatment planning. Dedicated to providing high-quality dental care while staying updated with the latest advancements in periodontology and implantology.",
@@ -158,6 +158,54 @@ export const doctorsData = [
         ],
         image: "drBasav_gen_nobg.png",
         
+    },
+    {
+        name: "Dr. Riddhika H. Shah",
+        credentials: "M.D.S. (Pediatric & Preventive Dentistry) · Gold Medalist",
+        regNo: "Chief Pediatric & Preventive Dentist",
+        experience: "Gold Medalist in Pediatric Dentistry · Chief Pediatric & Preventive Dentist",
+        education: "M.D.S. (Pediatric & Preventive Dentistry)",
+        specialization: "Pediatric Dentistry, Oral Sedation, Nitrous Oxide (Laughing Gas) Sedation & Special Needs Care",
+        bio: "Dr. Riddhika H. Shah is our Chief Pediatric & Family Dentist, committed to providing gentle, compassionate dental care for children, adults, and specially abled individuals. With expertise in Child Dentistry, Oral Sedation, and Nitrous Oxide (Laughing Gas) Sedation, she creates safe, comfortable, and anxiety-free dental experiences for every patient.",
+        expertise: [
+            "Child & Family Dentistry",
+            "Nitrous Oxide (Laughing Gas) Sedation",
+            "Oral Sedation & Anxiety-Free Care",
+            "Special Needs Dentistry"
+        ],
+        image: "drRiddhika_nobg.png"
+    },
+    {
+        name: "Dr. Hitesh Patel",
+        credentials: "Senior Microdentist & Implantologist",
+        regNo: "Root Canal Specialist · 15+ Years of Experience",
+        experience: "15+ Years of Clinical Experience in Microscopic Dentistry & Implantology",
+        education: "Rajiv Gandhi University (2010)",
+        specialization: "Advanced Microscopic Dentistry, Root Canal Treatment & Dental Implants",
+        bio: "With 15+ years of clinical experience, Dr. Hitesh Patel specializes in advanced microscopic dentistry, root canal treatment, and dental implant procedures. He is committed to providing precise, painless, and high-quality dental care using modern techniques and technology.",
+        expertise: [
+            "Senior Microdentist & Implantologist",
+            "Root Canal Specialist",
+            "Advanced Microscopic Dentistry",
+            "Dental Implant Procedures"
+        ],
+        image: "drHitesh_nobg.png"
+    },
+    {
+        name: "Dr. Ankur Patel",
+        credentials: "Senior Implantologist",
+        regNo: "15+ Years of Experience",
+        experience: "15+ Years of Clinical Experience in Dental Implantology",
+        education: "Rajiv Gandhi University (2010)",
+        specialization: "Advanced Dental Implantology & Patient-Centered Care",
+        bio: "With 15+ years of clinical experience, Dr. Ankur Patel specializes in advanced dental implantology and is committed to providing precise, reliable, and patient-centered dental care using modern techniques and technology.",
+        expertise: [
+            "Senior Implantologist",
+            "Advanced Dental Implantology",
+            "15+ Years Clinical Experience",
+            "Patient-Centered Dental Care"
+        ],
+        image: "drAnkul_nobg.png"
     }
 
 ];
