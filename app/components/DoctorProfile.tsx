@@ -206,6 +206,53 @@ export const doctorsData = [
             "Patient-Centered Dental Care"
         ],
         image: "drAnkul_nobg.png"
+    },   {
+        name: "Dr. Ronit Tiwari",
+        credentials: "M.D.S. (Orthodontics & Dentofacial Orthopaedics) · B.D.S.",
+        regNo: "Consultant Orthodontist & Dentofacial Orthopedist",
+        experience: "AIR 162 (MDS Entrance) · Silver Medalist (BDS 3rd & Final Year) · Senior Lecturer at Vaidik Dental College",
+        education: "M.D.S. (GDC Ahmedabad) · B.D.S. (2014–2019) · Vallabh Ashram School",
+        specialization: "Evidence-Based Orthodontics, Dentofacial Orthopedics, Facial Aesthetics & Functional Harmony",
+        bio: "Dr. Ronit Tiwari is a Consultant Orthodontist and Dentofacial Orthopedist dedicated to providing evidence-based, personalized orthodontic care with a focus on both function and facial aesthetics. An academically distinguished practitioner, he earned Silver Medals in both 3rd and final years of BDS (2014–2019) and secured All India Rank 162 in General Category to pursue MDS in Orthodontics at the prestigious Government Dental College and Hospital, Ahmedabad. Currently serving as Senior Lecturer at Vaidik Dental College and Research Centre",
+        expertise: [
+            "Evidence-Based Orthodontic Care",
+            "Dentofacial Orthopedics & Growth Modulation",
+            "Facial Aesthetics & Functional Balance",
+            "Tailored Aligners & Braces Therapy"
+        ],
+        image: "drRonit_nobg.png"
+    },
+    {
+        name: "Dr. Pal Desai",
+        credentials: "M.D.S. (Oral & Maxillofacial Pathology)",
+        regNo: "Consulting Oral & Maxillofacial Pathologist · Senior Lecturer",
+        experience: "Consulting Oral & Maxillofacial Pathologist · Senior Lecturer",
+        education: "M.D.S. in Oral & Maxillofacial Pathology",
+        specialization: "Oral & Maxillofacial Pathology, Histopathological Evaluation & Early Cancer Detection",
+        bio: "Dr. Pal Desai is a highly qualified Consulting Oral & Maxillofacial Pathologist with an MDS in Oral & Maxillofacial Pathology and currently serves as a Senior Lecturer. Dedicated to diagnosis and microscopic evaluation (histopathological evaluation) of diseases affecting the oral cavity, jaws, salivary glands, and maxillofacial region. A strong emphasis is placed on the early detection of oral potentially malignant disorders and oral cancer, helping improve patient outcomes through prompt intervention.",
+        expertise: [
+            "Histopathological & Microscopic Evaluation",
+            "Early Detection of Oral Cancer",
+            "Oral Potentially Malignant Disorders (OPMDs)",
+            "Salivary Gland & Maxillofacial Pathology"
+        ],
+        image: "drPal_nobg.png"
+    },
+    {
+        name: "Dr. Amit Mathur",
+        credentials: "Oral & Maxillofacial Radiologist",
+        regNo: "Consultant Oral & Maxillofacial Radiologist · 16+ Years Experience",
+        experience: "16+ Years of Clinical Experience in Advanced Maxillofacial Imaging",
+        education: "Specialist in Oral & Maxillofacial Radiology",
+        specialization: "CBCT Scan Interpretation, Digital Radiography & Maxillofacial Diagnostic Imaging",
+        bio: "Dr. Amit Mathur is a highly experienced Oral and Maxillofacial Radiologist with over 16 years of expertise in advanced dental and maxillofacial imaging. He specializes in the interpretation of CBCT scans, digital radiography, and diagnostic imaging for accurate treatment planning in dentistry and maxillofacial care. Known for his precision, clinical excellence, and patient-centered approach, Dr. Mathur is committed to delivering reliable radiological diagnosis and supporting comprehensive dental treatment outcomes.",
+        expertise: [
+            "CBCT Scan Interpretation & 3D Imaging",
+            "Digital Radiography & Diagnostic Imaging",
+            "Maxillofacial Treatment Planning",
+            "Radiological Diagnosis & Consultation"
+        ],
+        image: "drAmit_nobg.png"
     }
 
 ];
@@ -531,4 +578,4 @@ export default function DoctorProfile() {
             </div>
         </section>
     );
-}
+}

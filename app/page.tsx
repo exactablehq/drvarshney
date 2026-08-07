@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import DoctorProfile, { doctorsData as doctors } from "./components/DoctorProfile";
 import WhyChooseUs from "./components/WhyChooseUs";
+import PillarsOfPractice from "./components/PillarsOfPractice";
 import Gallery from "./components/Gallery";
 import Reviews from "./components/Reviews";
 import ContactUs from "./components/ContactUs";
@@ -211,7 +212,7 @@ export default function Home() {
     const handleScroll = () => {
       setScrollY(window.scrollY);
 
-      const sections = ["hero", "services", "doctor", "why-choose-us", "gallery", "faq", "reviews", "contact"];
+      const sections = ["hero", "services", "doctor", "why-choose-us", "pillars", "gallery", "faq", "reviews", "contact"];
       let activeSec = "hero";
       let maxVisibleHeight = 0;
 
@@ -1489,6 +1490,9 @@ export default function Home() {
       {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
       <WhyChooseUs />
 
+      {/* ------------------ PILLARS OF PRACTICE SECTION ------------------ */}
+      <PillarsOfPractice />
+
       {/* ------------------ GALLERY SECTION ------------------ */}
       <Gallery />
 
@@ -1598,6 +1602,7 @@ export default function Home() {
                 <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
                 <li><a href="#doctor" className="hover:text-white transition-colors">About Doctor</a></li>
                 <li><a href="#why-choose-us" className="hover:text-white transition-colors">Why Choose Us</a></li>
+                <li><a href="#pillars" className="hover:text-white transition-colors">Pillars of Practice</a></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
                 <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
               </ul>
