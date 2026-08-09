@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import DoctorProfile, { doctorsData as doctors } from "./components/DoctorProfile";
+import DoctorProfile, {
+  doctorsData as doctors,
+} from "./components/DoctorProfile";
 import WhyChooseUs from "./components/WhyChooseUs";
 import PillarsOfPractice from "./components/PillarsOfPractice";
 import Gallery from "./components/Gallery";
@@ -37,8 +39,9 @@ import {
   Play,
   ArrowUp,
   Search,
-  Filter
+  Filter,
 } from "lucide-react";
+import { BrandedLoader } from "./components/BrandedLoader";
 
 // Types
 interface ServiceDetail {
@@ -69,7 +72,12 @@ interface Appointment {
 // Custom logo component representing the Tooth with Implant Screw threads
 function VarshneyLogo({ className = "w-10 h-10" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className={className}
+      viewBox="0 0 120 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M26.4 46.1C26.4 33.3 35.8 24.2 49.3 23C62.7 21.8 70 29.5 70 41C70 47.9 66 53 58.7 54.2C51.5 55.4 44.9 51.5 45.4 42.1C45.9 33.7 52.8 28.5 61.3 28.5"
         stroke="currentColor"
@@ -98,11 +106,51 @@ function VarshneyLogo({ className = "w-10 h-10" }: { className?: string }) {
         strokeWidth="4.5"
         strokeLinecap="round"
       />
-      <rect x="68" y="87" width="18" height="4.5" rx="2.2" fill="currentColor" transform="rotate(8 68 87)" />
-      <rect x="70.5" y="93.5" width="15" height="4.5" rx="2.2" fill="currentColor" transform="rotate(8 70.5 93.5)" />
-      <rect x="73" y="100" width="12" height="4" rx="2" fill="currentColor" transform="rotate(8 73 100)" />
-      <rect x="75.5" y="106" width="9" height="3.5" rx="1.7" fill="currentColor" transform="rotate(8 75.5 106)" />
-      <rect x="77.5" y="111.5" width="6" height="3" rx="1.5" fill="currentColor" transform="rotate(8 77.5 111.5)" />
+      <rect
+        x="68"
+        y="87"
+        width="18"
+        height="4.5"
+        rx="2.2"
+        fill="currentColor"
+        transform="rotate(8 68 87)"
+      />
+      <rect
+        x="70.5"
+        y="93.5"
+        width="15"
+        height="4.5"
+        rx="2.2"
+        fill="currentColor"
+        transform="rotate(8 70.5 93.5)"
+      />
+      <rect
+        x="73"
+        y="100"
+        width="12"
+        height="4"
+        rx="2"
+        fill="currentColor"
+        transform="rotate(8 73 100)"
+      />
+      <rect
+        x="75.5"
+        y="106"
+        width="9"
+        height="3.5"
+        rx="1.7"
+        fill="currentColor"
+        transform="rotate(8 75.5 106)"
+      />
+      <rect
+        x="77.5"
+        y="111.5"
+        width="6"
+        height="3"
+        rx="1.5"
+        fill="currentColor"
+        transform="rotate(8 77.5 111.5)"
+      />
     </svg>
   );
 }
@@ -138,13 +186,18 @@ function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     observer.observe(ref);
     return () => observer.disconnect();
   }, [ref, value]);
 
-  return <span ref={setRef}>{count.toLocaleString()}{suffix}</span>;
+  return (
+    <span ref={setRef}>
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
 }
 
 export default function Home() {
@@ -152,7 +205,7 @@ export default function Home() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   // Page Load State
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   // Scroll Y position tracker
   const [scrollY, setScrollY] = useState(0);
@@ -181,12 +234,13 @@ export default function Home() {
     doctor: "Dr. Ayush Varshney, B.D.S. (Dental Surgeon)",
     date: "",
     timeSlot: "10:00 AM",
-    notes: ""
+    notes: "",
   });
 
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [lastBookedAppointment, setLastBookedAppointment] = useState<Appointment | null>(null);
+  const [lastBookedAppointment, setLastBookedAppointment] =
+    useState<Appointment | null>(null);
 
   // Load appointments and handle mounting
   useEffect(() => {
@@ -200,11 +254,11 @@ export default function Home() {
     }
 
     // Elegant mounting timer delay for loaders
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1800);
+    // const timer = setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 1800);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, []);
 
   // Listen to window scroll positions
@@ -212,7 +266,17 @@ export default function Home() {
     const handleScroll = () => {
       setScrollY(window.scrollY);
 
-      const sections = ["hero", "services", "doctor", "why-choose-us", "pillars", "gallery", "faq", "reviews", "contact"];
+      const sections = [
+        "hero",
+        "services",
+        "doctor",
+        "why-choose-us",
+        "pillars",
+        "gallery",
+        "faq",
+        "reviews",
+        "contact",
+      ];
       let activeSec = "hero";
       let maxVisibleHeight = 0;
 
@@ -222,7 +286,10 @@ export default function Home() {
           const rect = el.getBoundingClientRect();
           // Calculate visible height of the section in the viewport
           const visibleTop = Math.max(0, rect.top);
-          const visibleBottom = Math.min(window.innerHeight || document.documentElement.clientHeight, rect.bottom);
+          const visibleBottom = Math.min(
+            window.innerHeight || document.documentElement.clientHeight,
+            rect.bottom,
+          );
           const visibleHeight = Math.max(0, visibleBottom - visibleTop);
 
           if (visibleHeight > maxVisibleHeight) {
@@ -240,7 +307,7 @@ export default function Home() {
         gallery: "Gallery",
         faq: "FAQ",
         reviews: "Reviews",
-        contact: "Contact Us"
+        contact: "Contact Us",
       };
 
       if (labelMap[activeSec]) {
@@ -257,7 +324,10 @@ export default function Home() {
   // Save appointments helper
   const saveAppointments = (newAppointments: Appointment[]) => {
     setAppointments(newAppointments);
-    localStorage.setItem("varshney_appointments", JSON.stringify(newAppointments));
+    localStorage.setItem(
+      "varshney_appointments",
+      JSON.stringify(newAppointments),
+    );
   };
 
   // Handle Form Submission
@@ -281,7 +351,7 @@ export default function Home() {
         doctor: bookingForm.doctor,
         date: bookingForm.date,
         timeSlot: bookingForm.timeSlot,
-        notes: bookingForm.notes
+        notes: bookingForm.notes,
       };
 
       const updated = [newAppt, ...appointments];
@@ -291,30 +361,30 @@ export default function Home() {
       setIsSubmitting(false);
 
       // Reset Form
-      setBookingForm(prev => ({
+      setBookingForm((prev) => ({
         ...prev,
         service: "Scaling",
         doctor: "Dr. Ayush Varshney, B.D.S. (Dental Surgeon)",
         date: "",
-        notes: ""
+        notes: "",
       }));
     }, 1200);
   };
 
   const handleCancelAppointment = (id: string) => {
     if (confirm("Are you sure you want to cancel this appointment?")) {
-      const filtered = appointments.filter(a => a.id !== id);
+      const filtered = appointments.filter((a) => a.id !== id);
       saveAppointments(filtered);
     }
   };
 
-
-
   // Selected Service Detail Modal/Drawer State
-  const [activeServiceDetail, setActiveServiceDetail] = useState<ServiceDetail | null>(null);
+  const [activeServiceDetail, setActiveServiceDetail] =
+    useState<ServiceDetail | null>(null);
 
   // Category filter state & search query for services
-  const [selectedServiceCategory, setSelectedServiceCategory] = useState<string>("All");
+  const [selectedServiceCategory, setSelectedServiceCategory] =
+    useState<string>("All");
   const [serviceSearchQuery, setServiceSearchQuery] = useState<string>("");
 
   // Active FAQ index
@@ -327,361 +397,673 @@ export default function Home() {
       title: "Tooth Filling",
       category: "General & Preventive",
       image: "teethFilling.jpg",
-      description: "Restore decayed or chipped teeth with aesthetic composite resin fillings that blend seamlessly.",
-      fullDetails: "We utilize advanced, biocompatible tooth-colored composite resins to repair cavities, restore chipped edges, and close small gaps, ensuring a completely natural appearance and long-lasting durability.",
+      description:
+        "Restore decayed or chipped teeth with aesthetic composite resin fillings that blend seamlessly.",
+      fullDetails:
+        "We utilize advanced, biocompatible tooth-colored composite resins to repair cavities, restore chipped edges, and close small gaps, ensuring a completely natural appearance and long-lasting durability.",
       priceRange: "Per Tooth",
       duration: "30 - 40 mins",
-      benefits: ["Natural tooth-colored appearance", "Prevents further decay", "Bonds directly to tooth structure", "Mercury-free materials"],
+      benefits: [
+        "Natural tooth-colored appearance",
+        "Prevents further decay",
+        "Bonds directly to tooth structure",
+        "Mercury-free materials",
+      ],
       faqs: [
-        { q: "How long do composite fillings last?", a: "Typically 5 to 10 years with good oral hygiene." },
-        { q: "Will it look natural?", a: "Yes, the composite is customized to match the exact shade of your tooth." }
-      ]
+        {
+          q: "How long do composite fillings last?",
+          a: "Typically 5 to 10 years with good oral hygiene.",
+        },
+        {
+          q: "Will it look natural?",
+          a: "Yes, the composite is customized to match the exact shade of your tooth.",
+        },
+      ],
     },
     {
       id: "extraction",
       title: "Tooth Extraction",
       category: "Surgical & Gum Care",
       image: "teethExtration.jpg",
-      description: "Safe and pain-free removal of severely damaged, infected, or crowded teeth, including wisdom teeth.",
-      fullDetails: "When a tooth cannot be saved due to extensive decay, fracture, or crowding, our team performs gentle extractions under local anesthesia, prioritizing your comfort and rapid post-care healing.",
+      description:
+        "Safe and pain-free removal of severely damaged, infected, or crowded teeth, including wisdom teeth.",
+      fullDetails:
+        "When a tooth cannot be saved due to extensive decay, fracture, or crowding, our team performs gentle extractions under local anesthesia, prioritizing your comfort and rapid post-care healing.",
       priceRange: "Based on complexity",
       duration: "30 - 60 mins",
-      benefits: ["Relieves chronic pain and pressure", "Prevents spread of infection", "Relieves crowding for orthodontics", "Comfortable, safe procedure"],
+      benefits: [
+        "Relieves chronic pain and pressure",
+        "Prevents spread of infection",
+        "Relieves crowding for orthodontics",
+        "Comfortable, safe procedure",
+      ],
       faqs: [
-        { q: "Is extraction painful?", a: "No, local anesthesia numbs the area completely. You will only feel some pressure, not pain." },
-        { q: "How long does healing take?", a: "The initial socket heals in 1-2 weeks. We provide clear post-extraction guidelines." }
-      ]
+        {
+          q: "Is extraction painful?",
+          a: "No, local anesthesia numbs the area completely. You will only feel some pressure, not pain.",
+        },
+        {
+          q: "How long does healing take?",
+          a: "The initial socket heals in 1-2 weeks. We provide clear post-extraction guidelines.",
+        },
+      ],
     },
     {
       id: "rct",
       title: "Root Canal Treatment",
       category: "Implants & Restorative",
       image: "root-canal-treatment.jpg",
-      description: "Save deeply infected or damaged teeth by removing diseased pulp and sealing the canals.",
-      fullDetails: "Our modern, single-visit or multi-visit root canal treatments utilize rotary instruments to clean, disinfect, and seal infected pulp space, alleviating severe toothaches and preserving your natural teeth.",
+      description:
+        "Save deeply infected or damaged teeth by removing diseased pulp and sealing the canals.",
+      fullDetails:
+        "Our modern, single-visit or multi-visit root canal treatments utilize rotary instruments to clean, disinfect, and seal infected pulp space, alleviating severe toothaches and preserving your natural teeth.",
       priceRange: "Varies by roots",
       duration: "45 - 60 mins",
-      benefits: ["Stops progressive toothache", "Preserves natural tooth structure", "Prevents abscess spread", "Restores normal bite force"],
+      benefits: [
+        "Stops progressive toothache",
+        "Preserves natural tooth structure",
+        "Prevents abscess spread",
+        "Restores normal bite force",
+      ],
       faqs: [
-        { q: "Is root canal treatment painful?", a: "No, modern anesthesia and tools make root canal therapy as comfortable as a routine filling." },
-        { q: "Will I need a crown after RCT?", a: "Yes, a crown is recommended to protect and strengthen the treated tooth." }
-      ]
+        {
+          q: "Is root canal treatment painful?",
+          a: "No, modern anesthesia and tools make root canal therapy as comfortable as a routine filling.",
+        },
+        {
+          q: "Will I need a crown after RCT?",
+          a: "Yes, a crown is recommended to protect and strengthen the treated tooth.",
+        },
+      ],
     },
     {
       id: "crowns_bridges",
       title: "Crowns & Bridges, Dentures",
       category: "Implants & Restorative",
       image: "crown-1.jpg",
-      description: "Restore missing or damaged teeth with custom-fabricated crowns, bridges, or full and partial dentures.",
-      fullDetails: "We provide comprehensive prosthodontic options, including strong ceramic crowns to protect damaged teeth, dental bridges to fill gaps, and custom-designed dentures to restore complete function and confidence.",
+      description:
+        "Restore missing or damaged teeth with custom-fabricated crowns, bridges, or full and partial dentures.",
+      fullDetails:
+        "We provide comprehensive prosthodontic options, including strong ceramic crowns to protect damaged teeth, dental bridges to fill gaps, and custom-designed dentures to restore complete function and confidence.",
       priceRange: "Custom Pricing",
       duration: "2 - 3 visits",
-      benefits: ["Restores chewing and speech", "Prevents adjacent teeth shifting", "Aesthetic and durable", "Custom-fit for ultimate comfort"],
+      benefits: [
+        "Restores chewing and speech",
+        "Prevents adjacent teeth shifting",
+        "Aesthetic and durable",
+        "Custom-fit for ultimate comfort",
+      ],
       faqs: [
-        { q: "What is the difference between a crown and a bridge?", a: "A crown covers a single damaged tooth, while a bridge uses adjacent teeth to suspend a replacement tooth in a gap." },
-        { q: "How do I care for dentures?", a: "Clean them daily with a soft brush and soak them overnight in water or a denture cleaning solution." }
-      ]
+        {
+          q: "What is the difference between a crown and a bridge?",
+          a: "A crown covers a single damaged tooth, while a bridge uses adjacent teeth to suspend a replacement tooth in a gap.",
+        },
+        {
+          q: "How do I care for dentures?",
+          a: "Clean them daily with a soft brush and soak them overnight in water or a denture cleaning solution.",
+        },
+      ],
     },
     {
       id: "implants",
       title: "Implants",
       category: "Implants & Restorative",
       image: "implant-supported-dentures-.jpg",
-      description: "Permanent, bio-compatible titanium implants capped with crowns to replace missing teeth from the root up.",
-      fullDetails: "Dental implants are the gold standard for tooth replacement. They anchor directly into the jawbone, acting as artificial roots that support custom porcelain crowns for a strong, natural smile.",
+      description:
+        "Permanent, bio-compatible titanium implants capped with crowns to replace missing teeth from the root up.",
+      fullDetails:
+        "Dental implants are the gold standard for tooth replacement. They anchor directly into the jawbone, acting as artificial roots that support custom porcelain crowns for a strong, natural smile.",
       priceRange: "Custom Plan",
       duration: "3 - 6 months",
-      benefits: ["Feels and acts like a natural tooth", "Prevents jawbone deterioration", "No support needed from adjacent teeth", "Lifetime durability with care"],
+      benefits: [
+        "Feels and acts like a natural tooth",
+        "Prevents jawbone deterioration",
+        "No support needed from adjacent teeth",
+        "Lifetime durability with care",
+      ],
       faqs: [
-        { q: "Am I a candidate for implants?", a: "Most adults with healthy gums and sufficient jawbone density are excellent candidates." },
-        { q: "How successful are implants?", a: "They have a success rate of over 95%." }
-      ]
+        {
+          q: "Am I a candidate for implants?",
+          a: "Most adults with healthy gums and sufficient jawbone density are excellent candidates.",
+        },
+        {
+          q: "How successful are implants?",
+          a: "They have a success rate of over 95%.",
+        },
+      ],
     },
     {
       id: "braces_aligners",
       title: "Braces & Aligners",
       category: "Orthodontics",
       image: "braces.jpg",
-      description: "Straighten misaligned teeth and correct bites with traditional braces or discreet clear aligners.",
-      fullDetails: "Whether you prefer traditional ceramic braces or modern clear aligners (like Invisalign), we design personalized orthodontic plans to guide your teeth into perfect, healthy alignment.",
+      description:
+        "Straighten misaligned teeth and correct bites with traditional braces or discreet clear aligners.",
+      fullDetails:
+        "Whether you prefer traditional ceramic braces or modern clear aligners (like Invisalign), we design personalized orthodontic plans to guide your teeth into perfect, healthy alignment.",
       priceRange: "Custom Plan",
       duration: "6 - 24 months",
-      benefits: ["Perfects smile symmetry", "Improves bite alignment", "Clear, removable aligner options", "Boosts confidence and oral hygiene"],
+      benefits: [
+        "Perfects smile symmetry",
+        "Improves bite alignment",
+        "Clear, removable aligner options",
+        "Boosts confidence and oral hygiene",
+      ],
       faqs: [
-        { q: "Are clear aligners suitable for everyone?", a: "Aligners work well for mild to moderate crowding or spacing. Complex cases may need braces." },
-        { q: "Do aligners hurt?", a: "You may feel temporary pressure for a few days when changing to a new set of aligners." }
-      ]
+        {
+          q: "Are clear aligners suitable for everyone?",
+          a: "Aligners work well for mild to moderate crowding or spacing. Complex cases may need braces.",
+        },
+        {
+          q: "Do aligners hurt?",
+          a: "You may feel temporary pressure for a few days when changing to a new set of aligners.",
+        },
+      ],
     },
     {
       id: "scaling",
       title: "Scaling",
       category: "General & Preventive",
       image: "Scaling.jpg",
-      description: "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
-      fullDetails: "Our professional scaling and polishing utilizes ultrasonic scalers to safely and gently clear away plaque and hardened tartar from above and below the gumline, followed by a polishing paste to remove stubborn external stains.",
+      description:
+        "Remove plaque, tartar, and surface stains to restore clean, healthy gums and fresh breath.",
+      fullDetails:
+        "Our professional scaling and polishing utilizes ultrasonic scalers to safely and gently clear away plaque and hardened tartar from above and below the gumline, followed by a polishing paste to remove stubborn external stains.",
       priceRange: "Standard Rate",
       duration: "30 - 45 mins",
-      benefits: ["Removes plaque and tartar", "Freshens breath", "Prevents gum disease", "Brightens your smile"],
+      benefits: [
+        "Removes plaque and tartar",
+        "Freshens breath",
+        "Prevents gum disease",
+        "Brightens your smile",
+      ],
       faqs: [
-        { q: "Is scaling painful?", a: "No, ultrasonic scaling is generally comfortable. We adjust the settings for sensitive teeth." },
-        { q: "How often should I get it done?", a: "Every 6 months to maintain optimal gum health." }
-      ]
+        {
+          q: "Is scaling painful?",
+          a: "No, ultrasonic scaling is generally comfortable. We adjust the settings for sensitive teeth.",
+        },
+        {
+          q: "How often should I get it done?",
+          a: "Every 6 months to maintain optimal gum health.",
+        },
+      ],
     },
     {
       id: "children",
       title: "Children Dental Care",
       category: "Pediatric Care",
       image: "Child.jpg",
-      description: "Friendly, gentle pediatric dental treatments including sealants, fluorides, and early cavity prevention.",
-      fullDetails: "We provide a warm, encouraging environment to guide children through their first dental experiences. Our services include checkups, fluoride treatments, protective sealants, and cavity fillings.",
+      description:
+        "Friendly, gentle pediatric dental treatments including sealants, fluorides, and early cavity prevention.",
+      fullDetails:
+        "We provide a warm, encouraging environment to guide children through their first dental experiences. Our services include checkups, fluoride treatments, protective sealants, and cavity fillings.",
       priceRange: "Standard Rate",
       duration: "30 - 45 mins",
-      benefits: ["Creates positive dental habits", "Prevents childhood cavities", "Protective dental sealants", "Gentle, child-friendly approach"],
+      benefits: [
+        "Creates positive dental habits",
+        "Prevents childhood cavities",
+        "Protective dental sealants",
+        "Gentle, child-friendly approach",
+      ],
       faqs: [
-        { q: "When should a child first visit the dentist?", a: "Around their first birthday, or when their first tooth emerges." },
-        { q: "What are dental sealants?", a: "Thin protective coatings applied to chewing surfaces of back teeth to prevent decay." }
-      ]
+        {
+          q: "When should a child first visit the dentist?",
+          a: "Around their first birthday, or when their first tooth emerges.",
+        },
+        {
+          q: "What are dental sealants?",
+          a: "Thin protective coatings applied to chewing surfaces of back teeth to prevent decay.",
+        },
+      ],
     },
     {
       id: "wisdom_tooth_removal",
       title: "Wisdom Tooth Removal",
       category: "Surgical & Gum Care",
       image: "wisdom.jpg",
-      description: "Specialized extraction of impacted, painful, or misaligned wisdom teeth with surgical precision.",
-      fullDetails: "Safe and surgical removal of third molars (wisdom teeth) that are impacted, causing pressure, tooth crowding, or recurring gum infections. Performed under gentle local anesthesia for maximum patient comfort.",
+      description:
+        "Specialized extraction of impacted, painful, or misaligned wisdom teeth with surgical precision.",
+      fullDetails:
+        "Safe and surgical removal of third molars (wisdom teeth) that are impacted, causing pressure, tooth crowding, or recurring gum infections. Performed under gentle local anesthesia for maximum patient comfort.",
       priceRange: "Based on complexity",
       duration: "45 - 60 mins",
-      benefits: ["Relieves severe molar and jaw pain", "Prevents crowding & alignment shifts", "Protects adjacent teeth from decay", "Prevents recurring gum infections"],
+      benefits: [
+        "Relieves severe molar and jaw pain",
+        "Prevents crowding & alignment shifts",
+        "Protects adjacent teeth from decay",
+        "Prevents recurring gum infections",
+      ],
       faqs: [
-        { q: "Is wisdom tooth extraction painful?", a: "The procedure is completely numbed with local anesthesia. Post-operative discomfort is easily managed with prescribed care." },
-        { q: "How long is the recovery?", a: "Most patients recover comfortably within 3 to 5 days following post-extraction guidelines." }
-      ]
+        {
+          q: "Is wisdom tooth extraction painful?",
+          a: "The procedure is completely numbed with local anesthesia. Post-operative discomfort is easily managed with prescribed care.",
+        },
+        {
+          q: "How long is the recovery?",
+          a: "Most patients recover comfortably within 3 to 5 days following post-extraction guidelines.",
+        },
+      ],
     },
     {
       id: "teeth_whitening",
       title: "Teeth Whitening",
       category: "Cosmetic & Aesthetics",
       image: "teethWhitening.jpeg",
-      description: "Professional in-office laser whitening to remove deep stains and dramatically brighten your smile.",
-      fullDetails: "Safe, effective clinical teeth bleaching treatment that lifts deep discoloration caused by coffee, tea, smoking, and aging, brightening teeth by several shades in a single comfortable session.",
+      description:
+        "Professional in-office laser whitening to remove deep stains and dramatically brighten your smile.",
+      fullDetails:
+        "Safe, effective clinical teeth bleaching treatment that lifts deep discoloration caused by coffee, tea, smoking, and aging, brightening teeth by several shades in a single comfortable session.",
       priceRange: "Standard Rate",
       duration: "45 - 60 mins",
-      benefits: ["Instant multi-shade whitening", "Safe on tooth enamel", "Removes stubborn deep stains", "Boosts overall smile confidence"],
+      benefits: [
+        "Instant multi-shade whitening",
+        "Safe on tooth enamel",
+        "Removes stubborn deep stains",
+        "Boosts overall smile confidence",
+      ],
       faqs: [
-        { q: "Will whitening damage my enamel?", a: "No, professional clinical bleaching formulas are carefully pH-balanced and completely safe for enamel." },
-        { q: "How long do whitening results last?", a: "Results typically last 1 to 2 years depending on dietary habits and oral hygiene." }
-      ]
+        {
+          q: "Will whitening damage my enamel?",
+          a: "No, professional clinical bleaching formulas are carefully pH-balanced and completely safe for enamel.",
+        },
+        {
+          q: "How long do whitening results last?",
+          a: "Results typically last 1 to 2 years depending on dietary habits and oral hygiene.",
+        },
+      ],
     },
     {
       id: "dental_veneers",
       title: "Dental Veneers",
       category: "Cosmetic & Aesthetics",
       image: "dentalV.jpg",
-      description: "Ultra-thin custom porcelain or composite shells that transform shape, shade, and alignment.",
-      fullDetails: "Custom-crafted thin porcelain laminates bonded to the front surface of teeth to instantly correct discoloration, chipped edges, minor gaps, and irregular tooth shapes for a flawless Hollywood smile.",
+      description:
+        "Ultra-thin custom porcelain or composite shells that transform shape, shade, and alignment.",
+      fullDetails:
+        "Custom-crafted thin porcelain laminates bonded to the front surface of teeth to instantly correct discoloration, chipped edges, minor gaps, and irregular tooth shapes for a flawless Hollywood smile.",
       priceRange: "Per Tooth",
       duration: "2 - 3 visits",
-      benefits: ["Instant smile transformation", "Stain-resistant porcelain material", "Corrects gaps, chips & shade", "Minimal tooth reduction required"],
+      benefits: [
+        "Instant smile transformation",
+        "Stain-resistant porcelain material",
+        "Corrects gaps, chips & shade",
+        "Minimal tooth reduction required",
+      ],
       faqs: [
-        { q: "How long do porcelain veneers last?", a: "High-quality porcelain veneers typically last 10 to 15+ years with good care." },
-        { q: "Are veneers stain resistant?", a: "Yes, porcelain is highly resistant to staining from coffee, tea, and red wine." }
-      ]
+        {
+          q: "How long do porcelain veneers last?",
+          a: "High-quality porcelain veneers typically last 10 to 15+ years with good care.",
+        },
+        {
+          q: "Are veneers stain resistant?",
+          a: "Yes, porcelain is highly resistant to staining from coffee, tea, and red wine.",
+        },
+      ],
     },
     {
       id: "post_and_core",
       title: "Post and Core Treatment",
       category: "Implants & Restorative",
       image: "post.jpeg",
-      description: "Rebuild heavily broken or root-canal-treated teeth to provide a sturdy foundation for a crown.",
-      fullDetails: "When a tooth has lost significant natural structure due to extensive decay or fracture, a post is anchored into the root canal space, built up with a durable core material to securely anchor a protective dental crown.",
+      description:
+        "Rebuild heavily broken or root-canal-treated teeth to provide a sturdy foundation for a crown.",
+      fullDetails:
+        "When a tooth has lost significant natural structure due to extensive decay or fracture, a post is anchored into the root canal space, built up with a durable core material to securely anchor a protective dental crown.",
       priceRange: "Per Tooth",
       duration: "45 - 60 mins",
-      benefits: ["Saves severely damaged natural teeth", "Creates a solid foundation for crowns", "Restores structural stability", "Prevents tooth extraction"],
+      benefits: [
+        "Saves severely damaged natural teeth",
+        "Creates a solid foundation for crowns",
+        "Restores structural stability",
+        "Prevents tooth extraction",
+      ],
       faqs: [
-        { q: "When is a post and core needed?", a: "It is required when a root-canal-treated tooth lacks enough natural structure to hold a crown." },
-        { q: "Is the procedure painful?", a: "No, as the tooth has already undergone root canal treatment, there is no active nerve pain." }
-      ]
+        {
+          q: "When is a post and core needed?",
+          a: "It is required when a root-canal-treated tooth lacks enough natural structure to hold a crown.",
+        },
+        {
+          q: "Is the procedure painful?",
+          a: "No, as the tooth has already undergone root canal treatment, there is no active nerve pain.",
+        },
+      ],
     },
     {
       id: "gingivectomy",
       title: "Gingivectomy",
       category: "Surgical & Gum Care",
       image: "Gingivectomy.jpg",
-      description: "Surgical removal of diseased or excess gum tissue to treat periodontal pockets or gummy smiles.",
-      fullDetails: "Precision excision of overgrown or diseased gum tissue. Gingivectomy eliminates deep periodontal pockets where bacteria hide, halts progressive gum disease, and reshapes excess gum tissue.",
+      description:
+        "Surgical removal of diseased or excess gum tissue to treat periodontal pockets or gummy smiles.",
+      fullDetails:
+        "Precision excision of overgrown or diseased gum tissue. Gingivectomy eliminates deep periodontal pockets where bacteria hide, halts progressive gum disease, and reshapes excess gum tissue.",
       priceRange: "Based on area",
       duration: "45 - 60 mins",
-      benefits: ["Eliminates deep bacterial pockets", "Halts periodontal destruction", "Improves gum tissue health", "Reduces excessive gum display"],
+      benefits: [
+        "Eliminates deep bacterial pockets",
+        "Halts periodontal destruction",
+        "Improves gum tissue health",
+        "Reduces excessive gum display",
+      ],
       faqs: [
-        { q: "How long does it take for gums to heal after gingivectomy?", a: "Initial surface healing takes about 7 to 14 days, with full tissue maturation over a few weeks." },
-        { q: "Is local anesthesia used?", a: "Yes, the area is completely numbed so you remain comfortable throughout." }
-      ]
+        {
+          q: "How long does it take for gums to heal after gingivectomy?",
+          a: "Initial surface healing takes about 7 to 14 days, with full tissue maturation over a few weeks.",
+        },
+        {
+          q: "Is local anesthesia used?",
+          a: "Yes, the area is completely numbed so you remain comfortable throughout.",
+        },
+      ],
     },
     {
       id: "gingivoplasty",
       title: "Gingivoplasty",
       category: "Cosmetic & Aesthetics",
       image: "Gingivoplasty.jpeg",
-      description: "Cosmetic surgical sculpting of gum margins for symmetrical, aesthetically pleasing gumlines.",
-      fullDetails: "Surgical reshaping of healthy gum tissue around teeth to correct asymmetrical margins, thick ledges, or irregular contours, enhancing overall cosmetic smile harmony.",
+      description:
+        "Cosmetic surgical sculpting of gum margins for symmetrical, aesthetically pleasing gumlines.",
+      fullDetails:
+        "Surgical reshaping of healthy gum tissue around teeth to correct asymmetrical margins, thick ledges, or irregular contours, enhancing overall cosmetic smile harmony.",
       priceRange: "Custom Plan",
       duration: "30 - 45 mins",
-      benefits: ["Creates symmetrical gum contours", "Enhances smile aesthetics", "Smooths irregular tissue edges", "Quick healing and minimal downtime"],
+      benefits: [
+        "Creates symmetrical gum contours",
+        "Enhances smile aesthetics",
+        "Smooths irregular tissue edges",
+        "Quick healing and minimal downtime",
+      ],
       faqs: [
-        { q: "What is the difference between gingivectomy and gingivoplasty?", a: "Gingivectomy removes diseased or excess tissue, whereas gingivoplasty reshapes healthy tissue for cosmetic balance." },
-        { q: "Will my gums grow back?", a: "When properly sculpted by a specialist, the reshaped contours remain stable." }
-      ]
+        {
+          q: "What is the difference between gingivectomy and gingivoplasty?",
+          a: "Gingivectomy removes diseased or excess tissue, whereas gingivoplasty reshapes healthy tissue for cosmetic balance.",
+        },
+        {
+          q: "Will my gums grow back?",
+          a: "When properly sculpted by a specialist, the reshaped contours remain stable.",
+        },
+      ],
     },
     {
       id: "bone_grafting",
       title: "Bone Grafting",
       category: "Surgical & Gum Care",
       image: "BoneGrafting.jpg",
-      description: "Rebuild jawbone volume and density to prepare for stable dental implant placement.",
-      fullDetails: "Surgical procedure utilizing specialized bio-compatible bone graft material to regenerate lost bone height and width caused by extraction, trauma, or gum disease, providing solid anchorage for implants.",
+      description:
+        "Rebuild jawbone volume and density to prepare for stable dental implant placement.",
+      fullDetails:
+        "Surgical procedure utilizing specialized bio-compatible bone graft material to regenerate lost bone height and width caused by extraction, trauma, or gum disease, providing solid anchorage for implants.",
       priceRange: "Based on site",
       duration: "45 - 90 mins",
-      benefits: ["Restores jawbone density", "Enables successful implant placement", "Preserves facial bone structure", "Prevents long-term bone collapse"],
+      benefits: [
+        "Restores jawbone density",
+        "Enables successful implant placement",
+        "Preserves facial bone structure",
+        "Prevents long-term bone collapse",
+      ],
       faqs: [
-        { q: "How long does bone graft integration take?", a: "Bone graft material integrates naturally over 3 to 6 months before placing implants." },
-        { q: "Where does the bone graft material come from?", a: "We use sterile, certified synthetic or natural bio-materials engineered for safe bone growth." }
-      ]
+        {
+          q: "How long does bone graft integration take?",
+          a: "Bone graft material integrates naturally over 3 to 6 months before placing implants.",
+        },
+        {
+          q: "Where does the bone graft material come from?",
+          a: "We use sterile, certified synthetic or natural bio-materials engineered for safe bone growth.",
+        },
+      ],
     },
     {
       id: "complete_dentures",
       title: "Complete Dentures",
       category: "Implants & Restorative",
       image: "Complete-denture.jpg",
-      description: "Custom full-arch removable prosthetics to restore chewing function, speech, and youthful facial support.",
-      fullDetails: "Custom-designed, lightweight removable full dentures tailored to fit the exact contours of your upper or lower arches, replacing all missing teeth while providing natural facial esthetics and chewing ability.",
+      description:
+        "Custom full-arch removable prosthetics to restore chewing function, speech, and youthful facial support.",
+      fullDetails:
+        "Custom-designed, lightweight removable full dentures tailored to fit the exact contours of your upper or lower arches, replacing all missing teeth while providing natural facial esthetics and chewing ability.",
       priceRange: "Per Arch / Full Set",
       duration: "3 - 4 visits",
-      benefits: ["Full arch tooth replacement", "Restores clear speech & chewing", "Supports facial muscles & lips", "Custom shade and comfortable fit"],
+      benefits: [
+        "Full arch tooth replacement",
+        "Restores clear speech & chewing",
+        "Supports facial muscles & lips",
+        "Custom shade and comfortable fit",
+      ],
       faqs: [
-        { q: "How long does it take to get used to new dentures?", a: "Most patients adjust within 2 to 4 weeks with initial practice speaking and eating soft foods." },
-        { q: "Should I sleep in my complete dentures?", a: "It is recommended to remove them overnight to let your gums rest and stay healthy." }
-      ]
+        {
+          q: "How long does it take to get used to new dentures?",
+          a: "Most patients adjust within 2 to 4 weeks with initial practice speaking and eating soft foods.",
+        },
+        {
+          q: "Should I sleep in my complete dentures?",
+          a: "It is recommended to remove them overnight to let your gums rest and stay healthy.",
+        },
+      ],
     },
     {
       id: "implant_supported_dentures",
       title: "Implant-Supported Dentures",
       category: "Implants & Restorative",
       image: "Implant-SupportedDentures.jpg",
-      description: "Snap-on overdentures fixed onto dental implants for superior stability without slippage.",
-      fullDetails: "An advanced solution combining dental implants with custom dentures. Special attachments snap onto 2 to 4 titanium implants in the jaw, eliminating slipping, palate coverage, and messy adhesives.",
+      description:
+        "Snap-on overdentures fixed onto dental implants for superior stability without slippage.",
+      fullDetails:
+        "An advanced solution combining dental implants with custom dentures. Special attachments snap onto 2 to 4 titanium implants in the jaw, eliminating slipping, palate coverage, and messy adhesives.",
       priceRange: "Custom Plan",
       duration: "3 - 6 months",
-      benefits: ["Zero slipping or clicking", "No messy denture adhesives needed", "Superior chewing power & stability", "Preserves jawbone from shrinking"],
+      benefits: [
+        "Zero slipping or clicking",
+        "No messy denture adhesives needed",
+        "Superior chewing power & stability",
+        "Preserves jawbone from shrinking",
+      ],
       faqs: [
-        { q: "Can my current dentures be converted?", a: "In some cases, existing dentures can be modified with special locator attachments to fit implants." },
-        { q: "Are implant dentures removable?", a: "We offer both snap-on removable overdentures and fixed non-removable implant bridges." }
-      ]
+        {
+          q: "Can my current dentures be converted?",
+          a: "In some cases, existing dentures can be modified with special locator attachments to fit implants.",
+        },
+        {
+          q: "Are implant dentures removable?",
+          a: "We offer both snap-on removable overdentures and fixed non-removable implant bridges.",
+        },
+      ],
     },
     {
       id: "gum_contouring",
       title: "Gum Contouring",
       category: "Cosmetic & Aesthetics",
       image: "Gum Contouring.jpg",
-      description: "Laser or surgical reshaping of uneven gumlines to reveal longer, beautifully proportioned teeth.",
-      fullDetails: "Minimally invasive cosmetic sculpting designed to correct a 'gummy' smile or uneven gum level, exposing more natural enamel for a balanced, harmonious aesthetic smile line.",
+      description:
+        "Laser or surgical reshaping of uneven gumlines to reveal longer, beautifully proportioned teeth.",
+      fullDetails:
+        "Minimally invasive cosmetic sculpting designed to correct a 'gummy' smile or uneven gum level, exposing more natural enamel for a balanced, harmonious aesthetic smile line.",
       priceRange: "Per Quadrant / Arch",
       duration: "30 - 45 mins",
-      benefits: ["Corrects gummy smiles", "Evens out asymmetrical gum lines", "Minimally invasive precision", "Immediate cosmetic transformation"],
+      benefits: [
+        "Corrects gummy smiles",
+        "Evens out asymmetrical gum lines",
+        "Minimally invasive precision",
+        "Immediate cosmetic transformation",
+      ],
       faqs: [
-        { q: "Does gum contouring involve lasers?", a: "Yes, we often use dental lasers for precise trimming with instant cauterization and minimal bleeding." },
-        { q: "Is healing fast?", a: "Yes, soft tissue healing typically occurs within a few days to a week." }
-      ]
+        {
+          q: "Does gum contouring involve lasers?",
+          a: "Yes, we often use dental lasers for precise trimming with instant cauterization and minimal bleeding.",
+        },
+        {
+          q: "Is healing fast?",
+          a: "Yes, soft tissue healing typically occurs within a few days to a week.",
+        },
+      ],
     },
     {
       id: "night_guards",
       title: "Night Guards for Teeth Grinding",
       category: "General & Preventive",
       image: "Night-Guards.jpg",
-      description: "Custom-fit protective night appliances to prevent tooth wear, jaw pain, and bruxism damage.",
-      fullDetails: "Custom-fabricated durable night guards engineered to cushion your upper and lower teeth during sleep, protecting enamel from heavy nighttime clenching, grinding (bruxism), and TMJ strain.",
+      description:
+        "Custom-fit protective night appliances to prevent tooth wear, jaw pain, and bruxism damage.",
+      fullDetails:
+        "Custom-fabricated durable night guards engineered to cushion your upper and lower teeth during sleep, protecting enamel from heavy nighttime clenching, grinding (bruxism), and TMJ strain.",
       priceRange: "Standard Rate",
       duration: "2 visits",
-      benefits: ["Protects enamel from heavy wear", "Relieves morning jaw pain & headaches", "Custom comfortable fit", "Prevents tooth fractures & restorations"],
+      benefits: [
+        "Protects enamel from heavy wear",
+        "Relieves morning jaw pain & headaches",
+        "Custom comfortable fit",
+        "Prevents tooth fractures & restorations",
+      ],
       faqs: [
-        { q: "How do custom night guards compare to store-bought ones?", a: "Custom guards are precision-molded to your bite, offering far greater comfort, durability, and breathability." },
-        { q: "How do I clean my night guard?", a: "Rinse with cool water daily and brush gently with mild soap or denture cleaner." }
-      ]
+        {
+          q: "How do custom night guards compare to store-bought ones?",
+          a: "Custom guards are precision-molded to your bite, offering far greater comfort, durability, and breathability.",
+        },
+        {
+          q: "How do I clean my night guard?",
+          a: "Rinse with cool water daily and brush gently with mild soap or denture cleaner.",
+        },
+      ],
     },
     {
       id: "sports_guards",
       title: "Sports Guards",
       category: "General & Preventive",
       image: "Sports-Mouth-Guard.jpg",
-      description: "Shock-absorbing custom athletic mouthguards to safeguard teeth and gums during sports.",
-      fullDetails: "High-impact custom mouthguards designed for athletes and sports enthusiasts. Protects teeth, lips, tongue, and jaw from impact injuries during contact sports and high-intensity activities.",
+      description:
+        "Shock-absorbing custom athletic mouthguards to safeguard teeth and gums during sports.",
+      fullDetails:
+        "High-impact custom mouthguards designed for athletes and sports enthusiasts. Protects teeth, lips, tongue, and jaw from impact injuries during contact sports and high-intensity activities.",
       priceRange: "Standard Rate",
       duration: "2 visits",
-      benefits: ["Maximum shock absorption", "Prevents tooth loss and lip lacerations", "Custom fit allows clear breathing & speech", "Durable tear-resistant material"],
+      benefits: [
+        "Maximum shock absorption",
+        "Prevents tooth loss and lip lacerations",
+        "Custom fit allows clear breathing & speech",
+        "Durable tear-resistant material",
+      ],
       faqs: [
-        { q: "Why choose a custom sports guard over over-the-counter guards?", a: "Custom sports guards fit snugly over teeth without slipping, allowing effortless breathing, speaking, and maximum protection." },
-        { q: "How long does a sports guard last?", a: "Typically 1 to 2 seasons depending on usage and growth." }
-      ]
+        {
+          q: "Why choose a custom sports guard over over-the-counter guards?",
+          a: "Custom sports guards fit snugly over teeth without slipping, allowing effortless breathing, speaking, and maximum protection.",
+        },
+        {
+          q: "How long does a sports guard last?",
+          a: "Typically 1 to 2 seasons depending on usage and growth.",
+        },
+      ],
     },
     {
       id: "inlays_and_onlays",
       title: "Inlay and Onlays",
       category: "Cosmetic & Aesthetics",
       image: "Inlays_Onlays.jpg",
-      description: "Custom porcelain or composite partial crowns to repair moderately damaged back teeth.",
-      fullDetails: "Lab-crafted indirect restorations used when a tooth has too much damage for a standard filling but enough healthy enamel to avoid a full crown. Inlays fit within cusps, while onlays cover one or more cusps.",
+      description:
+        "Custom porcelain or composite partial crowns to repair moderately damaged back teeth.",
+      fullDetails:
+        "Lab-crafted indirect restorations used when a tooth has too much damage for a standard filling but enough healthy enamel to avoid a full crown. Inlays fit within cusps, while onlays cover one or more cusps.",
       priceRange: "Per Tooth",
       duration: "2 visits",
-      benefits: ["Conserves natural tooth structure", "Extremely strong porcelain material", "Seamless color matching", "Longer lasting than standard fillings"],
+      benefits: [
+        "Conserves natural tooth structure",
+        "Extremely strong porcelain material",
+        "Seamless color matching",
+        "Longer lasting than standard fillings",
+      ],
       faqs: [
-        { q: "What is the difference between an inlay and an onlay?", a: "An inlay fills the space between cusps inside the tooth, while an onlay extends over one or more cusps." },
-        { q: "Are inlays stronger than fillings?", a: "Yes, ceramic inlays and onlays increase tooth strength by up to 75%." }
-      ]
+        {
+          q: "What is the difference between an inlay and an onlay?",
+          a: "An inlay fills the space between cusps inside the tooth, while an onlay extends over one or more cusps.",
+        },
+        {
+          q: "Are inlays stronger than fillings?",
+          a: "Yes, ceramic inlays and onlays increase tooth strength by up to 75%.",
+        },
+      ],
     },
     {
       id: "gum_flap_surgery",
       title: "Gum (Flap Surgery)",
       category: "Surgical & Gum Care",
       image: "Gum-jpg",
-      description: "Advanced periodontic surgery to clean deep root surfaces and regenerate damaged bone structures.",
-      fullDetails: "Specialized periodontal procedure where gum tissue is gently separated from teeth to gain direct visual access for deep scaling, root planing, and bacterial debridement in severe periodontitis cases.",
+      description:
+        "Advanced periodontic surgery to clean deep root surfaces and regenerate damaged bone structures.",
+      fullDetails:
+        "Specialized periodontal procedure where gum tissue is gently separated from teeth to gain direct visual access for deep scaling, root planing, and bacterial debridement in severe periodontitis cases.",
       priceRange: "Per Quadrant",
       duration: "60 - 90 mins",
-      benefits: ["Cleans deep un-reachable root surfaces", "Halts advanced periodontal decay", "Reduces deep gum pocket depth", "Allows bone grafting & tissue regeneration"],
+      benefits: [
+        "Cleans deep un-reachable root surfaces",
+        "Halts advanced periodontal decay",
+        "Reduces deep gum pocket depth",
+        "Allows bone grafting & tissue regeneration",
+      ],
       faqs: [
-        { q: "When is flap surgery required?", a: "When gum disease has progressed deeply and non-surgical scaling cannot reach deep root deposits." },
-        { q: "What is recovery like?", a: "Mild discomfort is managed with prescribed medication; stitches dissolve or are removed in 7-10 days." }
-      ]
+        {
+          q: "When is flap surgery required?",
+          a: "When gum disease has progressed deeply and non-surgical scaling cannot reach deep root deposits.",
+        },
+        {
+          q: "What is recovery like?",
+          a: "Mild discomfort is managed with prescribed medication; stitches dissolve or are removed in 7-10 days.",
+        },
+      ],
     },
     {
       id: "fluoride_application",
       title: "Fluoride Application",
       category: "General & Preventive",
       image: "Fluoride-Application.jpg",
-      description: "High-potency mineral varnish treatment to remineralize enamel and shield against decay.",
-      fullDetails: "A quick, painless preventive treatment where a concentrated fluoride gel or varnish is applied directly to teeth to strengthen weakened enamel, reduce root sensitivity, and prevent future cavities.",
+      description:
+        "High-potency mineral varnish treatment to remineralize enamel and shield against decay.",
+      fullDetails:
+        "A quick, painless preventive treatment where a concentrated fluoride gel or varnish is applied directly to teeth to strengthen weakened enamel, reduce root sensitivity, and prevent future cavities.",
       priceRange: "Standard Rate",
       duration: "15 - 20 mins",
-      benefits: ["Remineralizes early enamel erosion", "Significantly reduces cavity risk", "Desensitizes sensitive tooth roots", "Fast, painless application"],
+      benefits: [
+        "Remineralizes early enamel erosion",
+        "Significantly reduces cavity risk",
+        "Desensitizes sensitive tooth roots",
+        "Fast, painless application",
+      ],
       faqs: [
-        { q: "Can adults benefit from fluoride application?", a: "Yes! Fluoride is highly beneficial for adults with gum recession, root sensitivity, or high cavity risk." },
-        { q: "How long after treatment before I can eat?", a: "You can eat soft foods immediately, but avoid hot liquids and hard foods for 4 to 6 hours." }
-      ]
+        {
+          q: "Can adults benefit from fluoride application?",
+          a: "Yes! Fluoride is highly beneficial for adults with gum recession, root sensitivity, or high cavity risk.",
+        },
+        {
+          q: "How long after treatment before I can eat?",
+          a: "You can eat soft foods immediately, but avoid hot liquids and hard foods for 4 to 6 hours.",
+        },
+      ],
     },
     {
       id: "full_mouth_rehabilitation",
       title: "Full Mouth Rehabilitation",
       category: "Implants & Restorative",
       image: "Full-Mouth-Rehabilitation.jpg",
-      description: "Comprehensive multi-disciplinary treatment to rebuild worn, broken, or missing teeth across the entire mouth.",
-      fullDetails: "A customized master treatment plan combining prosthodontics, implantology, endodontics, and periodontics to fully restore severely worn, broken, misaligned, or missing teeth for optimal bite function and jaw harmony.",
+      description:
+        "Comprehensive multi-disciplinary treatment to rebuild worn, broken, or missing teeth across the entire mouth.",
+      fullDetails:
+        "A customized master treatment plan combining prosthodontics, implantology, endodontics, and periodontics to fully restore severely worn, broken, misaligned, or missing teeth for optimal bite function and jaw harmony.",
       priceRange: "Custom Comprehensive Plan",
       duration: "Multiple Phases",
-      benefits: ["Restores total bite function & chewing power", "Completely transforms smile aesthetics", "Relieves chronic jaw joint & TMJ pain", "Long-lasting structural rehabilitation"],
+      benefits: [
+        "Restores total bite function & chewing power",
+        "Completely transforms smile aesthetics",
+        "Relieves chronic jaw joint & TMJ pain",
+        "Long-lasting structural rehabilitation",
+      ],
       faqs: [
-        { q: "Who needs full mouth rehabilitation?", a: "Patients with severely worn teeth, multiple missing teeth, severe bite collapse, or extensive dental trauma." },
-        { q: "How long does the complete process take?", a: "Depending on the complexity, treatment can span from a few weeks to several months across planned phases." }
-      ]
-    }
+        {
+          q: "Who needs full mouth rehabilitation?",
+          a: "Patients with severely worn teeth, multiple missing teeth, severe bite collapse, or extensive dental trauma.",
+        },
+        {
+          q: "How long does the complete process take?",
+          a: "Depending on the complexity, treatment can span from a few weeks to several months across planned phases.",
+        },
+      ],
+    },
   ];
 
   const serviceCategories = [
@@ -696,34 +1078,42 @@ export default function Home() {
 
   const filteredServices = services.filter((service) => {
     const matchesCategory =
-      selectedServiceCategory === "All" || service.category === selectedServiceCategory;
+      selectedServiceCategory === "All" ||
+      service.category === selectedServiceCategory;
     const matchesSearch =
       service.title.toLowerCase().includes(serviceSearchQuery.toLowerCase()) ||
-      service.description.toLowerCase().includes(serviceSearchQuery.toLowerCase()) ||
-      service.fullDetails.toLowerCase().includes(serviceSearchQuery.toLowerCase());
+      service.description
+        .toLowerCase()
+        .includes(serviceSearchQuery.toLowerCase()) ||
+      service.fullDetails
+        .toLowerCase()
+        .includes(serviceSearchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
-
 
   // FAQs List
   const generalFaqs = [
     {
       question: "What are the clinic timings?",
-      answer: "We are open from 10:00 AM to 1:00 PM and from 4:00 PM to 8:00 PM, Monday to Saturday. Sunday is closed except for emergency cases."
+      answer:
+        "We are open from 10:00 AM to 1:00 PM and from 4:00 PM to 8:00 PM, Monday to Saturday. Sunday is closed except for emergency cases.",
     },
     {
       question: "Where is the clinic located?",
-      answer: "Our clinic is located at: Shop No. 105, Dutt Sagar Appt. Above IDBI Bank, Airport Road, Nani Daman. Parking is easily accessible along Airport Road."
+      answer:
+        "Our clinic is located at: Shop No. 105, Dutt Sagar Appt. Above IDBI Bank, Airport Road, Nani Daman. Parking is easily accessible along Airport Road.",
     },
     {
       question: "How can I book an appointment?",
-      answer: "You can book directly using our website's side-by-side booking card, the scheduler modal, by emailing us at dr.varshneydental@gmail.com, or by calling us at +91 79774 54648."
+      answer:
+        "You can book directly using our website's side-by-side booking card, the scheduler modal, by emailing us at dr.varshneydental@gmail.com, or by calling us at +91 79774 54648.",
     },
     {
-      question: "Do you offer emergency dental extraction or root canal relief?",
-      answer: "Yes, we prioritize walk-ins and emergency cases experiencing acute throbbing pain, dental fractures, or swelling during our operational hours."
-    }
+      question:
+        "Do you offer emergency dental extraction or root canal relief?",
+      answer:
+        "Yes, we prioritize walk-ins and emergency cases experiencing acute throbbing pain, dental fractures, or swelling during our operational hours.",
+    },
   ];
 
   // Testimonials Carousel Logic
@@ -733,22 +1123,25 @@ export default function Home() {
       author: "Jessica M.",
       role: "Root Canal Patient",
       stars: 5,
-      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=faces"
+      image:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=faces",
     },
     {
       text: "Dr. Ayush explained everything clearly. The scaling and composite tooth filling was completely painless. Exceptional post-care guidance and very clean facilities.",
       author: "Rahul S.",
       role: "Scaling & Restoration Patient",
       stars: 5,
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces"
+      image:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces",
     },
     {
       text: "My child felt so relaxed during her dental checkup. The staff is patient, friendly, and they have excellent pediatric sealants. Highly recommend for children's dental care!",
       author: "Priya P.",
       role: "Mother of 6yo Patient",
       stars: 5,
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces"
-    }
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces",
+    },
   ];
 
   const [activeReviewIndex, setActiveReviewIndex] = useState(0);
@@ -773,9 +1166,9 @@ export default function Home() {
       opacity: 1,
       transition: {
         staggerChildren: shouldReduceMotion ? 0 : 0.08,
-        delayChildren: 0.1
-      }
-    }
+        delayChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
@@ -783,8 +1176,8 @@ export default function Home() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: springTransition
-    }
+      transition: springTransition,
+    },
   };
 
   const serviceHeaderVariants = {
@@ -794,9 +1187,9 @@ export default function Home() {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut" as const
-      }
-    }
+        ease: "easeOut" as const,
+      },
+    },
   };
 
   const serviceContainerVariants = {
@@ -805,9 +1198,9 @@ export default function Home() {
       opacity: 1,
       transition: {
         staggerChildren: shouldReduceMotion ? 0 : 0.15,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const serviceCardVariants = {
@@ -817,78 +1210,100 @@ export default function Home() {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut" as const
-      }
+        ease: "easeOut" as const,
+      },
     },
     hover: {
       y: -8,
       borderColor: "rgba(168, 85, 247, 0.4)",
-      boxShadow: "0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(168, 85, 247, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12)",
+      boxShadow:
+        "0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(168, 85, 247, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12)",
       transition: {
         duration: 0.4,
-        ease: "easeOut" as const
-      }
-    }
+        ease: "easeOut" as const,
+      },
+    },
   };
 
   // ------------------ LOADING SPLASH SCREEN ------------------
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#090611] flex flex-col justify-center items-center relative overflow-hidden bg-grid-pattern">
-        <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen bg-[#090611] flex flex-col justify-center items-center relative overflow-hidden bg-grid-pattern">
+  //       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
 
-        <div className="relative flex flex-col items-center space-y-6 z-10 text-center">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{
-              scale: [1, 1.06, 1],
-              opacity: 1,
-              boxShadow: ["0 0 15px rgba(53, 6, 62, 0.2)", "0 0 35px rgba(53, 6, 62, 0.45)", "0 0 15px rgba(53, 6, 62, 0.2)"]
-            }}
-            transition={{
-              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-              opacity: { duration: 0.4 },
-              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="w-20 h-20 rounded-full bg-[#0e071b] border-2 border-[#35063e] flex items-center justify-center overflow-hidden z-10"
-          >
-            <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
-          </motion.div>
+  //       <div className="relative flex flex-col items-center space-y-6 z-10 text-center">
+  //         <motion.div
+  //           initial={{ scale: 0.8, opacity: 0 }}
+  //           animate={{
+  //             scale: [1, 1.06, 1],
+  //             opacity: 1,
+  //             boxShadow: [
+  //               "0 0 15px rgba(53, 6, 62, 0.2)",
+  //               "0 0 35px rgba(53, 6, 62, 0.45)",
+  //               "0 0 15px rgba(53, 6, 62, 0.2)",
+  //             ],
+  //           }}
+  //           transition={{
+  //             scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  //             opacity: { duration: 0.4 },
+  //             boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  //           }}
+  //           className="w-20 h-20 rounded-full bg-[#0e071b] border-2 border-[#35063e] flex items-center justify-center overflow-hidden z-10"
+  //         >
+  //           <img
+  //             src="/logo.png"
+  //             alt="Dr. Varshney's Logo"
+  //             className="w-full h-full object-cover rounded-full"
+  //           />
+  //         </motion.div>
 
-          <div>
-            <h2 className="text-2xl font-black tracking-wider text-white">DR. VARSHNEY'S</h2>
-            <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">Dental Aesthetics</p>
-          </div>
+  //         <div>
+  //           <h2 className="text-2xl font-black tracking-wider text-white">
+  //             DR. VARSHNEY'S
+  //           </h2>
+  //           <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">
+  //             Dental Aesthetics
+  //           </p>
+  //         </div>
 
-          {/* Simple animated loading loader strip */}
-          <div className="w-48 h-1 bg-[#35063e]/20 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: "100%" }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1/2 h-full bg-[#35063e] rounded-full"
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //         {/* Simple animated loading loader strip */}
+  //         <div className="w-48 h-1 bg-[#35063e]/20 rounded-full overflow-hidden">
+  //           <motion.div
+  //             initial={{ x: "-100%" }}
+  //             animate={{ x: "100%" }}
+  //             transition={{
+  //               duration: 1.5,
+  //               repeat: Infinity,
+  //               ease: "easeInOut",
+  //             }}
+  //             className="w-1/2 h-full bg-[#35063e] rounded-full"
+  //           />
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen bg-[#090611] text-[#FFFFFF] relative selection:bg-[#35063e]/40 selection:text-[#FFFFFF] bg-grid-pattern overflow-x-hidden">
-
+      <BrandedLoader />
       {/* Background radial overlays */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
       <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#35063e]/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#35063e]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
+      <div
+        className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#35063e]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        style={{ animationDelay: "-3s" }}
+      />
       {/* ------------------ NAVBAR ------------------ */}
       <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl bg-[#0a0516]/70 backdrop-blur-[20px] border border-purple-500/30 rounded-[28px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15),_inset_0_1px_0_rgba(255,255,255,0.1),_inset_0_0_12px_rgba(168,85,247,0.1)] transition-all duration-300">
         <div className="px-6 py-3.5 flex items-center justify-between">
-
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
             <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
-              <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <svg
+                className="absolute inset-0 w-full h-full -rotate-90"
+                viewBox="0 0 100 100"
+              >
                 <motion.circle
                   cx="50"
                   cy="50"
@@ -902,11 +1317,17 @@ export default function Home() {
                   whileHover={{ strokeDasharray: "190 93" }}
                   transition={{
                     strokeDasharray: { duration: 1.5, ease: "easeOut" },
-                    rotate: { duration: 12, repeat: Infinity, ease: "linear" }
+                    rotate: { duration: 12, repeat: Infinity, ease: "linear" },
                   }}
                 />
                 <defs>
-                  <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient
+                    id="logo-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
                     <stop offset="0%" stopColor="#D8B4FE" />
                     <stop offset="50%" stopColor="#D8B4FE" />
                     <stop offset="100%" stopColor="#35063e" />
@@ -917,7 +1338,11 @@ export default function Home() {
                 whileHover={{ scale: 1.06 }}
                 className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[#090611] z-10"
               >
-                <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
+                <img
+                  src="/logo.png"
+                  alt="Dr. Varshney's Logo"
+                  className="w-full h-full object-cover rounded-full"
+                />
               </motion.div>
             </div>
             <div>
@@ -932,31 +1357,53 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
-            {["Home", "Services", "About Doctor", "Why Choose Us", "Gallery", "FAQ", "Reviews", "Contact Us"].map((link) => {
+            {[
+              "Home",
+              "Services",
+              "About Doctor",
+              "Why Choose Us",
+              "Gallery",
+              "FAQ",
+              "Reviews",
+              "Contact Us",
+            ].map((link) => {
               const isActive = activeSection === link;
               const linkTarget =
-                link === "Home" ? "#hero" :
-                  link === "Services" ? "#services" :
-                    link === "About Doctor" ? "#doctor" :
-                      link === "Why Choose Us" ? "#why-choose-us" :
-                        link === "Gallery" ? "#gallery" :
-                          link === "FAQ" ? "#faq" :
-                            link === "Reviews" ? "#reviews" : "#contact";
+                link === "Home"
+                  ? "#hero"
+                  : link === "Services"
+                    ? "#services"
+                    : link === "About Doctor"
+                      ? "#doctor"
+                      : link === "Why Choose Us"
+                        ? "#why-choose-us"
+                        : link === "Gallery"
+                          ? "#gallery"
+                          : link === "FAQ"
+                            ? "#faq"
+                            : link === "Reviews"
+                              ? "#reviews"
+                              : "#contact";
 
               return (
                 <a
                   key={link}
                   href={linkTarget}
                   onClick={() => setActiveSection(link)}
-                  className={`relative py-1 transition-colors duration-300 ease-in-out hover:text-white ${isActive ? "text-white font-bold" : "text-white/60"
-                    }`}
+                  className={`relative py-1 transition-colors duration-300 ease-in-out hover:text-white ${
+                    isActive ? "text-white font-bold" : "text-white/60"
+                  }`}
                 >
                   <span>{link}</span>
                   {isActive && (
                     <motion.div
                       layoutId="activeTab"
                       className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"
-                      transition={{ type: "spring", stiffness: 180, damping: 24 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 180,
+                        damping: 24,
+                      }}
                     />
                   )}
                 </a>
@@ -998,15 +1445,32 @@ export default function Home() {
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
               <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "Services", "About Doctor", "Why Choose Us", "Gallery", "FAQ", "Reviews", "Contact Us"].map((link) => {
+                {[
+                  "Home",
+                  "Services",
+                  "About Doctor",
+                  "Why Choose Us",
+                  "Gallery",
+                  "FAQ",
+                  "Reviews",
+                  "Contact Us",
+                ].map((link) => {
                   const targetId =
-                    link === "Home" ? "hero" :
-                      link === "Services" ? "services" :
-                        link === "About Doctor" ? "doctor" :
-                          link === "Why Choose Us" ? "why-choose-us" :
-                            link === "Gallery" ? "gallery" :
-                              link === "FAQ" ? "faq" :
-                                link === "Reviews" ? "reviews" : "contact";
+                    link === "Home"
+                      ? "hero"
+                      : link === "Services"
+                        ? "services"
+                        : link === "About Doctor"
+                          ? "doctor"
+                          : link === "Why Choose Us"
+                            ? "why-choose-us"
+                            : link === "Gallery"
+                              ? "gallery"
+                              : link === "FAQ"
+                                ? "faq"
+                                : link === "Reviews"
+                                  ? "reviews"
+                                  : "contact";
 
                   return (
                     <a
@@ -1016,14 +1480,17 @@ export default function Home() {
                         e.preventDefault();
                         setMobileMenuOpen(false);
                         setTimeout(() => {
-                          const targetElement = document.getElementById(targetId);
+                          const targetElement =
+                            document.getElementById(targetId);
                           if (targetElement) {
                             const offset = 90; // Height of fixed header + padding
-                            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                            const elementPosition =
+                              targetElement.getBoundingClientRect().top +
+                              window.scrollY;
                             const offsetPosition = elementPosition - offset;
                             window.scrollTo({
                               top: offsetPosition,
-                              behavior: "smooth"
+                              behavior: "smooth",
                             });
                           }
                         }, 150);
@@ -1069,7 +1536,8 @@ export default function Home() {
           style={{
             width: "600px",
             height: "600px",
-            background: "radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%)",
             left: "5%",
             top: "15%",
           }}
@@ -1081,7 +1549,8 @@ export default function Home() {
           style={{
             width: "600px",
             height: "600px",
-            background: "radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%)",
             right: "5%",
             top: "20%",
           }}
@@ -1093,7 +1562,8 @@ export default function Home() {
           style={{
             width: "400px",
             height: "400px",
-            background: "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%)",
             left: `${mousePos.x - 200}px`,
             top: `${mousePos.y - 200}px`,
           }}
@@ -1106,15 +1576,17 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 my-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
             {/* Left Content Column */}
             <div className="lg:col-span-6 flex flex-col justify-center text-center lg:text-left items-center lg:items-start space-y-7">
-
               {/* Doctor Badge */}
               <motion.div
                 initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                transition={{
+                  duration: 1.0,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.2,
+                }}
                 className="inline-flex items-center gap-2.5 px-4 py-2 rounded-[20px] bg-[#18022a]/30 backdrop-blur-md border border-[#35063e]/40 text-white text-[10px] sm:text-xs font-semibold tracking-wide w-fit transition-colors duration-300 hover:border-[#35063e]/80"
               >
                 <div className="w-5 h-5 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center shrink-0">
@@ -1129,7 +1601,11 @@ export default function Home() {
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                    transition={{
+                      duration: 1.2,
+                      ease: [0.16, 1, 0.3, 1],
+                      delay: 0.3,
+                    }}
                     className="block text-[11px] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2"
                   >
                     Dr. Varshney's Dental Aesthetics
@@ -1139,7 +1615,11 @@ export default function Home() {
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                    transition={{
+                      duration: 1.2,
+                      ease: [0.16, 1, 0.3, 1],
+                      delay: 0.5,
+                    }}
                     className="block"
                   >
                     Healthy Teeth.
@@ -1149,7 +1629,11 @@ export default function Home() {
                   <motion.span
                     initial={{ y: "100%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
+                    transition={{
+                      duration: 1.2,
+                      ease: [0.16, 1, 0.3, 1],
+                      delay: 0.7,
+                    }}
                     className="block beautiful-smiles-glow"
                   >
                     Beautiful Smiles.
@@ -1161,10 +1645,16 @@ export default function Home() {
               <motion.p
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}
+                transition={{
+                  duration: 1.2,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 1.0,
+                }}
                 className="text-white/60 text-base sm:text-lg max-w-lg leading-relaxed font-sans"
               >
-                Modern dental care by Dr. Ayush Varshney in Nani Daman, offering root canal treatment, dental implants, braces, teeth cleaning, and complete family dental care.
+                Modern dental care by Dr. Ayush Varshney in Nani Daman, offering
+                root canal treatment, dental implants, braces, teeth cleaning,
+                and complete family dental care.
               </motion.p>
 
               {/* Action Buttons */}
@@ -1178,9 +1668,17 @@ export default function Home() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{
                     y: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.2 },
-                    opacity: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.2 }
+                    opacity: {
+                      duration: 1.0,
+                      ease: [0.16, 1, 0.3, 1],
+                      delay: 1.2,
+                    },
                   }}
-                  whileHover={{ y: -2, scale: 1.01, boxShadow: "0px 10px 25px -5px rgba(168, 85, 247, 0.3)" }}
+                  whileHover={{
+                    y: -2,
+                    scale: 1.01,
+                    boxShadow: "0px 10px 25px -5px rgba(168, 85, 247, 0.3)",
+                  }}
                   whileTap={{ scale: 0.98 }}
                   className="px-8 py-3.5 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer border border-purple-500/50 hover:border-purple-400"
                 >
@@ -1188,7 +1686,6 @@ export default function Home() {
                   <span>Book Appointment</span>
                 </motion.a>
               </div>
-
             </div>
 
             {/* Right Column: Hero Image with Polished Glass Frame */}
@@ -1196,7 +1693,11 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+                transition={{
+                  duration: 1.4,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.8,
+                }}
                 className="relative w-full max-w-lg aspect-[4/3] rounded-[36px] overflow-visible"
               >
                 {/* Faint purple ambient glow behind the image to blend it into the background */}
@@ -1205,7 +1706,11 @@ export default function Home() {
                 {/* Slow float animation */}
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                   className="relative w-full h-full border border-purple-500/30 rounded-[36px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15)] overflow-hidden bg-[#0a0516]/70 backdrop-blur-[20px]"
                 >
                   <motion.img
@@ -1224,7 +1729,6 @@ export default function Home() {
                 </motion.div>
               </motion.div>
             </div>
-
           </div>
         </div>
 
@@ -1243,11 +1747,19 @@ export default function Home() {
               </div>
               <div>
                 <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">3</span>
-                  <span className="text-xl font-bold text-purple-400 leading-none">+</span>
+                  <span className="text-2xl font-bold text-white leading-none">
+                    3
+                  </span>
+                  <span className="text-xl font-bold text-purple-400 leading-none">
+                    +
+                  </span>
                 </div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Years Experience</div>
-                <div className="text-[10px] text-white/40 mt-0.5">Delivering Excellence</div>
+                <div className="text-xs font-semibold text-white/90 mt-1">
+                  Years Experience
+                </div>
+                <div className="text-[10px] text-white/40 mt-0.5">
+                  Delivering Excellence
+                </div>
               </div>
             </div>
 
@@ -1258,11 +1770,19 @@ export default function Home() {
               </div>
               <div>
                 <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">2500</span>
-                  <span className="text-xl font-bold text-purple-400 leading-none">+</span>
+                  <span className="text-2xl font-bold text-white leading-none">
+                    2500
+                  </span>
+                  <span className="text-xl font-bold text-purple-400 leading-none">
+                    +
+                  </span>
                 </div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Happy Patients</div>
-                <div className="text-[10px] text-white/40 mt-0.5">Trust & Satisfaction</div>
+                <div className="text-xs font-semibold text-white/90 mt-1">
+                  Happy Patients
+                </div>
+                <div className="text-[10px] text-white/40 mt-0.5">
+                  Trust & Satisfaction
+                </div>
               </div>
             </div>
 
@@ -1273,11 +1793,19 @@ export default function Home() {
               </div>
               <div>
                 <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">98</span>
-                  <span className="text-xl font-bold text-purple-400 leading-none">%</span>
+                  <span className="text-2xl font-bold text-white leading-none">
+                    98
+                  </span>
+                  <span className="text-xl font-bold text-purple-400 leading-none">
+                    %
+                  </span>
                 </div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Success Rate</div>
-                <div className="text-[10px] text-white/40 mt-0.5">In Dental Treatments</div>
+                <div className="text-xs font-semibold text-white/90 mt-1">
+                  Success Rate
+                </div>
+                <div className="text-[10px] text-white/40 mt-0.5">
+                  In Dental Treatments
+                </div>
               </div>
             </div>
 
@@ -1287,21 +1815,26 @@ export default function Home() {
                 <Sparkles className="w-5 h-5 text-purple-400" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white leading-none">Modern</div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Technology</div>
-                <div className="text-[10px] text-white/40 mt-0.5">Precision & Comfort</div>
+                <div className="text-2xl font-bold text-white leading-none">
+                  Modern
+                </div>
+                <div className="text-xs font-semibold text-white/90 mt-1">
+                  Technology
+                </div>
+                <div className="text-[10px] text-white/40 mt-0.5">
+                  Precision & Comfort
+                </div>
               </div>
             </div>
           </motion.div>
-
-
         </div>
-
       </section>
 
       {/* ------------------ SERVICES SECTION ------------------ */}
-      <section id="services" className="pt-12 pb-20 lg:pt-16 lg:pb-28 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
-        
+      <section
+        id="services"
+        className="pt-12 pb-20 lg:pt-16 lg:pb-28 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]"
+      >
         {/* Soft radial purple gradients */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10" />
         <div className="absolute bottom-1/4 left-[10%] w-[350px] h-[350px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
@@ -1312,7 +1845,6 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
           {/* Section Header */}
           <motion.div
             initial="hidden"
@@ -1330,17 +1862,20 @@ export default function Home() {
             {/* Large elegant heading matching hero/site UI */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mt-6">
               Elevating Oral Health <br />
-              <span className="beautiful-smiles-glow">With Artistic Precision</span>
+              <span className="beautiful-smiles-glow">
+                With Artistic Precision
+              </span>
             </h2>
 
             <p className="text-white/60 text-sm sm:text-base mt-4 max-w-2xl font-light">
-              Explore our comprehensive range of specialized dental treatments. Click on any treatment to view full procedures, clinical benefits, and specific FAQs.
+              Explore our comprehensive range of specialized dental treatments.
+              Click on any treatment to view full procedures, clinical benefits,
+              and specific FAQs.
             </p>
           </motion.div>
 
           {/* Search & Category Filter Controls */}
           <div className="mb-10 lg:mb-12 space-y-6">
-            
             {/* Search Input Bar */}
             <div className="max-w-md mx-auto relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-300/60" />
@@ -1380,7 +1915,6 @@ export default function Home() {
                 );
               })}
             </div>
-
           </div>
 
           {/* Empty Search / Filter State */}
@@ -1388,8 +1922,13 @@ export default function Home() {
             <div className="text-center py-16 px-4 rounded-3xl bg-[#120a24]/30 border border-white/5 max-w-md mx-auto space-y-4">
               <HelpCircle className="w-10 h-10 text-purple-400/60 mx-auto" />
               <div>
-                <h3 className="text-lg font-bold text-white">No treatments found</h3>
-                <p className="text-xs text-white/60 mt-1">Try resetting your search query or selecting a different category filter.</p>
+                <h3 className="text-lg font-bold text-white">
+                  No treatments found
+                </h3>
+                <p className="text-xs text-white/60 mt-1">
+                  Try resetting your search query or selecting a different
+                  category filter.
+                </p>
               </div>
               <button
                 onClick={() => {
@@ -1430,7 +1969,7 @@ export default function Home() {
                         src={service.image}
                         alt={`${service.title} treatment at Dr. Varshney's Dental Aesthetics in Nani Daman`}
                         variants={{
-                          hover: { scale: 1.05 }
+                          hover: { scale: 1.05 },
                         }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="w-full h-full object-cover"
@@ -1444,10 +1983,16 @@ export default function Home() {
 
                     {/* Content */}
                     <div className="p-8">
-                      <h3 itemProp="name" className="text-xl font-bold text-white tracking-tight leading-snug group-hover:text-purple-300 transition-colors duration-300 font-sans">
+                      <h3
+                        itemProp="name"
+                        className="text-xl font-bold text-white tracking-tight leading-snug group-hover:text-purple-300 transition-colors duration-300 font-sans"
+                      >
                         {service.title}
                       </h3>
-                      <p itemProp="description" className="text-white/60 text-sm leading-relaxed mt-3 line-clamp-3 font-light">
+                      <p
+                        itemProp="description"
+                        className="text-white/60 text-sm leading-relaxed mt-3 line-clamp-3 font-light"
+                      >
                         {service.description}
                       </p>
                     </div>
@@ -1455,7 +2000,9 @@ export default function Home() {
 
                   {/* Bottom Action Footer */}
                   <div className="p-8 pt-0 flex items-center justify-between mt-auto">
-                    <span className="text-[11px] uppercase font-semibold text-purple-300/80 tracking-wider bg-purple-500/10 px-3.5 py-1 rounded-full border border-purple-500/20">{service.priceRange}</span>
+                    <span className="text-[11px] uppercase font-semibold text-purple-300/80 tracking-wider bg-purple-500/10 px-3.5 py-1 rounded-full border border-purple-500/20">
+                      {service.priceRange}
+                    </span>
                     <motion.button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -1468,7 +2015,7 @@ export default function Home() {
                     >
                       <motion.div
                         variants={{
-                          hover: { x: 2, rotate: -45 }
+                          hover: { x: 2, rotate: -45 },
                         }}
                         transition={{ duration: 0.3 }}
                       >
@@ -1480,7 +2027,6 @@ export default function Home() {
               ))}
             </motion.div>
           )}
-
         </div>
       </section>
 
@@ -1497,12 +2043,18 @@ export default function Home() {
       <Gallery />
 
       {/* ------------------ FAQ SECTION ------------------ */}
-      <section id="faq" className="relative pt-10 pb-20 lg:pt-14 lg:pb-24 border-t border-[#35063e]/20">
+      <section
+        id="faq"
+        className="relative pt-10 pb-20 lg:pt-14 lg:pb-24 border-t border-[#35063e]/20"
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
-            <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">FAQ</span>
-            <h2 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+            <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">
+              FAQ
+            </span>
+            <h2 className="text-3xl font-extrabold text-white">
+              Frequently Asked Questions
+            </h2>
             <div className="h-1 w-16 bg-[#35063e] mx-auto rounded-full mt-2" />
           </div>
 
@@ -1548,7 +2100,6 @@ export default function Home() {
               );
             })}
           </div>
-
         </div>
       </section>
 
@@ -1561,14 +2112,15 @@ export default function Home() {
       {/* ------------------ FOOTER ------------------ */}
       <footer className="bg-[#090611] text-white py-16 relative border-t border-[#35063e]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 text-left mb-12">
-
             {/* Column 1: Brand */}
             <div className="space-y-4">
               <a href="#" className="flex items-center gap-2.5 text-white">
                 <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
-                  <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                  <svg
+                    className="absolute inset-0 w-full h-full -rotate-90"
+                    viewBox="0 0 100 100"
+                  >
                     <circle
                       cx="50"
                       cy="50"
@@ -1581,36 +2133,95 @@ export default function Home() {
                     />
                   </svg>
                   <div className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[#090611] z-10">
-                    <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
+                    <img
+                      src="/logo.png"
+                      alt="Dr. Varshney's Logo"
+                      className="w-full h-full object-cover rounded-full"
+                    />
                   </div>
                 </div>
                 <div>
-                  <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY'S</span>
-                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Aesthetics</span>
+                  <span className="font-extrabold text-sm block leading-none">
+                    DR. VARSHNEY'S
+                  </span>
+                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">
+                    Dental Aesthetics
+                  </span>
                 </div>
               </a>
               <p className="text-xs text-text-muted/60 leading-relaxed">
-                We're committed to providing high-quality dental care in a comfortable and friendly environment.
+                We're committed to providing high-quality dental care in a
+                comfortable and friendly environment.
               </p>
             </div>
 
             {/* Column 2: Quick Links */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Quick Links</h4>
+              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">
+                Quick Links
+              </h4>
               <ul className="text-xs text-text-muted/70 space-y-2 font-semibold">
-                <li><a href="#hero" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                <li><a href="#doctor" className="hover:text-white transition-colors">About Doctor</a></li>
-                <li><a href="#why-choose-us" className="hover:text-white transition-colors">Why Choose Us</a></li>
-                <li><a href="#pillars" className="hover:text-white transition-colors">Pillars of Practice</a></li>
-                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
+                <li>
+                  <a
+                    href="#hero"
+                    className="hover:text-white transition-colors"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#services"
+                    className="hover:text-white transition-colors"
+                  >
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#doctor"
+                    className="hover:text-white transition-colors"
+                  >
+                    About Doctor
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#why-choose-us"
+                    className="hover:text-white transition-colors"
+                  >
+                    Why Choose Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#pillars"
+                    className="hover:text-white transition-colors"
+                  >
+                    Pillars of Practice
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="hover:text-white transition-colors">
+                    FAQ
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    className="hover:text-white transition-colors"
+                  >
+                    Contact Us
+                  </a>
+                </li>
               </ul>
             </div>
 
             {/* Column 3: Services */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Our Services</h4>
+              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">
+                Our Services
+              </h4>
               <ul className="text-xs text-text-muted/70 space-y-2">
                 <li>Scaling</li>
                 <li>Tooth Filling</li>
@@ -1625,7 +2236,9 @@ export default function Home() {
 
             {/* Column 4: Contact */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Contact Us</h4>
+              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">
+                Contact Us
+              </h4>
               <ul className="text-xs text-text-muted/70 space-y-2.5">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-[#D8B4FE] shrink-0 mt-0.5" />
@@ -1633,26 +2246,47 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5 text-[#D8B4FE]" />
-                  <a href="tel:7977454648" className="hover:text-white font-bold transition-colors">+91 79774 54648</a>
+                  <a
+                    href="tel:7977454648"
+                    className="hover:text-white font-bold transition-colors"
+                  >
+                    +91 79774 54648
+                  </a>
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5 text-[#D8B4FE]" />
-                  <a href="mailto:dr.varshneydental@gmail.com" className="hover:text-white transition-colors">dr.varshneydental@gmail.com</a>
+                  <a
+                    href="mailto:dr.varshneydental@gmail.com"
+                    className="hover:text-white transition-colors"
+                  >
+                    dr.varshneydental@gmail.com
+                  </a>
                 </li>
               </ul>
             </div>
-
           </div>
 
           <div className="pt-8 border-t border-[#35063e]/20 text-center text-xs text-text-muted/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>© {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
+            <p>
+              © {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All
+              rights reserved. Reg. No. A-22861.
+            </p>
             <div className="flex gap-4">
-              <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link
+                href="/privacy-policy"
+                className="hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </Link>
               <span>|</span>
-              <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
+              <Link
+                href="/terms-of-service"
+                className="hover:text-white transition-colors"
+              >
+                Terms of Service
+              </Link>
             </div>
           </div>
-
         </div>
       </footer>
 
@@ -1676,10 +2310,11 @@ export default function Home() {
               className="fixed inset-y-0 right-0 w-full max-w-md bg-[#0e071b] border-l border-[#35063e]/30 p-5 sm:p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
             >
               <div className="space-y-8">
-
                 {/* Close */}
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-bold tracking-widest text-[#D8B4FE] uppercase">Treatment Guide</span>
+                  <span className="text-[10px] font-bold tracking-widest text-[#D8B4FE] uppercase">
+                    Treatment Guide
+                  </span>
                   <button
                     onClick={() => setActiveServiceDetail(null)}
                     className="p-1.5 rounded-lg bg-[#35063e]/25 border border-[#35063e]/35 text-[#D8B4FE] hover:text-white cursor-pointer"
@@ -1701,28 +2336,45 @@ export default function Home() {
 
                 {/* Content */}
                 <div className="space-y-3">
-                  <h3 className="text-2xl font-extrabold text-white leading-snug">{activeServiceDetail.title}</h3>
-                  <p className="text-text-muted/70 text-sm leading-relaxed">{activeServiceDetail.fullDetails}</p>
+                  <h3 className="text-2xl font-extrabold text-white leading-snug">
+                    {activeServiceDetail.title}
+                  </h3>
+                  <p className="text-text-muted/70 text-sm leading-relaxed">
+                    {activeServiceDetail.fullDetails}
+                  </p>
                 </div>
 
                 {/* Info block */}
                 <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-black/40 border border-[#35063e]/25">
                   <div>
-                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">Cost Category</span>
-                    <span className="text-sm font-bold text-white">{activeServiceDetail.priceRange}</span>
+                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">
+                      Cost Category
+                    </span>
+                    <span className="text-sm font-bold text-white">
+                      {activeServiceDetail.priceRange}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">Typical Duration</span>
-                    <span className="text-sm font-bold text-white">{activeServiceDetail.duration}</span>
+                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">
+                      Typical Duration
+                    </span>
+                    <span className="text-sm font-bold text-white">
+                      {activeServiceDetail.duration}
+                    </span>
                   </div>
                 </div>
 
                 {/* Benefits */}
                 <div className="space-y-3">
-                  <h4 className="font-bold text-white text-xs uppercase tracking-wider">Treatment Benefits</h4>
+                  <h4 className="font-bold text-white text-xs uppercase tracking-wider">
+                    Treatment Benefits
+                  </h4>
                   <ul className="space-y-2">
                     {activeServiceDetail.benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-xs text-text-secondary/80">
+                      <li
+                        key={i}
+                        className="flex items-start gap-2.5 text-xs text-text-secondary/80"
+                      >
                         <Check className="w-4 h-4 text-[#D8B4FE] shrink-0 mt-0.5 stroke-[3]" />
                         <span>{benefit}</span>
                       </li>
@@ -1739,13 +2391,13 @@ export default function Home() {
                   {activeServiceDetail.faqs.map((faq, i) => (
                     <div key={i} className="space-y-1 text-xs">
                       <p className="font-bold text-text-muted">Q: {faq.q}</p>
-                      <p className="text-[#D8B4FE]/85 leading-relaxed">A: {faq.a}</p>
+                      <p className="text-[#D8B4FE]/85 leading-relaxed">
+                        A: {faq.a}
+                      </p>
                     </div>
                   ))}
                 </div>
-
               </div>
-
             </motion.div>
           </>
         )}
@@ -1773,11 +2425,14 @@ export default function Home() {
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
               className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] sm:w-full sm:max-w-xl bg-[#0e071b] border border-[#35063e]/30 p-6 sm:p-8 rounded-3xl shadow-2xl z-50 overflow-y-auto max-h-[90vh] text-left text-[#FFFFFF]"
             >
-
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <h3 className="text-2xl font-extrabold text-white">Book Your Visit</h3>
-                  <p className="text-xs text-[#D8B4FE] mt-0.5">Please provide appointment details below</p>
+                  <h3 className="text-2xl font-extrabold text-white">
+                    Book Your Visit
+                  </h3>
+                  <p className="text-xs text-[#D8B4FE] mt-0.5">
+                    Please provide appointment details below
+                  </p>
                 </div>
                 <button
                   onClick={() => {
@@ -1797,17 +2452,41 @@ export default function Home() {
                   </div>
 
                   <div className="space-y-2">
-                    <h4 className="text-2xl font-extrabold text-white">Booking Confirmed!</h4>
+                    <h4 className="text-2xl font-extrabold text-white">
+                      Booking Confirmed!
+                    </h4>
                     <p className="text-sm text-text-muted/60 max-w-xs mx-auto">
-                      Your appointment has been registered successfully. You can manage or cancel it anytime in the portal below.
+                      Your appointment has been registered successfully. You can
+                      manage or cancel it anytime in the portal below.
                     </p>
                   </div>
 
                   <div className="p-5 rounded-2xl bg-black/45 border border-[#35063e]/25 text-left text-xs space-y-2 max-w-md mx-auto">
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Patient:</span> <span className="text-white font-bold">{lastBookedAppointment.name}</span></div>
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Service:</span> <span className="text-white font-bold">{lastBookedAppointment.service}</span></div>
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Doctor:</span> <span className="text-white font-bold">{lastBookedAppointment.doctor}</span></div>
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Date & Time:</span> <span className="text-white font-bold">{lastBookedAppointment.date} at {lastBookedAppointment.timeSlot}</span></div>
+                    <div className="flex justify-between">
+                      <span className="text-[#D8B4FE]">Patient:</span>{" "}
+                      <span className="text-white font-bold">
+                        {lastBookedAppointment.name}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#D8B4FE]">Service:</span>{" "}
+                      <span className="text-white font-bold">
+                        {lastBookedAppointment.service}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#D8B4FE]">Doctor:</span>{" "}
+                      <span className="text-white font-bold">
+                        {lastBookedAppointment.doctor}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#D8B4FE]">Date & Time:</span>{" "}
+                      <span className="text-white font-bold">
+                        {lastBookedAppointment.date} at{" "}
+                        {lastBookedAppointment.timeSlot}
+                      </span>
+                    </div>
                   </div>
 
                   <button
@@ -1822,12 +2501,12 @@ export default function Home() {
                 </div>
               ) : (
                 <form onSubmit={handleBookingSubmit} className="space-y-4">
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                     {/* Name */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Your Full Name *</label>
+                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                        Your Full Name *
+                      </label>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
                         <input
@@ -1836,17 +2515,27 @@ export default function Home() {
                           value={bookingForm.name}
                           onFocus={() => setFocusedInput("popup_name")}
                           onBlur={() => setFocusedInput(null)}
-                          onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
+                          onChange={(e) =>
+                            setBookingForm({
+                              ...bookingForm,
+                              name: e.target.value,
+                            })
+                          }
                           placeholder="e.g. John Doe"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                            }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                            focusedInput === "popup_name"
+                              ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]"
+                              : "border-[#35063e]/25"
+                          }`}
                         />
                       </div>
                     </div>
 
                     {/* Email */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Email Address</label>
+                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                        Email Address
+                      </label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
                         <input
@@ -1854,21 +2543,29 @@ export default function Home() {
                           value={bookingForm.email}
                           onFocus={() => setFocusedInput("popup_email")}
                           onBlur={() => setFocusedInput(null)}
-                          onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
+                          onChange={(e) =>
+                            setBookingForm({
+                              ...bookingForm,
+                              email: e.target.value,
+                            })
+                          }
                           placeholder="care@domain.com"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                            }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                            focusedInput === "popup_email"
+                              ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]"
+                              : "border-[#35063e]/25"
+                          }`}
                         />
                       </div>
                     </div>
-
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                     {/* Phone */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Phone Number *</label>
+                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                        Phone Number *
+                      </label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
                         <input
@@ -1877,35 +2574,56 @@ export default function Home() {
                           value={bookingForm.phone}
                           onFocus={() => setFocusedInput("popup_phone")}
                           onBlur={() => setFocusedInput(null)}
-                          onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
+                          onChange={(e) =>
+                            setBookingForm({
+                              ...bookingForm,
+                              phone: e.target.value,
+                            })
+                          }
                           placeholder="79774 54648"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                            }`}
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                            focusedInput === "popup_phone"
+                              ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]"
+                              : "border-[#35063e]/25"
+                          }`}
                         />
                       </div>
                     </div>
 
                     {/* Service */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Select Treatment *</label>
+                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                        Select Treatment *
+                      </label>
                       <select
                         value={bookingForm.service}
-                        onChange={(e) => setBookingForm({ ...bookingForm, service: e.target.value })}
+                        onChange={(e) =>
+                          setBookingForm({
+                            ...bookingForm,
+                            service: e.target.value,
+                          })
+                        }
                         className="w-full px-4 py-2.5 rounded-xl bg-[#0e071b] border border-[#35063e]/25 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
                       >
                         {services.map((s) => (
-                          <option key={s.id} value={s.title} className="bg-[#0e071b]">{s.title}</option>
+                          <option
+                            key={s.id}
+                            value={s.title}
+                            className="bg-[#0e071b]"
+                          >
+                            {s.title}
+                          </option>
                         ))}
                       </select>
                     </div>
-
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                     {/* Date */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Preferred Date *</label>
+                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                        Preferred Date *
+                      </label>
                       <div className="relative">
                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
                         <input
@@ -1914,20 +2632,35 @@ export default function Home() {
                           value={bookingForm.date}
                           onFocus={() => setFocusedInput("popup_date")}
                           onBlur={() => setFocusedInput(null)}
-                          onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${focusedInput === "popup_date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                            }`}
+                          onChange={(e) =>
+                            setBookingForm({
+                              ...bookingForm,
+                              date: e.target.value,
+                            })
+                          }
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${
+                            focusedInput === "popup_date"
+                              ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]"
+                              : "border-[#35063e]/25"
+                          }`}
                         />
                       </div>
                     </div>
 
                     {/* Time slot */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Select Time Slot *</label>
+                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                        Select Time Slot *
+                      </label>
                       <select
                         required
                         value={bookingForm.timeSlot}
-                        onChange={(e) => setBookingForm({ ...bookingForm, timeSlot: e.target.value })}
+                        onChange={(e) =>
+                          setBookingForm({
+                            ...bookingForm,
+                            timeSlot: e.target.value,
+                          })
+                        }
                         className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#35063e]/25 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
                       >
                         <option value="10:00 AM">10:00 AM (Morning)</option>
@@ -1939,35 +2672,57 @@ export default function Home() {
                         <option value="07:00 PM">07:00 PM (Evening)</option>
                       </select>
                     </div>
-
                   </div>
 
                   {/* Doctor */}
                   <div className="space-y-1.5">
-                    <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Preferred Doctor / Specialist</label>
+                    <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                      Preferred Doctor / Specialist
+                    </label>
                     <select
                       value={bookingForm.doctor}
-                      onChange={(e) => setBookingForm({ ...bookingForm, doctor: e.target.value })}
+                      onChange={(e) =>
+                        setBookingForm({
+                          ...bookingForm,
+                          doctor: e.target.value,
+                        })
+                      }
                       className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#35063e]/25 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
                     >
                       {doctors.map((doc, idx) => (
-                        <option key={idx} value={doc.name} className="bg-[#0e071b]">{doc.name} - {doc.credentials}</option>
+                        <option
+                          key={idx}
+                          value={doc.name}
+                          className="bg-[#0e071b]"
+                        >
+                          {doc.name} - {doc.credentials}
+                        </option>
                       ))}
                     </select>
                   </div>
 
                   {/* Notes */}
                   <div className="space-y-1.5">
-                    <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Symptoms or Notes (Optional)</label>
+                    <label className="text-xs text-[#D8B4FE] font-bold uppercase block">
+                      Symptoms or Notes (Optional)
+                    </label>
                     <textarea
                       rows={2}
                       value={bookingForm.notes}
                       onFocus={() => setFocusedInput("popup_notes")}
                       onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
+                      onChange={(e) =>
+                        setBookingForm({
+                          ...bookingForm,
+                          notes: e.target.value,
+                        })
+                      }
                       placeholder="e.g. sensitivity to cold water on lower left molar"
-                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
-                        }`}
+                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${
+                        focusedInput === "popup_notes"
+                          ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]"
+                          : "border-[#35063e]/25"
+                      }`}
                     />
                   </div>
 
@@ -1987,10 +2742,8 @@ export default function Home() {
                       )}
                     </button>
                   </div>
-
                 </form>
               )}
-
             </motion.div>
           </>
         )}
@@ -2011,7 +2764,6 @@ export default function Home() {
           </motion.button>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
