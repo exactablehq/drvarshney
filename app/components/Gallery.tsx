@@ -71,6 +71,17 @@ export const galleryItems: GalleryItem[] = [
   }
 ];
 
+// Fixed repeating tile-shape pattern (grid-auto-flow: dense fills gaps)
+// col-span/row-span cycle: 2x2, 1x1, 1x2, 1x1, 2x1, 1x1 ...
+const tileShapes = [
+  "sm:col-span-2 sm:row-span-2",
+  "col-span-1 row-span-1",
+  "sm:row-span-2",
+  "col-span-1 row-span-1",
+  "sm:col-span-2",
+  "col-span-1 row-span-1"
+];
+
 export default function Gallery() {
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
@@ -91,90 +102,58 @@ export default function Gallery() {
   };
 
   return (
-    <section id="gallery" className="relative pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden bg-[#090611] border-t border-[#35063e]/20 flex flex-col justify-center">
-      
-      {/* Oversized Low-Opacity Background Typography */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
-        <span className="text-[13vw] font-black text-purple-955/[0.025] tracking-[0.2em] uppercase leading-none select-none">
-          GALLERY
-        </span>
-      </div>
+    <section id="gallery" className="relative py-16 sm:py-24 lg:py-[140px] overflow-hidden bg-[var(--background)] border-t border-white/[0.06]">
 
-      {/* Ambient Radial Glows */}
-      <div className="absolute top-1/4 right-[5%] w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-purple-600/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 left-[5%] w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-purple-500/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10 w-full flex flex-col items-center">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
-        
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-10 lg:mb-14"
+          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-10 sm:mb-14"
         >
-          {/* Glassmorphism pill badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0a0516]/65 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1),_inset_0_1px_0_rgba(255,255,255,0.1)] text-xs font-semibold text-purple-300 tracking-wider uppercase backdrop-blur-[10px] mb-6">
-            <Camera className="w-3.5 h-3.5 text-purple-400" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[var(--primary)]/30 text-xs font-semibold text-[var(--primary-tint)] tracking-wider uppercase mb-6">
+            <Camera className="w-3.5 h-3.5" />
             <span>Clinic Showcase</span>
           </div>
 
-          {/* Heading */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mb-6">
-            Visual Excellence. <span className="beautiful-smiles-glow">Beautiful Smiles.</span>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-white tracking-tight leading-[1.15]">
+            Visual Excellence. Beautiful Smiles.
           </h2>
-
-          {/* Subtitle */}
-          <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-2xl font-light">
-            Explore our clinical environment, digital dental technology, and smile transformations. Click any photo to enlarge.
-          </p>
         </motion.div>
 
-        {/* Pure Photo Gallery Grid (No Filter Categories) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        {/* Gapless bento masonry — cycling fixed tile shapes, shared hairline borders */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 auto-rows-[140px] sm:auto-rows-[180px] gap-[1.5px] w-full [grid-auto-flow:dense] bg-white/[0.06]">
           {galleryItems.map((item, idx) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              transition={{ duration: 0.5, delay: idx * 0.04 }}
               onClick={() => setSelectedItemIndex(idx)}
-              className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/3] bg-[#0e071b] border border-purple-500/20 cursor-pointer shadow-[0_8px_25px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-purple-500/50 hover:shadow-[0_12px_35px_rgba(168,85,247,0.25)]"
+              className={`group relative overflow-hidden cursor-pointer bg-[var(--charcoal-2)] ${tileShapes[idx % tileShapes.length]}`}
             >
-              {/* Photo Image */}
               <img
                 src={item.image}
                 alt={item.title}
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
 
-              {/* Subtle Ambient Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#090611]/90 via-[#090611]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-5">
-                {/* Top Category Tag */}
-                <div className="flex justify-start">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-[#0a0516]/80 border border-purple-500/40 text-purple-300 backdrop-blur-md">
-                    {item.tag}
-                  </span>
-                </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                <h3 className="text-sm font-semibold text-white leading-snug">
+                  {item.title}
+                </h3>
+                <p className="text-[var(--primary-tint)] text-[11px] mt-0.5 flex items-center gap-1">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  {item.categoryLabel}
+                </p>
+              </div>
 
-                {/* Bottom Title & Zoom Icon */}
-                <div className="flex items-end justify-between gap-3">
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
-                      {item.title}
-                    </h3>
-                    <p className="text-purple-300 text-xs mt-0.5 flex items-center gap-1 font-medium">
-                      <Sparkles className="w-3 h-3 text-purple-400" />
-                      {item.categoryLabel}
-                    </p>
-                  </div>
-
-                  <div className="w-10 h-10 rounded-full bg-purple-600/80 text-white flex items-center justify-center shrink-0 border border-purple-400/50 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                </div>
+              <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <Maximize2 className="w-3.5 h-3.5" />
               </div>
             </motion.div>
           ))}
@@ -182,11 +161,10 @@ export default function Gallery() {
 
       </div>
 
-      {/* ------------------ FULLSIZE ENLARGED PHOTO VIEWER MODAL ------------------ */}
+      {/* Fullsize photo viewer modal */}
       <AnimatePresence>
         {selectedItem && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 lg:p-8">
-            {/* Dark Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -195,51 +173,45 @@ export default function Gallery() {
               className="absolute inset-0 bg-black/95 backdrop-blur-xl"
             />
 
-            {/* Close Button */}
             <button
               onClick={() => setSelectedItemIndex(null)}
-              className="absolute top-5 right-5 z-50 p-3 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute top-5 right-5 z-50 p-3 rounded-full bg-black/70 border border-white/20 text-white hover:bg-[var(--primary)]/60 transition-all cursor-pointer shadow-xl"
               aria-label="Close enlarged photo"
             >
               <X className="w-6 h-6" />
             </button>
 
-            {/* Previous Chevron Button */}
             <button
               onClick={handlePrev}
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-[var(--primary)]/60 transition-all cursor-pointer shadow-xl"
               aria-label="Previous photo"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
 
-            {/* Next Chevron Button */}
             <button
               onClick={handleNext}
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-[var(--primary)]/60 transition-all cursor-pointer shadow-xl"
               aria-label="Next photo"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
 
-            {/* Enlarged Photo Container */}
             <motion.div
               key={selectedItem.id}
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}
               transition={{ type: "spring", stiffness: 300, damping: 28 }}
-              className="relative max-w-6xl max-h-[85vh] z-40 flex flex-col items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl border border-purple-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.9)] bg-black"
+              className="relative max-w-6xl max-h-[85vh] z-40 flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-[var(--primary)]/30 shadow-[0_20px_60px_rgba(0,0,0,0.9)] bg-black"
             >
-              {/* Image */}
               <img
                 src={selectedItem.image}
                 alt={selectedItem.title}
                 className="max-w-full max-h-[75vh] object-contain select-none"
               />
 
-              {/* Caption Overlay Bar */}
-              <div className="w-full bg-[#0a0516]/90 border-t border-purple-500/20 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+              <div className="w-full bg-[var(--charcoal-2)]/90 border-t border-white/10 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
                 <div>
                   <h3 className="text-lg font-bold text-white leading-tight">
                     {selectedItem.title}
@@ -248,7 +220,7 @@ export default function Gallery() {
                     {selectedItem.description}
                   </p>
                 </div>
-                <span className="px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-purple-500/20 border border-purple-500/30 text-purple-300 shrink-0">
+                <span className="px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-[var(--primary)]/30 text-[var(--primary-tint)] shrink-0">
                   {selectedItem.tag}
                 </span>
               </div>

@@ -11,33 +11,19 @@ import Reviews from "./components/Reviews";
 import ContactUs from "./components/ContactUs";
 import {
   Calendar,
-  Clock,
   User,
   Phone,
   Mail,
   ArrowRight,
-  ChevronRight,
-  Star,
   Sparkles,
-  ShieldCheck,
-  Award,
-  Activity,
   Check,
   X,
-  ChevronDown,
-  ChevronUp,
-  Heart,
-  Smile,
   Info,
   MapPin,
   Menu,
-  Trash2,
   HelpCircle,
   CalendarDays,
-  Play,
   ArrowUp,
-  Search,
-  Filter
 } from "lucide-react";
 
 // Types
@@ -149,8 +135,6 @@ function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {
 
 export default function Home() {
   const shouldReduceMotion = useReducedMotion();
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
   // Page Load State
   const [isLoading, setIsLoading] = useState(true);
 
@@ -212,7 +196,7 @@ export default function Home() {
     const handleScroll = () => {
       setScrollY(window.scrollY);
 
-      const sections = ["hero", "services", "doctor", "why-choose-us", "pillars", "gallery", "faq", "reviews", "contact"];
+      const sections = ["hero", "doctor", "why-choose-us", "services", "reviews", "pillars", "gallery", "contact"];
       let activeSec = "hero";
       let maxVisibleHeight = 0;
 
@@ -234,12 +218,12 @@ export default function Home() {
 
       const labelMap: Record<string, string> = {
         hero: "Home",
-        services: "Services",
         doctor: "About Doctor",
         "why-choose-us": "Why Choose Us",
-        gallery: "Gallery",
-        faq: "FAQ",
+        services: "Services",
         reviews: "Reviews",
+        pillars: "Pillars",
+        gallery: "Gallery",
         contact: "Contact Us"
       };
 
@@ -313,13 +297,7 @@ export default function Home() {
   // Selected Service Detail Modal/Drawer State
   const [activeServiceDetail, setActiveServiceDetail] = useState<ServiceDetail | null>(null);
 
-  // Category filter state & search query for services
-  const [selectedServiceCategory, setSelectedServiceCategory] = useState<string>("All");
-  const [serviceSearchQuery, setServiceSearchQuery] = useState<string>("");
-
   // Active FAQ index
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
   // Services Data
   const services: ServiceDetail[] = [
     {
@@ -684,47 +662,7 @@ export default function Home() {
     }
   ];
 
-  const serviceCategories = [
-    "All",
-    "General & Preventive",
-    "Cosmetic & Aesthetics",
-    "Implants & Restorative",
-    "Surgical & Gum Care",
-    "Orthodontics",
-    "Pediatric Care",
-  ];
 
-  const filteredServices = services.filter((service) => {
-    const matchesCategory =
-      selectedServiceCategory === "All" || service.category === selectedServiceCategory;
-    const matchesSearch =
-      service.title.toLowerCase().includes(serviceSearchQuery.toLowerCase()) ||
-      service.description.toLowerCase().includes(serviceSearchQuery.toLowerCase()) ||
-      service.fullDetails.toLowerCase().includes(serviceSearchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-
-
-  // FAQs List
-  const generalFaqs = [
-    {
-      question: "What are the clinic timings?",
-      answer: "We are open from 10:00 AM to 1:00 PM and from 4:00 PM to 8:00 PM, Monday to Saturday. Sunday is closed except for emergency cases."
-    },
-    {
-      question: "Where is the clinic located?",
-      answer: "Our clinic is located at: Shop No. 105, Dutt Sagar Appt. Above IDBI Bank, Airport Road, Nani Daman. Parking is easily accessible along Airport Road."
-    },
-    {
-      question: "How can I book an appointment?",
-      answer: "You can book directly using our website's side-by-side booking card, the scheduler modal, by emailing us at dr.varshneydental@gmail.com, or by calling us at +91 79774 54648."
-    },
-    {
-      question: "Do you offer emergency dental extraction or root canal relief?",
-      answer: "Yes, we prioritize walk-ins and emergency cases experiencing acute throbbing pain, dental fractures, or swelling during our operational hours."
-    }
-  ];
 
   // Testimonials Carousel Logic
   const reviews = [
@@ -834,7 +772,7 @@ export default function Home() {
   // ------------------ LOADING SPLASH SCREEN ------------------
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#090611] flex flex-col justify-center items-center relative overflow-hidden bg-grid-pattern">
+      <div className="min-h-screen bg-charcoal-950 flex flex-col justify-center items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
 
         <div className="relative flex flex-col items-center space-y-6 z-10 text-center">
@@ -850,23 +788,23 @@ export default function Home() {
               opacity: { duration: 0.4 },
               boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
             }}
-            className="w-20 h-20 rounded-full bg-[#0e071b] border-2 border-[#35063e] flex items-center justify-center overflow-hidden z-10"
+            className="w-20 h-20 rounded-full bg-[var(--color-charcoal-900)] border-2 border-[var(--color-purple-deep)] flex items-center justify-center overflow-hidden z-10"
           >
             <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
           </motion.div>
 
           <div>
-            <h2 className="text-2xl font-black tracking-wider text-white">DR. VARSHNEY'S</h2>
-            <p className="text-[10px] uppercase font-bold text-[#D8B4FE] tracking-[0.25em] mt-1">Dental Aesthetics</p>
+            <h2 className="text-2xl font-black tracking-wider text-white">DR. VARSHNEY&apos;S</h2>
+            <p className="text-[10px] uppercase font-bold text-[var(--color-purple-tint)] tracking-[0.25em] mt-1">Dental Aesthetics</p>
           </div>
 
           {/* Simple animated loading loader strip */}
-          <div className="w-48 h-1 bg-[#35063e]/20 rounded-full overflow-hidden">
+          <div className="w-48 h-1 bg-[var(--color-purple-deep)]/20 rounded-full overflow-hidden">
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: "100%" }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1/2 h-full bg-[#35063e] rounded-full"
+              className="w-1/2 h-full bg-[var(--color-purple-deep)] rounded-full"
             />
           </div>
         </div>
@@ -875,14 +813,14 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#090611] text-[#FFFFFF] relative selection:bg-[#35063e]/40 selection:text-[#FFFFFF] bg-grid-pattern overflow-x-hidden">
+    <div className="min-h-screen bg-charcoal-950 text-white relative selection:bg-purple-deep/40 selection:text-white overflow-x-hidden">
 
       {/* Background radial overlays */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
-      <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#35063e]/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#35063e]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
+      <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[var(--color-purple-deep)]/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[var(--color-purple-deep)]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "-3s" }} />
       {/* ------------------ NAVBAR ------------------ */}
-      <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl bg-[#0a0516]/70 backdrop-blur-[20px] border border-purple-500/30 rounded-[28px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15),_inset_0_1px_0_rgba(255,255,255,0.1),_inset_0_0_12px_rgba(168,85,247,0.1)] transition-all duration-300">
+      <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl bg-[var(--color-charcoal-950)]/70 backdrop-blur-[20px] border border-purple-500/30 rounded-[28px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15),_inset_0_1px_0_rgba(255,255,255,0.1),_inset_0_0_12px_rgba(168,85,247,0.1)] transition-all duration-300">
         <div className="px-6 py-3.5 flex items-center justify-between">
 
           {/* Logo */}
@@ -907,24 +845,24 @@ export default function Home() {
                 />
                 <defs>
                   <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#D8B4FE" />
-                    <stop offset="50%" stopColor="#D8B4FE" />
-                    <stop offset="100%" stopColor="#35063e" />
+                    <stop offset="0%" stopColor="var(--color-purple-tint)" />
+                    <stop offset="50%" stopColor="var(--color-purple-tint)" />
+                    <stop offset="100%" stopColor="var(--color-purple-deep)" />
                   </linearGradient>
                 </defs>
               </svg>
               <motion.div
                 whileHover={{ scale: 1.06 }}
-                className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[#090611] z-10"
+                className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[var(--color-charcoal-950)] z-10"
               >
                 <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
               </motion.div>
             </div>
             <div>
-              <span className="font-extrabold text-sm sm:text-base tracking-wide text-white block group-hover:text-[#D8B4FE] transition-colors leading-none">
-                DR. VARSHNEY'S
+              <span className="font-extrabold text-sm sm:text-base tracking-wide text-white block group-hover:text-[var(--color-purple-tint)] transition-colors leading-none">
+                DR. VARSHNEY&apos;S
               </span>
-              <span className="text-[7px] sm:text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] sm:tracking-[0.2em] block mt-0.5">
+              <span className="text-[7px] sm:text-[8px] uppercase font-bold text-[var(--color-purple-tint)] tracking-[0.15em] sm:tracking-[0.2em] block mt-0.5">
                 Dental Aesthetics
               </span>
             </div>
@@ -932,16 +870,16 @@ export default function Home() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/70">
-            {["Home", "Services", "About Doctor", "Why Choose Us", "Gallery", "FAQ", "Reviews", "Contact Us"].map((link) => {
+            {["Home", "About Doctor", "Why Choose Us", "Services", "Reviews", "Pillars", "Gallery", "Contact Us"].map((link) => {
               const isActive = activeSection === link;
               const linkTarget =
                 link === "Home" ? "#hero" :
-                  link === "Services" ? "#services" :
-                    link === "About Doctor" ? "#doctor" :
-                      link === "Why Choose Us" ? "#why-choose-us" :
-                        link === "Gallery" ? "#gallery" :
-                          link === "FAQ" ? "#faq" :
-                            link === "Reviews" ? "#reviews" : "#contact";
+                  link === "About Doctor" ? "#doctor" :
+                    link === "Why Choose Us" ? "#why-choose-us" :
+                      link === "Services" ? "#services" :
+                        link === "Reviews" ? "#reviews" :
+                          link === "Pillars" ? "#pillars" :
+                            link === "Gallery" ? "#gallery" : "#contact";
 
               return (
                 <a
@@ -955,7 +893,7 @@ export default function Home() {
                   {isActive && (
                     <motion.div
                       layoutId="activeTab"
-                      className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"
+                      className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-purple-accent shadow-[0_0_8px_rgba(139,61,255,0.8)]"
                       transition={{ type: "spring", stiffness: 180, damping: 24 }}
                     />
                   )}
@@ -972,7 +910,7 @@ export default function Home() {
               rel="noopener noreferrer"
               whileHover={{ y: -1.5, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-5 py-2.5 rounded-xl bg-[#090611]/85 border border-purple-500/40 hover:border-purple-400 text-white font-semibold text-xs flex items-center gap-2 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all cursor-pointer"
+              className="px-5 py-2.5 rounded-xl bg-[var(--color-charcoal-950)]/85 border border-purple-500/40 hover:border-purple-400 text-white font-semibold text-xs flex items-center gap-2 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4 text-purple-400" />
               <span>Book Appointment</span>
@@ -982,7 +920,7 @@ export default function Home() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#D8B4FE] hover:text-white cursor-pointer transition-colors duration-300"
+            className="md:hidden p-2 text-[var(--color-purple-tint)] hover:text-white cursor-pointer transition-colors duration-300"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -997,16 +935,16 @@ export default function Home() {
               exit={{ height: 0, opacity: 0 }}
               className="md:hidden border-t border-white/10 mt-3 pt-3 overflow-hidden"
             >
-              <div className="px-6 pb-6 flex flex-col gap-4 text-white/70">
-                {["Home", "Services", "About Doctor", "Why Choose Us", "Gallery", "FAQ", "Reviews", "Contact Us"].map((link) => {
+              <div className="px-6 pb-6 flex flex-col gap-1 text-white/70">
+                {["Home", "About Doctor", "Why Choose Us", "Services", "Reviews", "Pillars", "Gallery", "Contact Us"].map((link) => {
                   const targetId =
                     link === "Home" ? "hero" :
-                      link === "Services" ? "services" :
-                        link === "About Doctor" ? "doctor" :
-                          link === "Why Choose Us" ? "why-choose-us" :
-                            link === "Gallery" ? "gallery" :
-                              link === "FAQ" ? "faq" :
-                                link === "Reviews" ? "reviews" : "contact";
+                      link === "About Doctor" ? "doctor" :
+                        link === "Why Choose Us" ? "why-choose-us" :
+                          link === "Services" ? "services" :
+                            link === "Reviews" ? "reviews" :
+                              link === "Pillars" ? "pillars" :
+                                link === "Gallery" ? "gallery" : "contact";
 
                   return (
                     <a
@@ -1028,19 +966,19 @@ export default function Home() {
                           }
                         }, 150);
                       }}
-                      className="py-2 text-base font-semibold hover:text-white transition-colors duration-300"
+                      className="py-3 min-h-[44px] flex items-center text-base font-semibold hover:text-white transition-colors duration-300"
                     >
                       {link}
                     </a>
                   );
                 })}
-                <div className="border-t border-white/10 pt-4">
+                <div className="border-t border-white/10 pt-4 mt-2">
                   <a
                     href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block w-full py-3 rounded-full bg-gradient-to-r from-purple-800 to-indigo-900 border border-purple-500/30 text-white font-semibold text-center cursor-pointer transition-all duration-300"
+                    className="block w-full py-3.5 min-h-[48px] rounded-full bg-purple-accent text-white font-semibold text-center cursor-pointer transition-colors hover:bg-purple-accent-hover"
                   >
                     Book Appointment
                   </a>
@@ -1054,264 +992,118 @@ export default function Home() {
       {/* ------------------ HERO SECTION ------------------ */}
       <section
         id="hero"
-        onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        }}
-        className="relative pt-32 pb-8 md:pt-40 md:pb-10 overflow-hidden group/hero min-h-screen flex flex-col justify-between"
+        className="relative overflow-hidden min-h-[100svh] flex flex-col"
       >
-        {/* Subtle background noise overlay */}
-        <div className="absolute inset-0 bg-noise opacity-[0.015] mix-blend-overlay pointer-events-none z-0" />
-
-        {/* Subtle background depth light behind hero content */}
-        <div
-          className="absolute pointer-events-none rounded-full blur-[150px] opacity-40 z-0"
-          style={{
-            width: "600px",
-            height: "600px",
-            background: "radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%)",
-            left: "5%",
-            top: "15%",
-          }}
-        />
-
-        {/* Soft purple radial glow behind the image */}
-        <div
-          className="absolute pointer-events-none rounded-full blur-[160px] opacity-30 z-0"
-          style={{
-            width: "600px",
-            height: "600px",
-            background: "radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%)",
-            right: "5%",
-            top: "20%",
-          }}
-        />
-
-        {/* Mouse follow spotlight glow */}
-        <div
-          className="absolute pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-500 rounded-full blur-[130px] z-0"
-          style={{
-            width: "400px",
-            height: "400px",
-            background: "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%)",
-            left: `${mousePos.x - 200}px`,
-            top: `${mousePos.y - 200}px`,
-          }}
-        />
-
-        {/* Oversized background typography "DENTAL" */}
-        <div className="absolute top-[18%] left-[4%] text-[15vw] font-serif font-black text-white/[0.012] select-none pointer-events-none tracking-[0.15em] leading-none z-0 uppercase">
-          DENTAL
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 my-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-            {/* Left Content Column */}
-            <div className="lg:col-span-6 flex flex-col justify-center text-center lg:text-left items-center lg:items-start space-y-7">
-
-              {/* Doctor Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-[20px] bg-[#18022a]/30 backdrop-blur-md border border-[#35063e]/40 text-white text-[10px] sm:text-xs font-semibold tracking-wide w-fit transition-colors duration-300 hover:border-[#35063e]/80"
-              >
-                <div className="w-5 h-5 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center shrink-0">
-                  <Sparkles className="w-3 h-3 text-[#D8B4FE]" />
-                </div>
-                <span>Dr. Ayush Varshney B.D.S, (Dental Surgeon)</span>
-              </motion.div>
-
-              {/* Modern Sans Heading */}
-              <h1 className="text-3xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
-                <span className="block overflow-hidden py-0.5">
-                  <motion.span
-                    initial={{ y: "100%", opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                    className="block text-[11px] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2"
-                  >
-                    Dr. Varshney's Dental Aesthetics
-                  </motion.span>
-                </span>
-                <span className="block overflow-hidden py-0.5">
-                  <motion.span
-                    initial={{ y: "100%", opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-                    className="block"
-                  >
-                    Healthy Teeth.
-                  </motion.span>
-                </span>
-                <span className="block overflow-hidden py-0.5">
-                  <motion.span
-                    initial={{ y: "100%", opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
-                    className="block beautiful-smiles-glow"
-                  >
-                    Beautiful Smiles.
-                  </motion.span>
-                </span>
-              </h1>
-
-              {/* Description Paragraph */}
-              <motion.p
-                initial={{ y: 15, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}
-                className="text-white/60 text-base sm:text-lg max-w-lg leading-relaxed font-sans"
-              >
-                Modern dental care by Dr. Ayush Varshney in Nani Daman, offering root canal treatment, dental implants, braces, teeth cleaning, and complete family dental care.
-              </motion.p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start">
-                {/* Book Appointment (Primary) */}
-                <motion.a
-                  href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ y: 12, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    y: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.2 },
-                    opacity: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.2 }
-                  }}
-                  whileHover={{ y: -2, scale: 1.01, boxShadow: "0px 10px 25px -5px rgba(168, 85, 247, 0.3)" }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-8 py-3.5 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer border border-purple-500/50 hover:border-purple-400"
-                >
-                  <CalendarDays className="w-5 h-5 text-white" />
-                  <span>Book Appointment</span>
-                </motion.a>
-              </div>
-
-            </div>
-
-            {/* Right Column: Hero Image with Polished Glass Frame */}
-            <div className="lg:col-span-6 flex justify-center relative z-10">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-                className="relative w-full max-w-lg aspect-[4/3] rounded-[36px] overflow-visible"
-              >
-                {/* Faint purple ambient glow behind the image to blend it into the background */}
-                <div className="absolute inset-[-15px] bg-purple-500/5 rounded-[40px] blur-[30px] pointer-events-none -z-10" />
-
-                {/* Slow float animation */}
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full border border-purple-500/30 rounded-[36px] shadow-[0_10px_35px_rgba(0,0,0,0.55),_0_0_15px_rgba(168,85,247,0.15)] overflow-hidden bg-[#0a0516]/70 backdrop-blur-[20px]"
-                >
-                  <motion.img
-                    src="hero-dental.png"
-                    alt="Premium Dental Care at Dr. Varshney's Dental Aesthetics"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full h-full object-cover"
-                  />
-
-                  {/* Glass overlay: 4% dark tint to blend naturally */}
-                  <div className="absolute inset-0 bg-[#090514]/4 mix-blend-multiply pointer-events-none" />
-
-                  {/* Inset shadows: top highlight and internal glow matching the navbar */}
-                  <div className="absolute inset-0 pointer-events-none shadow-[inset_0_1px_0_rgba(255,255,255,0.15),_inset_0_0_12px_rgba(168,85,247,0.12)]" />
-                </motion.div>
-              </motion.div>
-            </div>
-
+        {/* Desktop: off-center bust portrait, right side */}
+        <div className="hidden lg:block absolute inset-y-0 right-0 w-[46%] pointer-events-none">
+          <div className="relative w-full h-full">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_35%,rgba(139,61,255,0.16),transparent_65%)]" />
+            <img
+              src="/drAyush_nobg.png"
+              alt="Dr. Ayush Varshney"
+              className="absolute bottom-0 right-[6%] h-[92%] w-auto object-contain object-bottom"
+            />
           </div>
         </div>
 
-        {/* Bottom Statistics Glassmorphic Panel */}
-        <div className="w-[92%] max-w-7xl mx-auto mt-12 mb-4 z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.2 }}
-            className="w-full rounded-[32px] bg-black/40 backdrop-blur-[16px] border border-white/10 p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4 shadow-[0_15px_35px_rgba(0,0,0,0.6)]"
-          >
-            {/* Stat 1 */}
-            <div className="flex items-center gap-4 text-left px-4">
-              <div className="w-12 h-12 rounded-full border border-purple-500/20 bg-purple-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                <ShieldCheck className="w-5 h-5 text-purple-400" />
-              </div>
-              <div>
-                <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">3</span>
-                  <span className="text-xl font-bold text-purple-400 leading-none">+</span>
-                </div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Years Experience</div>
-                <div className="text-[10px] text-white/40 mt-0.5">Delivering Excellence</div>
-              </div>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="flex items-center gap-4 text-left px-4 sm:border-l sm:border-white/10">
-              <div className="w-12 h-12 rounded-full border border-purple-500/20 bg-purple-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                <Smile className="w-5 h-5 text-purple-400" />
-              </div>
-              <div>
-                <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">2500</span>
-                  <span className="text-xl font-bold text-purple-400 leading-none">+</span>
-                </div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Happy Patients</div>
-                <div className="text-[10px] text-white/40 mt-0.5">Trust & Satisfaction</div>
-              </div>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="flex items-center gap-4 text-left px-4 lg:border-l lg:border-white/10">
-              <div className="w-12 h-12 rounded-full border border-purple-500/20 bg-purple-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                <Activity className="w-5 h-5 text-purple-400" />
-              </div>
-              <div>
-                <div className="flex items-baseline">
-                  <span className="text-2xl font-bold text-white leading-none">98</span>
-                  <span className="text-xl font-bold text-purple-400 leading-none">%</span>
-                </div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Success Rate</div>
-                <div className="text-[10px] text-white/40 mt-0.5">In Dental Treatments</div>
-              </div>
-            </div>
-
-            {/* Stat 4 */}
-            <div className="flex items-center gap-4 text-left px-4 sm:border-l lg:border-white/10">
-              <div className="w-12 h-12 rounded-full border border-purple-500/20 bg-purple-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                <Sparkles className="w-5 h-5 text-purple-400" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white leading-none">Modern</div>
-                <div className="text-xs font-semibold text-white/90 mt-1">Technology</div>
-                <div className="text-[10px] text-white/40 mt-0.5">Precision & Comfort</div>
-              </div>
-            </div>
-          </motion.div>
-
-
+        {/* Mobile: full-bleed portrait background, gradient-masked into charcoal below */}
+        <div className="lg:hidden absolute inset-0">
+          <img
+            src="/drAyush_nobg.png"
+            alt="Dr. Ayush Varshney"
+            className="absolute inset-0 w-full h-full object-cover object-top [mask-image:linear-gradient(to_bottom,black_38%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom,black_38%,transparent_88%)]"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(139,61,255,0.18),transparent_60%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-charcoal-950/40 to-charcoal-950" />
         </div>
 
+        <div className="relative z-10 flex-1 flex flex-col justify-end lg:justify-center max-w-7xl mx-auto px-5 sm:px-8 lg:px-8 w-full pt-40 pb-14 lg:pb-0">
+          <div className="max-w-xl">
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-tint/30 text-[11px] font-semibold text-purple-tint tracking-wider uppercase mb-6 w-fit"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Dr. Ayush Varshney, B.D.S.</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+              className="font-serif font-semibold text-white tracking-tight leading-[1.03] text-[13vw] sm:text-6xl lg:text-[76px]"
+            >
+              Healthy Teeth.<br />
+              <span className="beautiful-smiles-glow">Beautiful Smiles.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
+              className="text-white/65 text-base sm:text-lg leading-relaxed mt-6 max-w-md"
+            >
+              Modern dental care in Nani Daman — implants, root canals, braces, and complete family dentistry.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
+              className="flex flex-wrap items-center gap-6 mt-9"
+            >
+              <a
+                href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 min-h-[52px] rounded-full bg-purple-accent hover:bg-purple-accent-hover text-white font-semibold text-base transition-colors flex items-center gap-2"
+              >
+                <CalendarDays className="w-5 h-5" />
+                <span>Book Consultation</span>
+              </a>
+              <a
+                href="#services"
+                className="text-white/70 hover:text-white text-sm font-medium underline decoration-white/25 underline-offset-4 transition-colors min-h-[44px] flex items-center"
+              >
+                Explore Services
+              </a>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Stats strip — single horizontal strip, museum-plaque style, no boxes */}
+        <div className="relative z-10 border-t border-white/[0.08] bg-charcoal-950/60 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-8">
+            <div className="flex overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:grid sm:grid-cols-4 divide-x divide-white/[0.08]" style={{ scrollbarWidth: "none" }}>
+              {[
+                { value: "3+", label: "Years Experience", sub: "Delivering Excellence" },
+                { value: "2500+", label: "Happy Patients", sub: "Trust & Satisfaction" },
+                { value: "98%", label: "Success Rate", sub: "In Dental Treatments" },
+                { value: "Modern", label: "Technology", sub: "Precision & Comfort" },
+              ].map((stat, idx) => (
+                <div key={idx} className="snap-start shrink-0 w-[62vw] sm:w-auto py-6 sm:py-8 px-5 sm:px-6">
+                  <div className="font-serif text-3xl sm:text-4xl font-semibold text-white leading-none">{stat.value}</div>
+                  <div className="text-xs sm:text-sm font-semibold text-white/80 mt-2">{stat.label}</div>
+                  <div className="text-[11px] text-white/40 mt-0.5">{stat.sub}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
+      {/* ------------------ MEET YOUR DOCTOR SECTION ------------------ */}
+      <DoctorProfile />
+
+      {/* ------------------ WHY CHOOSE OUR CLINIC SECTION (marquee) ------------------ */}
+      <WhyChooseUs />
+
       {/* ------------------ SERVICES SECTION ------------------ */}
-      <section id="services" className="pt-12 pb-20 lg:pt-16 lg:pb-28 relative overflow-hidden border-y border-purple-500/10 bg-[#090611]">
-        
-        {/* Soft radial purple gradients */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10" />
-        <div className="absolute bottom-1/4 left-[10%] w-[350px] h-[350px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
+      <section id="services" className="relative py-16 sm:py-24 lg:py-[140px] overflow-hidden bg-charcoal-950 border-t border-white/[0.06]">
 
-        {/* Low-opacity oversized background typography for depth */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] sm:text-[200px] lg:text-[320px] font-black text-white/[0.012] tracking-[0.25em] select-none pointer-events-none -z-10 font-sans uppercase">
-          SERVICES
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
 
           {/* Section Header */}
           <motion.div
@@ -1319,235 +1111,86 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={serviceHeaderVariants}
-            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8 lg:mb-10"
+            className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8"
           >
-            {/* Small glassmorphism pill label */}
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0a0516]/65 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1),_inset_0_1px_0_rgba(255,255,255,0.1)] text-xs font-semibold text-purple-300 tracking-wider uppercase backdrop-blur-[10px]">
-              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-purple-accent/30 text-xs font-semibold text-purple-tint tracking-wider uppercase">
+              <Sparkles className="w-3.5 h-3.5" />
               <span>Our Services ({services.length})</span>
             </div>
 
-            {/* Large elegant heading matching hero/site UI */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mt-6">
-              Elevating Oral Health <br />
-              <span className="beautiful-smiles-glow">With Artistic Precision</span>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-white tracking-tight leading-[1.15] mt-6">
+              Elevating Oral Health <span className="beautiful-smiles-glow">With Artistic Precision</span>
             </h2>
-
-            <p className="text-white/60 text-sm sm:text-base mt-4 max-w-2xl font-light">
-              Explore our comprehensive range of specialized dental treatments. Click on any treatment to view full procedures, clinical benefits, and specific FAQs.
-            </p>
           </motion.div>
 
-          {/* Search & Category Filter Controls */}
-          <div className="mb-10 lg:mb-12 space-y-6">
-            
-            {/* Search Input Bar */}
-            <div className="max-w-md mx-auto relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-300/60" />
-              <input
-                type="text"
-                value={serviceSearchQuery}
-                onChange={(e) => setServiceSearchQuery(e.target.value)}
-                placeholder="Search treatments or symptoms (e.g. root canal, whitening)..."
-                className="w-full pl-11 pr-10 py-3 rounded-2xl bg-[#120a24]/80 border border-purple-500/20 focus:border-purple-500 focus:outline-none text-white text-sm placeholder:text-white/40 shadow-lg backdrop-blur-md transition-all"
-              />
-              {serviceSearchQuery && (
-                <button
-                  onClick={() => setServiceSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs p-1"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+          {/* Ambient auto-scrolling ticker of service names, edge-faded */}
+          <div className="relative w-full overflow-hidden mb-14 sm:mb-20 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="flex w-max gap-8 animate-marquee-slow py-2">
+              {[...services, ...services, ...services].map((s, idx) => (
+                <span key={idx} className="shrink-0 flex items-center gap-8 text-white/25 text-sm sm:text-base font-medium uppercase tracking-wider">
+                  {s.title}
+                  <span className="text-purple-accent/50">&bull;</span>
+                </span>
+              ))}
             </div>
-
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
-              {serviceCategories.map((cat) => {
-                const isSelected = selectedServiceCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedServiceCategory(cat)}
-                    className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 cursor-pointer flex items-center gap-1.5 ${
-                      isSelected
-                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.35)] border border-purple-400/40"
-                        : "bg-[#120a24]/50 border border-white/10 text-white/70 hover:text-white hover:bg-purple-500/20"
-                    }`}
-                  >
-                    <span>{cat}</span>
-                  </button>
-                );
-              })}
-            </div>
-
           </div>
 
-          {/* Empty Search / Filter State */}
-          {filteredServices.length === 0 && (
-            <div className="text-center py-16 px-4 rounded-3xl bg-[#120a24]/30 border border-white/5 max-w-md mx-auto space-y-4">
-              <HelpCircle className="w-10 h-10 text-purple-400/60 mx-auto" />
-              <div>
-                <h3 className="text-lg font-bold text-white">No treatments found</h3>
-                <p className="text-xs text-white/60 mt-1">Try resetting your search query or selecting a different category filter.</p>
-              </div>
-              <button
-                onClick={() => {
-                  setSelectedServiceCategory("All");
-                  setServiceSearchQuery("");
-                }}
-                className="px-5 py-2 rounded-full bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs font-semibold border border-purple-500/30 transition-all cursor-pointer"
+          {/* Real responsive grid — all services, zero gaps, shared hairline dividers */}
+          <motion.div
+            variants={serviceContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.06]"
+          >
+            {services.map((service) => (
+              <motion.article
+                key={service.id}
+                variants={serviceCardVariants}
+                onClick={() => setActiveServiceDetail(service)}
+                itemScope
+                itemType="https://schema.org/MedicalProcedure"
+                className="group relative flex flex-col bg-charcoal-950 text-left cursor-pointer"
               >
-                Reset Filters & Search
-              </button>
-            </div>
-          )}
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <img
+                    itemProp="image"
+                    src={service.image}
+                    alt={`${service.title} treatment at Dr. Varshney's Dental Aesthetics in Nani Daman`}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_50%_100%,rgba(139,61,255,0.25),transparent_70%)] pointer-events-none" />
+                  <span className="absolute top-4 left-4 text-[10px] uppercase font-semibold tracking-wider text-purple-tint bg-charcoal-950/80 px-3 py-1 rounded-full border border-white/10">
+                    {service.category}
+                  </span>
+                </div>
 
-          {/* Services Grid with Microdata SEO */}
-          {filteredServices.length > 0 && (
-            <motion.div
-              variants={serviceContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
-            >
-              {filteredServices.map((service) => (
-                <motion.article
-                  key={service.id}
-                  variants={serviceCardVariants}
-                  whileHover="hover"
-                  onClick={() => setActiveServiceDetail(service)}
-                  itemScope
-                  itemType="https://schema.org/MedicalProcedure"
-                  className="relative group flex flex-col justify-between rounded-[28px] bg-gradient-to-b from-[#120a24]/50 to-[#0a0516]/70 backdrop-blur-[24px] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55),_0_0_20px_rgba(168,85,247,0.03),_inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 text-left overflow-hidden min-h-[420px] sm:min-h-[480px] cursor-pointer"
-                >
-                  <div>
-                    {/* Image container */}
-                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-white/5">
-                      <motion.img
-                        itemProp="image"
-                        src={service.image}
-                        alt={`${service.title} treatment at Dr. Varshney's Dental Aesthetics in Nani Daman`}
-                        variants={{
-                          hover: { scale: 1.05 }
-                        }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-[#090514]/40 mix-blend-multiply pointer-events-none" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0516]/95 via-transparent to-transparent pointer-events-none" />
-                      <span className="absolute top-4 left-4 text-[10px] uppercase font-bold tracking-wider text-purple-200 bg-[#0a0516]/80 backdrop-blur-md px-3 py-1 rounded-full border border-purple-500/30">
-                        {service.category}
-                      </span>
-                    </div>
+                <div className="p-6 sm:p-8 flex flex-col flex-1">
+                  <h3 itemProp="name" className="text-lg sm:text-xl font-semibold text-white tracking-tight leading-snug group-hover:text-purple-tint transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p itemProp="description" className="text-white/55 text-sm leading-relaxed mt-3 line-clamp-3 font-light">
+                    {service.description}
+                  </p>
 
-                    {/* Content */}
-                    <div className="p-8">
-                      <h3 itemProp="name" className="text-xl font-bold text-white tracking-tight leading-snug group-hover:text-purple-300 transition-colors duration-300 font-sans">
-                        {service.title}
-                      </h3>
-                      <p itemProp="description" className="text-white/60 text-sm leading-relaxed mt-3 line-clamp-3 font-light">
-                        {service.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Bottom Action Footer */}
-                  <div className="p-8 pt-0 flex items-center justify-between mt-auto">
-                    <span className="text-[11px] uppercase font-semibold text-purple-300/80 tracking-wider bg-purple-500/10 px-3.5 py-1 rounded-full border border-purple-500/20">{service.priceRange}</span>
-                    <motion.button
+                  <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between">
+                    <span className="text-[11px] uppercase font-semibold text-purple-tint/80 tracking-wider">{service.priceRange}</span>
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setActiveServiceDetail(service);
                       }}
                       aria-label={`View detailed information for ${service.title}`}
-                      className="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300 cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
+                      className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 group-hover:bg-purple-accent group-hover:text-white group-hover:border-purple-accent transition-all duration-300 cursor-pointer"
                     >
-                      <motion.div
-                        variants={{
-                          hover: { x: 2, rotate: -45 }
-                        }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <ArrowRight className="w-5 h-5" />
-                      </motion.div>
-                    </motion.button>
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-[-45deg]" />
+                    </button>
                   </div>
-                </motion.article>
-              ))}
-            </motion.div>
-          )}
-
-        </div>
-      </section>
-
-      {/* ------------------ MEET YOUR DOCTOR SECTION ------------------ */}
-      <DoctorProfile />
-
-      {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
-      <WhyChooseUs />
-
-      {/* ------------------ PILLARS OF PRACTICE SECTION ------------------ */}
-      <PillarsOfPractice />
-
-      {/* ------------------ GALLERY SECTION ------------------ */}
-      <Gallery />
-
-      {/* ------------------ FAQ SECTION ------------------ */}
-      <section id="faq" className="relative pt-10 pb-20 lg:pt-14 lg:pb-24 border-t border-[#35063e]/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
-            <span className="text-[#D8B4FE] font-extrabold tracking-widest text-xs uppercase block">FAQ</span>
-            <h2 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
-            <div className="h-1 w-16 bg-[#35063e] mx-auto rounded-full mt-2" />
-          </div>
-
-          <div className="space-y-4 text-left">
-            {generalFaqs.map((faq, idx) => {
-              const isOpen = activeFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-xl border border-[#35063e]/20 bg-gradient-to-r from-[#35063e]/20 to-indigo-955/5 overflow-hidden shadow-sm transition-all duration-300"
-                >
-                  <button
-                    onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full p-4 sm:p-6 flex justify-between items-center text-left text-white font-semibold hover:text-[#D8B4FE] transition-colors cursor-pointer"
-                  >
-                    <span className="text-base sm:text-lg">{faq.question}</span>
-                    <span className="p-1 rounded-lg bg-[#35063e]/20 text-[#D8B4FE] shrink-0 ml-4">
-                      {/* Arrow Rotate */}
-                      <motion.div
-                        animate={{ rotate: isOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown className="w-4 h-4" />
-                      </motion.div>
-                    </span>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                      >
-                        <div className="p-4 sm:p-6 pt-0 sm:pt-0 border-t border-[#35063e]/20 text-sm text-text-muted/70 leading-relaxed">
-                          {faq.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
-              );
-            })}
-          </div>
+              </motion.article>
+            ))}
+          </motion.div>
 
         </div>
       </section>
@@ -1555,11 +1198,17 @@ export default function Home() {
       {/* ------------------ PATIENT REVIEWS SECTION ------------------ */}
       <Reviews />
 
+      {/* ------------------ PILLARS OF PRACTICE SECTION ------------------ */}
+      <PillarsOfPractice />
+
+      {/* ------------------ GALLERY SECTION ------------------ */}
+      <Gallery />
+
       {/* ------------------ CONTACT US SECTION ------------------ */}
       <ContactUs />
 
       {/* ------------------ FOOTER ------------------ */}
-      <footer className="bg-[#090611] text-white py-16 relative border-t border-[#35063e]/30">
+      <footer className="bg-[var(--color-charcoal-950)] text-white py-16 relative border-t border-[var(--color-purple-deep)]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 text-left mb-12">
@@ -1573,44 +1222,45 @@ export default function Home() {
                       cx="50"
                       cy="50"
                       r="45"
-                      stroke="#35063e"
+                      stroke="var(--color-purple-deep)"
                       strokeWidth="4"
                       fill="transparent"
                       strokeLinecap="round"
                       strokeDasharray="220 63"
                     />
                   </svg>
-                  <div className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[#090611] z-10">
+                  <div className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-[var(--color-charcoal-950)] z-10">
                     <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
                 <div>
-                  <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY'S</span>
-                  <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Aesthetics</span>
+                  <span className="font-extrabold text-sm block leading-none">DR. VARSHNEY&apos;S</span>
+                  <span className="text-[8px] uppercase font-bold text-[var(--color-purple-tint)] tracking-[0.15em] block mt-0.5">Dental Aesthetics</span>
                 </div>
               </a>
               <p className="text-xs text-text-muted/60 leading-relaxed">
-                We're committed to providing high-quality dental care in a comfortable and friendly environment.
+                We&apos;re committed to providing high-quality dental care in a comfortable and friendly environment.
               </p>
             </div>
 
             {/* Column 2: Quick Links */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Quick Links</h4>
+              <h4 className="font-bold text-[var(--color-purple-tint)] text-xs uppercase tracking-wider">Quick Links</h4>
               <ul className="text-xs text-text-muted/70 space-y-2 font-semibold">
                 <li><a href="#hero" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
                 <li><a href="#doctor" className="hover:text-white transition-colors">About Doctor</a></li>
                 <li><a href="#why-choose-us" className="hover:text-white transition-colors">Why Choose Us</a></li>
+                <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
+                <li><a href="#reviews" className="hover:text-white transition-colors">Reviews</a></li>
                 <li><a href="#pillars" className="hover:text-white transition-colors">Pillars of Practice</a></li>
-                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#gallery" className="hover:text-white transition-colors">Gallery</a></li>
                 <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
               </ul>
             </div>
 
             {/* Column 3: Services */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Our Services</h4>
+              <h4 className="font-bold text-[var(--color-purple-tint)] text-xs uppercase tracking-wider">Our Services</h4>
               <ul className="text-xs text-text-muted/70 space-y-2">
                 <li>Scaling</li>
                 <li>Tooth Filling</li>
@@ -1625,18 +1275,18 @@ export default function Home() {
 
             {/* Column 4: Contact */}
             <div className="space-y-3">
-              <h4 className="font-bold text-[#D8B4FE] text-xs uppercase tracking-wider">Contact Us</h4>
+              <h4 className="font-bold text-[var(--color-purple-tint)] text-xs uppercase tracking-wider">Contact Us</h4>
               <ul className="text-xs text-text-muted/70 space-y-2.5">
                 <li className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-[#D8B4FE] shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[var(--color-purple-tint)] shrink-0 mt-0.5" />
                   <span>Airport Road, Nani Daman</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-[#D8B4FE]" />
+                  <Phone className="w-3.5 h-3.5 text-[var(--color-purple-tint)]" />
                   <a href="tel:7977454648" className="hover:text-white font-bold transition-colors">+91 79774 54648</a>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-[#D8B4FE]" />
+                  <Mail className="w-3.5 h-3.5 text-[var(--color-purple-tint)]" />
                   <a href="mailto:dr.varshneydental@gmail.com" className="hover:text-white transition-colors">dr.varshneydental@gmail.com</a>
                 </li>
               </ul>
@@ -1644,8 +1294,8 @@ export default function Home() {
 
           </div>
 
-          <div className="pt-8 border-t border-[#35063e]/20 text-center text-xs text-text-muted/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>© {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
+          <div className="pt-8 border-t border-[var(--color-purple-deep)]/20 text-center text-xs text-text-muted/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© {new Date().getFullYear()} Dr. Varshney&apos;s Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
             <div className="flex gap-4">
               <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <span>|</span>
@@ -1673,30 +1323,30 @@ export default function Home() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 w-full max-w-md bg-[#0e071b] border-l border-[#35063e]/30 p-5 sm:p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
+              className="fixed inset-y-0 right-0 w-full max-w-md bg-[var(--color-charcoal-900)] border-l border-[var(--color-purple-deep)]/30 p-5 sm:p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
             >
               <div className="space-y-8">
 
                 {/* Close */}
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-bold tracking-widest text-[#D8B4FE] uppercase">Treatment Guide</span>
+                  <span className="text-[10px] font-bold tracking-widest text-[var(--color-purple-tint)] uppercase">Treatment Guide</span>
                   <button
                     onClick={() => setActiveServiceDetail(null)}
-                    className="p-1.5 rounded-lg bg-[#35063e]/25 border border-[#35063e]/35 text-[#D8B4FE] hover:text-white cursor-pointer"
+                    className="p-1.5 rounded-lg bg-[var(--color-purple-deep)]/25 border border-[var(--color-purple-deep)]/35 text-[var(--color-purple-tint)] hover:text-white cursor-pointer"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
                 {/* Service Image */}
-                <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-[#0e071b]">
+                <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-[var(--color-charcoal-900)]">
                   <img
                     src={activeServiceDetail.image}
                     alt={activeServiceDetail.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-[#090514]/20 mix-blend-multiply pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e071b] via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-charcoal-900)] via-transparent to-transparent pointer-events-none" />
                 </div>
 
                 {/* Content */}
@@ -1706,13 +1356,13 @@ export default function Home() {
                 </div>
 
                 {/* Info block */}
-                <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-black/40 border border-[#35063e]/25">
+                <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-black/40 border border-[var(--color-purple-deep)]/25">
                   <div>
-                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">Cost Category</span>
+                    <span className="text-[10px] uppercase text-[var(--color-purple-tint)] font-bold block">Cost Category</span>
                     <span className="text-sm font-bold text-white">{activeServiceDetail.priceRange}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">Typical Duration</span>
+                    <span className="text-[10px] uppercase text-[var(--color-purple-tint)] font-bold block">Typical Duration</span>
                     <span className="text-sm font-bold text-white">{activeServiceDetail.duration}</span>
                   </div>
                 </div>
@@ -1723,7 +1373,7 @@ export default function Home() {
                   <ul className="space-y-2">
                     {activeServiceDetail.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-xs text-text-secondary/80">
-                        <Check className="w-4 h-4 text-[#D8B4FE] shrink-0 mt-0.5 stroke-[3]" />
+                        <Check className="w-4 h-4 text-[var(--color-purple-tint)] shrink-0 mt-0.5 stroke-[3]" />
                         <span>{benefit}</span>
                       </li>
                     ))}
@@ -1731,15 +1381,15 @@ export default function Home() {
                 </div>
 
                 {/* FAQ snippets */}
-                <div className="space-y-4 pt-4 border-t border-[#35063e]/20">
+                <div className="space-y-4 pt-4 border-t border-[var(--color-purple-deep)]/20">
                   <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <HelpCircle className="w-4 h-4 text-[#D8B4FE]" />
+                    <HelpCircle className="w-4 h-4 text-[var(--color-purple-tint)]" />
                     <span>Frequently Asked</span>
                   </h4>
                   {activeServiceDetail.faqs.map((faq, i) => (
                     <div key={i} className="space-y-1 text-xs">
                       <p className="font-bold text-text-muted">Q: {faq.q}</p>
-                      <p className="text-[#D8B4FE]/85 leading-relaxed">A: {faq.a}</p>
+                      <p className="text-[var(--color-purple-tint)]/85 leading-relaxed">A: {faq.a}</p>
                     </div>
                   ))}
                 </div>
@@ -1771,20 +1421,20 @@ export default function Home() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] sm:w-full sm:max-w-xl bg-[#0e071b] border border-[#35063e]/30 p-6 sm:p-8 rounded-3xl shadow-2xl z-50 overflow-y-auto max-h-[90vh] text-left text-[#FFFFFF]"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] sm:w-full sm:max-w-xl bg-[var(--color-charcoal-900)] border border-[var(--color-purple-deep)]/30 p-6 sm:p-8 rounded-3xl shadow-2xl z-50 overflow-y-auto max-h-[90vh] text-left text-[#FFFFFF]"
             >
 
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <h3 className="text-2xl font-extrabold text-white">Book Your Visit</h3>
-                  <p className="text-xs text-[#D8B4FE] mt-0.5">Please provide appointment details below</p>
+                  <p className="text-xs text-[var(--color-purple-tint)] mt-0.5">Please provide appointment details below</p>
                 </div>
                 <button
                   onClick={() => {
                     setIsBookingOpen(false);
                     setBookingSuccess(false);
                   }}
-                  className="p-1.5 rounded-lg bg-[#35063e]/25 border border-[#35063e]/35 text-[#D8B4FE] hover:text-white cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[var(--color-purple-deep)]/25 border border-[var(--color-purple-deep)]/35 text-[var(--color-purple-tint)] hover:text-white cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -1792,7 +1442,7 @@ export default function Home() {
 
               {bookingSuccess && lastBookedAppointment ? (
                 <div className="space-y-6 text-center py-8">
-                  <div className="w-16 h-16 rounded-full bg-[#090611] border border-[#35063e] text-[#D8B4FE] flex items-center justify-center mx-auto animate-bounce">
+                  <div className="w-16 h-16 rounded-full bg-[var(--color-charcoal-950)] border border-[var(--color-purple-deep)] text-[var(--color-purple-tint)] flex items-center justify-center mx-auto animate-bounce">
                     <Check className="w-8 h-8 stroke-[3]" />
                   </div>
 
@@ -1803,11 +1453,11 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-black/45 border border-[#35063e]/25 text-left text-xs space-y-2 max-w-md mx-auto">
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Patient:</span> <span className="text-white font-bold">{lastBookedAppointment.name}</span></div>
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Service:</span> <span className="text-white font-bold">{lastBookedAppointment.service}</span></div>
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Doctor:</span> <span className="text-white font-bold">{lastBookedAppointment.doctor}</span></div>
-                    <div className="flex justify-between"><span className="text-[#D8B4FE]">Date & Time:</span> <span className="text-white font-bold">{lastBookedAppointment.date} at {lastBookedAppointment.timeSlot}</span></div>
+                  <div className="p-5 rounded-2xl bg-black/45 border border-[var(--color-purple-deep)]/25 text-left text-xs space-y-2 max-w-md mx-auto">
+                    <div className="flex justify-between"><span className="text-[var(--color-purple-tint)]">Patient:</span> <span className="text-white font-bold">{lastBookedAppointment.name}</span></div>
+                    <div className="flex justify-between"><span className="text-[var(--color-purple-tint)]">Service:</span> <span className="text-white font-bold">{lastBookedAppointment.service}</span></div>
+                    <div className="flex justify-between"><span className="text-[var(--color-purple-tint)]">Doctor:</span> <span className="text-white font-bold">{lastBookedAppointment.doctor}</span></div>
+                    <div className="flex justify-between"><span className="text-[var(--color-purple-tint)]">Date & Time:</span> <span className="text-white font-bold">{lastBookedAppointment.date} at {lastBookedAppointment.timeSlot}</span></div>
                   </div>
 
                   <button
@@ -1815,7 +1465,7 @@ export default function Home() {
                       setIsBookingOpen(false);
                       setBookingSuccess(false);
                     }}
-                    className="px-6 py-2.5 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-sm transition-all cursor-pointer"
+                    className="px-6 py-2.5 rounded-full bg-[var(--color-purple-deep)] hover:bg-[var(--color-purple-accent-hover)] text-white font-semibold text-sm transition-all cursor-pointer"
                   >
                     Done & Close
                   </button>
@@ -1827,9 +1477,9 @@ export default function Home() {
 
                     {/* Name */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Your Full Name *</label>
+                      <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Your Full Name *</label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-purple-tint)]" />
                         <input
                           type="text"
                           required
@@ -1838,7 +1488,7 @@ export default function Home() {
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
                           placeholder="e.g. John Doe"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_name" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_name" ? "border-[var(--color-purple-deep)] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[var(--color-purple-deep)]/25"
                             }`}
                         />
                       </div>
@@ -1846,9 +1496,9 @@ export default function Home() {
 
                     {/* Email */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Email Address</label>
+                      <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Email Address</label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-purple-tint)]" />
                         <input
                           type="email"
                           value={bookingForm.email}
@@ -1856,7 +1506,7 @@ export default function Home() {
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
                           placeholder="care@domain.com"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_email" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_email" ? "border-[var(--color-purple-deep)] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[var(--color-purple-deep)]/25"
                             }`}
                         />
                       </div>
@@ -1868,9 +1518,9 @@ export default function Home() {
 
                     {/* Phone */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Phone Number *</label>
+                      <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Phone Number *</label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-purple-tint)]" />
                         <input
                           type="tel"
                           required
@@ -1879,7 +1529,7 @@ export default function Home() {
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
                           placeholder="79774 54648"
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_phone" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_phone" ? "border-[var(--color-purple-deep)] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[var(--color-purple-deep)]/25"
                             }`}
                         />
                       </div>
@@ -1887,14 +1537,14 @@ export default function Home() {
 
                     {/* Service */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Select Treatment *</label>
+                      <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Select Treatment *</label>
                       <select
                         value={bookingForm.service}
                         onChange={(e) => setBookingForm({ ...bookingForm, service: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#0e071b] border border-[#35063e]/25 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[var(--color-charcoal-900)] border border-[var(--color-purple-deep)]/25 focus:border-[var(--color-purple-deep)] focus:outline-none text-white text-sm cursor-pointer"
                       >
                         {services.map((s) => (
-                          <option key={s.id} value={s.title} className="bg-[#0e071b]">{s.title}</option>
+                          <option key={s.id} value={s.title} className="bg-[var(--color-charcoal-900)]">{s.title}</option>
                         ))}
                       </select>
                     </div>
@@ -1905,9 +1555,9 @@ export default function Home() {
 
                     {/* Date */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Preferred Date *</label>
+                      <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Preferred Date *</label>
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D8B4FE]" />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-purple-tint)]" />
                         <input
                           type="date"
                           required
@@ -1915,7 +1565,7 @@ export default function Home() {
                           onFocus={() => setFocusedInput("popup_date")}
                           onBlur={() => setFocusedInput(null)}
                           onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${focusedInput === "popup_date" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border focus:outline-none text-white text-sm cursor-pointer transition-all ${focusedInput === "popup_date" ? "border-[var(--color-purple-deep)] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[var(--color-purple-deep)]/25"
                             }`}
                         />
                       </div>
@@ -1923,12 +1573,12 @@ export default function Home() {
 
                     {/* Time slot */}
                     <div className="space-y-1.5">
-                      <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Select Time Slot *</label>
+                      <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Select Time Slot *</label>
                       <select
                         required
                         value={bookingForm.timeSlot}
                         onChange={(e) => setBookingForm({ ...bookingForm, timeSlot: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#35063e]/25 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
+                        className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[var(--color-purple-deep)]/25 focus:border-[var(--color-purple-deep)] focus:outline-none text-white text-sm cursor-pointer"
                       >
                         <option value="10:00 AM">10:00 AM (Morning)</option>
                         <option value="11:00 AM">11:00 AM (Morning)</option>
@@ -1944,21 +1594,21 @@ export default function Home() {
 
                   {/* Doctor */}
                   <div className="space-y-1.5">
-                    <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Preferred Doctor / Specialist</label>
+                    <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Preferred Doctor / Specialist</label>
                     <select
                       value={bookingForm.doctor}
                       onChange={(e) => setBookingForm({ ...bookingForm, doctor: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[#35063e]/25 focus:border-[#35063e] focus:outline-none text-white text-sm cursor-pointer"
+                      className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-[var(--color-purple-deep)]/25 focus:border-[var(--color-purple-deep)] focus:outline-none text-white text-sm cursor-pointer"
                     >
                       {doctors.map((doc, idx) => (
-                        <option key={idx} value={doc.name} className="bg-[#0e071b]">{doc.name} - {doc.credentials}</option>
+                        <option key={idx} value={doc.name} className="bg-[var(--color-charcoal-900)]">{doc.name} - {doc.credentials}</option>
                       ))}
                     </select>
                   </div>
 
                   {/* Notes */}
                   <div className="space-y-1.5">
-                    <label className="text-xs text-[#D8B4FE] font-bold uppercase block">Symptoms or Notes (Optional)</label>
+                    <label className="text-xs text-[var(--color-purple-tint)] font-bold uppercase block">Symptoms or Notes (Optional)</label>
                     <textarea
                       rows={2}
                       value={bookingForm.notes}
@@ -1966,7 +1616,7 @@ export default function Home() {
                       onBlur={() => setFocusedInput(null)}
                       onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                       placeholder="e.g. sensitivity to cold water on lower left molar"
-                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_notes" ? "border-[#35063e] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[#35063e]/25"
+                      className={`w-full px-4 py-2 rounded-xl bg-black/40 border focus:outline-none text-white text-sm transition-all ${focusedInput === "popup_notes" ? "border-[var(--color-purple-deep)] shadow-[0_0_12px_rgba(139,61,255,0.25)]" : "border-[var(--color-purple-deep)]/25"
                         }`}
                     />
                   </div>
@@ -1975,7 +1625,7 @@ export default function Home() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3.5 bg-[#35063e] hover:bg-[#4a0956] text-white font-bold text-base transition-all rounded-xl cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-3.5 bg-[var(--color-purple-deep)] hover:bg-[var(--color-purple-accent-hover)] text-white font-bold text-base transition-all rounded-xl cursor-pointer flex items-center justify-center gap-2"
                     >
                       {isSubmitting ? (
                         <>
@@ -2005,7 +1655,7 @@ export default function Home() {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             whileHover={{ scale: 1.1 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-6 right-6 p-3 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white shadow-xl z-40 transition-colors cursor-pointer border border-[#D8B4FE]/30"
+            className="fixed bottom-6 right-6 p-3 rounded-full bg-[var(--color-purple-deep)] hover:bg-[var(--color-purple-accent-hover)] text-white shadow-xl z-40 transition-colors cursor-pointer border border-[var(--color-purple-tint)]/30"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
