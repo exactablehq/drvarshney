@@ -1,19 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #07010c;
+  --background: #030109;
   --foreground: #FFFFFF;
-  --card-bg: #18022a;
-  --section-bg: #11011d;
-  --footer-bg: #040007;
-  --text-primary: #FFFFFF;
   --text-secondary: #C4B5FD;
   --text-muted: #A78BFA;
-  --border-custom: rgba(53, 6, 62, 0.4);
   --primary: #35063e;
-  --primary-hover: #4a0956;
-  --secondary: #35063e;
-  --accent: #35063e;
 }
 
 @theme inline {
@@ -24,18 +16,8 @@
   --font-serif: var(--font-cormorant);
 
   --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-
-  --color-bg-card: var(--card-bg);
-  --color-bg-section: var(--section-bg);
-  --color-bg-footer: var(--footer-bg);
-
-  --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
-  --color-border-custom: var(--border-custom);
 }
 
 html {
@@ -72,17 +54,6 @@ body {
   /* Accent Purple */
 }
 
-/* Grid background pattern */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image: none;
-}
-
-/* Radial glow gradient overlay */
-.bg-radial-glow {
-  background: radial-gradient(circle at 50% 20%, rgba(124, 58, 237, 0.14), rgba(124, 58, 237, 0.05) 35%, transparent 70%);
-}
-
 @keyframes pulseGlow {
 
   0%,
@@ -104,62 +75,6 @@ body {
 /* Faint noise texture */
 .bg-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-/* Premium Glass Frame Redesign */
-.premium-glass-frame {
-  position: relative;
-  border-radius: 32px;
-  overflow: hidden;
-  background: transparent;
-  padding: 1px;
-}
-
-.premium-glass-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 32px;
-  padding: 1.2px;
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.45) 0%,
-    rgba(168, 85, 247, 0.12) 30%,
-    rgba(168, 85, 247, 0.08) 50%,
-    rgba(168, 85, 247, 0.12) 70%,
-    rgba(168, 85, 247, 0.45) 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.premium-glass-layer {
-  position: absolute;
-  inset: 1px;
-  border-radius: 31px;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.05) 0%,
-    rgba(0, 0, 0, 0.02) 100%
-  );
-  backdrop-filter: blur(1.5px);
-  pointer-events: none;
-  z-index: 4;
-}
-
-.premium-glass-inner-glow {
-  position: absolute;
-  inset: 1px;
-  border-radius: 31px;
-  box-shadow: 
-    inset 0 0 16px rgba(168, 85, 247, 0.12),
-    inset 0 0 8px rgba(168, 85, 247, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-  pointer-events: none;
-  z-index: 5;
 }
 
 /* Animated gradient text for Beautiful Smiles */

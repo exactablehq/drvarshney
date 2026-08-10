@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ShieldCheck, Mail, Phone, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Dr. Varshney's Dental Aesthetics",
+  title: "Privacy Policy | Dr. Varshney&apos;s Dental Aesthetics",
   description:
-    "Privacy Policy for Dr. Varshney's Dental Aesthetics in Nani Daman. Understand how we collect, protect, and handle your patient information.",
+    "Privacy Policy for Dr. Varshney&apos;s Dental Aesthetics in Nani Daman. Understand how we collect, protect, and handle your patient information.",
   alternates: {
     canonical: "https://drvarshney.in/privacy-policy",
   },
@@ -13,17 +14,17 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#090611] text-white selection:bg-purple-500/30 selection:text-purple-200 flex flex-col justify-between">
+    <div className="min-h-screen bg-[#030109] text-white selection:bg-purple-500/30 selection:text-purple-200 flex flex-col justify-between">
       
       {/* Header Bar */}
-      <header className="sticky top-0 z-40 bg-[#090611]/80 backdrop-blur-xl border-b border-purple-500/10 px-4 sm:px-8 py-4">
+      <header className="sticky top-0 z-40 bg-[#030109]/80 backdrop-blur-xl border-b border-purple-500/10 px-4 sm:px-8 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center bg-[#090611] border border-purple-500/30">
-              <img src="/logo.png" alt="Dr. Varshney's Logo" className="w-full h-full object-cover" />
+            <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center bg-[#030109] border border-purple-500/30">
+              <Image src="/logo.png" alt="Dr. Varshney's Logo" width={36} height={36} className="w-full h-full object-cover" />
             </div>
             <div>
-              <span className="font-extrabold text-sm block leading-none text-white group-hover:text-purple-300 transition-colors">DR. VARSHNEY'S</span>
+              <span className="font-extrabold text-sm block leading-none text-white group-hover:text-purple-300 transition-colors">DR. VARSHNEY&apos;S</span>
               <span className="text-[8px] uppercase font-bold text-[#D8B4FE] tracking-[0.15em] block mt-0.5">Dental Aesthetics</span>
             </div>
           </Link>
@@ -54,12 +55,12 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Content Card */}
-        <div className="rounded-3xl bg-[#120a24]/60 backdrop-blur-xl border border-white/10 p-6 sm:p-10 space-y-8 text-sm text-white/80 leading-relaxed shadow-2xl">
+        <div className="rounded-3xl bg-[#130b21]/60 backdrop-blur-xl border border-white/10 p-6 sm:p-10 space-y-8 text-sm text-white/80 leading-relaxed shadow-2xl">
           
           <section className="space-y-3">
             <h2 className="text-xl font-bold text-white tracking-tight text-purple-300">1. Introduction</h2>
             <p>
-              At <strong>Dr. Varshney's Dental Aesthetics</strong>, led by Dr. Ayush Varshney (B.D.S., Reg. No. A-22861), we respect your privacy and are committed to protecting the personal and clinical information you share with us. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website (<Link href="/" className="text-purple-300 underline underline-offset-4">drvarshney.in</Link>) or use our online appointment booking services.
+              At <strong>Dr. Varshney&apos;s Dental Aesthetics</strong>, led by Dr. Ayush Varshney (B.D.S., Reg. No. A-22861), we respect your privacy and are committed to protecting the personal and clinical information you share with us. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website (<Link href="/" className="text-purple-300 underline underline-offset-4">drvarshney.in</Link>) or use our online appointment booking services.
             </p>
           </section>
 
@@ -132,7 +133,7 @@ export default function PrivacyPolicyPage() {
       {/* Simple Footer */}
       <footer className="border-t border-purple-500/10 py-6 text-center text-xs text-white/50">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p>© {new Date().getFullYear()} Dr. Varshney's Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
+          <p>© {new Date().getFullYear()} Dr. Varshney&apos;s Dental Aesthetics. All rights reserved. Reg. No. A-22861.</p>
           <div className="flex gap-4">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span>|</span>
