@@ -261,8 +261,8 @@ export default function Home() {
         <div
           className="absolute pointer-events-none rounded-full blur-[140px] z-[5]"
           style={{
-            width: "620px",
-            height: "620px",
+            width: "38.75rem",
+            height: "38.75rem",
             background:
               "radial-gradient(circle, rgba(168, 85, 247, 0.38) 0%, transparent 70%)",
             left: "-12%",
@@ -272,8 +272,8 @@ export default function Home() {
         <div
           className="absolute pointer-events-none rounded-full blur-[160px] z-[5]"
           style={{
-            width: "720px",
-            height: "720px",
+            width: "45rem",
+            height: "45rem",
             background:
               "radial-gradient(circle, rgba(124, 58, 237, 0.34) 0%, transparent 70%)",
             right: "-16%",
@@ -287,9 +287,9 @@ export default function Home() {
         <div className="relative z-10 flex items-center justify-center lg:justify-start px-6 sm:px-10 lg:pl-16 xl:pl-24 lg:pr-10 pt-36 pb-14 lg:py-32">
           <div className="max-w-xl flex flex-col text-center lg:text-left items-center lg:items-start space-y-6 lg:space-y-7">
             {/* Modern Sans Heading */}
-            <h1 className="text-4xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
+            <h1 className="text-4xl sm:text-6xl lg:text-[4.5rem] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
               <span className="block overflow-hidden py-0.5">
-                <span className="block text-[11px] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2">
+                <span className="block text-[0.6875rem] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2">
                   Dr. Varshney&apos;s Dental Aesthetics
                 </span>
               </span>
@@ -365,7 +365,7 @@ export default function Home() {
         <motion.div
           animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10"
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[31.25rem] sm:w-[43.75rem] h-[31.25rem] sm:h-[43.75rem] bg-purple-500/[0.03] rounded-full blur-[140px] pointer-events-none -z-10"
         />
         <motion.div
           animate={{ x: [0, -30, 0], y: [0, 25, 0] }}
@@ -375,7 +375,7 @@ export default function Home() {
             ease: "easeInOut",
             delay: 2,
           }}
-          className="absolute bottom-1/4 left-[10%] w-[350px] h-[350px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10"
+          className="absolute bottom-1/4 left-[10%] w-[21.875rem] h-[21.875rem] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10"
         />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
@@ -595,7 +595,7 @@ export default function Home() {
               animate={{ x: 0 }}
               exit={{ x: "120%" }}
               transition={{ type: "spring", damping: 28, stiffness: 240 }}
-              className="fixed top-4 bottom-4 right-4 sm:top-6 sm:bottom-6 sm:right-6 w-[calc(100%-2rem)] sm:w-[440px] z-50"
+              className="fixed top-4 bottom-4 right-4 sm:top-6 sm:bottom-6 sm:right-6 w-[calc(100%-2rem)] sm:w-[27.5rem] z-50"
             >
               {/* Glass panel — floating card, not edge-flush, so the translucency actually reads */}
               <div className="relative h-full rounded-[2rem] bg-white/[0.06] backdrop-blur-2xl border border-white/15 shadow-[0_25px_80px_rgba(0,0,0,0.65)] overflow-y-auto overflow-x-hidden overscroll-y-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-15">

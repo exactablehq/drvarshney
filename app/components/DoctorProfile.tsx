@@ -11,7 +11,13 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import { doctorsData } from "../data/doctors";
-import { Award, Stethoscope, Phone } from "lucide-react";
+import {
+  Award,
+  Stethoscope,
+  Phone,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const AUTO_ADVANCE_MS = 5500;
 const RING_RADIUS = 23;
@@ -172,8 +178,8 @@ export default function DoctorProfile() {
       <div
         className="absolute pointer-events-none rounded-full blur-[160px] z-[5]"
         style={{
-          width: "720px",
-          height: "720px",
+          width: "45rem",
+          height: "45rem",
           background:
             "radial-gradient(circle, rgba(124, 58, 237, 0.34) 0%, transparent 70%)",
           right: "16%",
@@ -211,7 +217,25 @@ export default function DoctorProfile() {
 
         {/* Seamless pane — no card, no border, just the figure and gradients.
                     Fixed min-height so the avatar filmstrip below never jumps as bio length varies. */}
-        <div className="relative min-h-[720px] sm:min-h-[640px] lg:min-h-[480px]">
+        <div className="relative min-h-[45rem] sm:min-h-[40rem] lg:min-h-[30rem]">
+          {/* Left Chevron Navigation Button */}
+          <button
+            onClick={prevDoctor}
+            className="absolute -left-3 sm:-left-8 lg:-left-12 top-[55%] lg:top-2/3 -translate-y-1/2 z-30 p-3 rounded-full text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 backdrop-blur-md transition-all duration-300 shadow-xl flex items-center justify-center group"
+            aria-label="Previous specialist"
+          >
+            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-300 text-purple-300" />
+          </button>
+
+          {/* Right Chevron Navigation Button */}
+          <button
+            onClick={nextDoctor}
+            className="absolute -right-3 sm:-right-8 lg:-right-12 top-[55%] lg:top-2/3 -translate-y-1/2 z-30 p-3 rounded-full text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 backdrop-blur-md transition-all duration-300 shadow-xl flex items-center justify-center group"
+            aria-label="Next specialist"
+          >
+            <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-300 text-purple-300" />
+          </button>
+
           <AnimatePresence mode="wait" custom={travel}>
             <motion.div
               key={activeIndex}
@@ -235,27 +259,13 @@ export default function DoctorProfile() {
                 setIsPaused(false);
               }}
               ref={tiltRef}
-              onMouseMove={handlePortraitMouseMove}
-              onMouseLeave={handlePortraitMouseLeave}
-              style={{
-                touchAction: "pan-y",
-                rotateX: springRotateX,
-                rotateY: springRotateY,
-                transformPerspective: 1400,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 28,
-                mass: 0.9,
-              }}
               className="absolute inset-0 w-full grid grid-cols-1 lg:grid-cols-12 items-center"
             >
               {/* Left: portrait floats free, edges dissolving into the page */}
               <div className="relative lg:col-span-5 flex justify-center lg:justify-end px-6 lg:px-0">
                 <motion.div
                   style={{ y: portraitY, scale: portraitScale }}
-                  className="relative w-full max-w-[300px] sm:max-w-sm lg:max-w-none lg:w-full aspect-[4/5]"
+                  className="relative w-full max-w-[18.75rem] sm:max-w-sm lg:max-w-none lg:w-full aspect-[4/5]"
                 >
                   {/* Soft ambient glow behind the figure — no box, just light */}
                   <motion.div

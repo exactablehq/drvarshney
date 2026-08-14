@@ -19,8 +19,8 @@ export default function WhyChooseUs() {
       </div>
 
       {/* Ambient Radial Glows */}
-      <div className="absolute top-1/3 left-[10%] w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-purple-600/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/3 right-[10%] w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-[10%] w-[18.75rem] sm:w-[25rem] h-[18.75rem] sm:h-[25rem] bg-purple-600/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-1/3 right-[10%] w-[18.75rem] sm:w-[25rem] h-[18.75rem] sm:h-[25rem] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
         
@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
               return (
                 <div
                   key={idx}
-                  className="w-[280px] sm:w-[320px] shrink-0 p-6 rounded-[28px] bg-[#0d0817]/60 border border-[#35063e]/20 backdrop-blur-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-purple-500/40 group flex flex-col items-start text-left relative overflow-hidden"
+                  className="w-[17.5rem] sm:w-[20rem] shrink-0 p-6 rounded-[1.75rem] bg-[#0d0817]/60 border border-[#35063e]/20 backdrop-blur-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-purple-500/40 group flex flex-col items-start text-left relative overflow-hidden"
                 >
                   <div className="absolute -top-4 -left-4 w-20 h-20 bg-purple-500/5 rounded-full blur-xl pointer-events-none group-hover:bg-purple-500/10 transition-all duration-300" />
 

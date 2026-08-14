@@ -39,8 +39,8 @@ export default function ContactUs() {
       </div>
 
       {/* Ambient Radial Glows */}
-      <div className="absolute top-1/4 left-[5%] w-[300px] h-[300px] bg-purple-600/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 right-[5%] w-[300px] h-[300px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-[5%] w-[18.75rem] h-[18.75rem] bg-purple-600/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 right-[5%] w-[18.75rem] h-[18.75rem] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 lg:items-stretch">
@@ -125,8 +125,8 @@ export default function ContactUs() {
             className="lg:col-span-6 w-full flex flex-col gap-5 lg:pt-4 lg:h-full"
           >
             {/* Map Frame — borderless, single hairline, ambient glow. Matches the left column's height on desktop. */}
-            <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:flex-1 lg:min-h-[360px] rounded-[28px] overflow-hidden">
-              <div className="absolute inset-[-20px] bg-purple-500/[0.06] rounded-[40px] blur-[40px] pointer-events-none -z-10" />
+            <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:flex-1 lg:min-h-[22.5rem] rounded-[1.75rem] overflow-hidden">
+              <div className="absolute inset-[-1.25rem] bg-purple-500/[0.06] rounded-[2.5rem] blur-[40px] pointer-events-none -z-10" />
               <iframe
                 src={contactInfo.mapEmbedUrl}
                 width="100%"
@@ -140,7 +140,7 @@ export default function ContactUs() {
                 title="Dr. Varshney's Dental Aesthetics Location Map"
                 className="w-full h-full"
               />
-              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[28px] pointer-events-none" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.75rem] pointer-events-none" />
             </div>
 
             {/* WhatsApp CTA Button */}

@@ -68,7 +68,7 @@ function PillarCard({ pillar, idx }: { pillar: PillarItem; idx: number }) {
           magY.set(0);
         }}
         whileHover={{ scale: 1.03 }}
-        className="group relative overflow-hidden p-6 sm:p-7 rounded-[28px] bg-gradient-to-b from-purple-300/10 to-purple-300/1 border border-white/10 backdrop-blur-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-colors duration-500 hover:border-purple-400/40 h-full"
+        className="group relative overflow-hidden p-6 sm:p-7 rounded-[1.75rem] bg-gradient-to-b from-purple-300/10 to-purple-300/1 border border-white/10 backdrop-blur-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-colors duration-500 hover:border-purple-400/40 h-full"
       >
         {/* Top accent gradient bar */}
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-400/70 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />

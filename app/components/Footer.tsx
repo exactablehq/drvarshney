@@ -18,6 +18,7 @@ export default function Footer() {
             width={44}
             height={44}
             className="w-auto h-11 object-cover"
+            style={{ width: "auto" }}
           />
         </Link>
 
@@ -95,6 +96,7 @@ export default function Footer() {
                 width={120}
                 height={22}
                 className="h-5 w-auto object-contain cursor-pointer"
+                style={{ width: "auto" }}
               />
             </div>
           </a>

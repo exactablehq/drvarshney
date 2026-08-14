@@ -95,8 +95,8 @@ export default function Gallery() {
       </div>
 
       {/* Ambient Radial Glows */}
-      <div className="absolute top-1/4 right-[5%] w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-purple-600/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 left-[5%] w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-purple-500/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 right-[5%] w-[21.875rem] sm:w-[28.125rem] h-[21.875rem] sm:h-[28.125rem] bg-purple-600/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 left-[5%] w-[21.875rem] sm:w-[28.125rem] h-[21.875rem] sm:h-[28.125rem] bg-purple-500/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
         
@@ -147,7 +147,7 @@ export default function Gallery() {
         </div>
 
         {/* Optimized GPU-Accelerated React Bits Masonry Grid */}
-        <div className="w-full relative min-h-[500px]">
+        <div className="w-full relative min-h-[31.25rem]">
           <Masonry
             items={masonryItems}
             ease="power3.out"

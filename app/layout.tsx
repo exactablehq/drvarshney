@@ -81,7 +81,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/og-image_opt.png",
+        url: "/branding/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Dr. Varshney's Dental Aesthetics",
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
     description:
       "Advanced, patient-focused dental care in Nani Daman. Implants, root canals, braces & smile makeovers at Dr. Varshney's Dental Aesthetics.",
 
-    images: ["/og-image_opt.png"],
+    images: ["/branding/og-image.jpg"],
   },
 
   robots: {
@@ -165,7 +165,7 @@ const jsonLd = {
 
   url: "https://drvarshney.in",
 
-  image: "https://drvarshney.in/og-image_opt.png",
+  image: "https://drvarshney.in/branding/og-image.jpg",
 
   logo: "https://drvarshney.in/branding/logo.svg",
 
@@ -265,6 +265,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cormorant.variable} h-full antialiased`}
     >
       <head>
@@ -273,7 +275,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

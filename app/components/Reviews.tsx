@@ -31,8 +31,8 @@ export default function Reviews() {
       </div>
 
       {/* Ambient Backlight Glows */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-purple-600/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-purple-500/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[25rem] h-[25rem] bg-purple-600/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[25rem] h-[25rem] bg-purple-500/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
         {/* Section Header */}
@@ -69,7 +69,7 @@ export default function Reviews() {
             {marqueeReviews.map((item, idx) => (
               <div
                 key={`${item.id}-${idx}`}
-                className="w-[300px] sm:w-[350px] shrink-0 p-5 rounded-2xl bg-[#0d0817]/50 border border-white/5 backdrop-blur-md transition-all duration-300 hover:border-purple-500/30 hover:bg-[#130b21]/70 hover:shadow-[0_10px_30px_rgba(168,85,247,0.1)] group flex flex-col justify-between"
+                className="w-[18.75rem] sm:w-[21.875rem] shrink-0 p-5 rounded-2xl bg-[#0d0817]/50 border border-white/5 backdrop-blur-md transition-all duration-300 hover:border-purple-500/30 hover:bg-[#130b21]/70 hover:shadow-[0_10px_30px_rgba(168,85,247,0.1)] group flex flex-col justify-between"
               >
                 <div>
                   {/* Top Author Row with Small Avatar & Rating */}

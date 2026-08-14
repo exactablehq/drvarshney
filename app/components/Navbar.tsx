@@ -93,6 +93,7 @@ export default function Navbar() {
             width={28}
             height={28}
             className="w-auto h-8 object-cover"
+            style={{ width: "auto" }}
           />
         </motion.a>
 
@@ -108,7 +109,7 @@ export default function Navbar() {
                     e.preventDefault();
                     scrollToSection(link.id);
                   }}
-                  className={`relative whitespace-nowrap font-medium text-[11px] tracking-wider uppercase transition-colors duration-300 cursor-pointer ${
+                  className={`relative whitespace-nowrap font-medium text-[0.6875rem] tracking-wider uppercase transition-colors duration-300 cursor-pointer ${
                     isActive
                       ? "text-purple-300"
                       : "text-white/60 hover:text-white"
