@@ -1,29 +1,88 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { galleryItems } from "../data/gallery";
+import Masonry, { MasonryItem } from "./Masonry";
 import { Sparkles, X, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Gallery() {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
-  const selectedItem = selectedItemIndex !== null ? galleryItems[selectedItemIndex] : null;
+  // Filter gallery items by category
+  const filteredGalleryItems = useMemo(() => {
+    if (activeCategory === "all") return galleryItems;
+    return galleryItems.filter(item => item.category === activeCategory);
+  }, [activeCategory]);
 
-  const handleNext = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    if (selectedItemIndex !== null) {
-      setSelectedItemIndex((selectedItemIndex + 1) % galleryItems.length);
-    }
-  };
+  // Map galleryItems to React Bits Masonry items with GPU height patterns
+  const masonryItems: MasonryItem[] = useMemo(() => {
+    const heightPatterns = [520, 400, 620, 460, 500, 380, 580, 420];
+    return filteredGalleryItems.map((item, idx) => ({
+      ...item,
+      img: item.image,
+      height: heightPatterns[idx % heightPatterns.length]
+    }));
+  }, [filteredGalleryItems]);
 
-  const handlePrev = (e?: React.MouseEvent) => {
+  const selectedItem = selectedItemIndex !== null ? filteredGalleryItems[selectedItemIndex] || null : null;
+
+  const handleNext = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (selectedItemIndex !== null) {
-      setSelectedItemIndex((selectedItemIndex - 1 + galleryItems.length) % galleryItems.length);
-    }
-  };
+    setSelectedItemIndex(prev => (prev !== null ? (prev + 1) % filteredGalleryItems.length : null));
+  }, [filteredGalleryItems.length]);
+
+  const handlePrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setSelectedItemIndex(prev => (prev !== null ? (prev - 1 + filteredGalleryItems.length) % filteredGalleryItems.length : null));
+  }, [filteredGalleryItems.length]);
+
+  const handleItemClick = useCallback((item: MasonryItem, idx: number) => {
+    setSelectedItemIndex(idx);
+  }, []);
+
+  // Keyboard navigation for modal viewer (Arrow keys & Escape)
+  useEffect(() => {
+    if (selectedItemIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedItemIndex(null);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedItemIndex(prev => (prev !== null ? (prev + 1) % filteredGalleryItems.length : null));
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedItemIndex(prev => (prev !== null ? (prev - 1 + filteredGalleryItems.length) % filteredGalleryItems.length : null));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedItemIndex, filteredGalleryItems.length]);
+
+  const renderOverlay = useCallback((item: MasonryItem) => (
+    <div className="absolute inset-0 bg-gradient-to-t from-[#030109]/95 via-[#030109]/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 pointer-events-auto">
+      <h3 className="text-sm sm:text-base font-bold text-white leading-snug">
+        {item.title}
+      </h3>
+      <p className="text-purple-300 text-[11px] mt-0.5 flex items-center gap-1 font-medium">
+        <Sparkles className="w-3 h-3 text-purple-400" />
+        {item.categoryLabel}
+      </p>
+      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center border border-white/20 backdrop-blur-md">
+        <Maximize2 className="w-3.5 h-3.5" />
+      </div>
+    </div>
+  ), []);
+
+  const categories = useMemo(() => [
+    { id: "all", label: "All Photos" },
+    { id: "ambience", label: "Clinic Ambience" },
+    { id: "technology", label: "Advanced Tech" },
+    { id: "care", label: "Doctor Care" }
+  ], []);
 
   return (
     <section id="gallery" className="relative pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden bg-[#030109] flex flex-col justify-center">
@@ -47,7 +106,7 @@ export default function Gallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-10 lg:mb-14"
+          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8 lg:mb-10"
         >
           {/* Thin accent rule */}
           <div className="h-px w-10 bg-purple-500/60 mb-6" />
@@ -63,53 +122,45 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        {/* Borderless, gapless bento grid — varied spans, no gutters */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[140px] sm:auto-rows-[180px] lg:auto-rows-[200px] gap-0.5 w-full rounded-2xl overflow-hidden">
-          {galleryItems.map((item, idx) => {
-            const spanClass =
-              [
-                "col-span-2 row-span-2",
-                "col-span-1 row-span-1",
-                "col-span-1 row-span-1",
-                "col-span-1 row-span-2",
-                "col-span-1 row-span-1",
-                "col-span-2 row-span-1",
-              ][idx % 6] ?? "col-span-1 row-span-1";
+        {/* Category Filter Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 z-10">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
             return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.04 }}
-                onClick={() => setSelectedItemIndex(idx)}
-                className={`group relative overflow-hidden bg-[#0d0817] cursor-pointer ${spanClass}`}
+              <button
+                key={cat.id}
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  setSelectedItemIndex(null);
+                }}
+                className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+                  isActive
+                    ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40 border border-purple-400/30"
+                    : "bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/10"
+                }`}
               >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, 50vw"
-                  loading={idx < 4 ? "eager" : "lazy"}
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030109]/95 via-[#030109]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5">
-                  <h3 className="text-sm sm:text-base font-bold text-white leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="text-purple-300 text-[11px] mt-0.5 flex items-center gap-1 font-medium">
-                    <Sparkles className="w-3 h-3 text-purple-400" />
-                    {item.categoryLabel}
-                  </p>
-                </div>
-
-                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center border border-white/20 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Maximize2 className="w-3.5 h-3.5" />
-                </div>
-              </motion.div>
+                {isActive && <Sparkles className="w-3 h-3 text-purple-200" />}
+                {cat.label}
+              </button>
             );
           })}
+        </div>
+
+        {/* Optimized GPU-Accelerated React Bits Masonry Grid */}
+        <div className="w-full relative min-h-[500px]">
+          <Masonry
+            items={masonryItems}
+            ease="power3.out"
+            duration={0.5}
+            stagger={0.03}
+            animateFrom="bottom"
+            scaleOnHover={true}
+            hoverScale={0.97}
+            blurToFocus={true}
+            colorShiftOnHover={false}
+            onItemClick={handleItemClick}
+            renderOverlay={renderOverlay}
+          />
         </div>
 
       </div>

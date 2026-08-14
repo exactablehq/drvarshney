@@ -5,25 +5,32 @@ import { contactInfo } from "../data/contact";
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-[#030109]">
+    <footer className="relative border-t border-white/10 bg-[#030109] cursor-default">
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-8 px-6 pt-20 pb-10 text-center">
-        <Image
-          src="/logo.png"
-          alt="Dr. Varshney's Dental Aesthetics"
-          width={44}
-          height={44}
-          className="w-11 h-11 rounded-full object-cover"
-        />
+        <Link
+          href="/#hero"
+          className="cursor-pointer! inline-block"
+          aria-label="Home"
+        >
+          <Image
+            src="/branding/wordmark.svg"
+            alt="Dr. Varshney's Dental Aesthetics"
+            width={44}
+            height={44}
+            className="w-auto h-11 object-cover"
+          />
+        </Link>
 
         <div className="h-px w-16 bg-purple-500/40" />
 
         <div className="grid w-full gap-8 sm:grid-cols-2 sm:text-left">
           <div className="flex flex-col items-center gap-3 sm:items-start">
+            {/* Phone link */}
             <a
               href="tel:+917977454648"
-              className="flex items-center gap-3 text-sm text-white/60 transition-colors hover:text-purple-300"
+              className="flex items-center gap-3 text-sm text-white/60 transition-colors hover:text-purple-300 cursor-pointer"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-purple-400">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-purple-400">
                 <Phone className="w-3.5 h-3.5" />
               </span>
               {
@@ -31,28 +38,35 @@ export default function Footer() {
                   ?.value
               }
             </a>
-            <div className="flex items-start gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-purple-400 mt-0.5">
+
+            {/* Address link opens Google Maps */}
+            <a
+              href="https://maps.app.goo.gl/Zr5mhcbeftFzhSgu7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 text-sm text-white/60 transition-colors hover:text-purple-300 cursor-pointer text-left group"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-purple-400 mt-0.5 group-hover:text-purple-300">
                 <MapPin className="w-3.5 h-3.5" />
               </span>
-              <p className="text-sm text-white/60 text-left">
+              <p className="text-sm text-white/60 group-hover:text-purple-300 transition-colors text-left cursor-pointer">
                 Dr. Varshney&apos;s Dental Aesthetics
                 <br />
                 Airport Road, Nani Daman
               </p>
-            </div>
+            </a>
           </div>
 
           <div className="flex flex-col items-center gap-3 sm:items-end">
             <Link
               href="/terms-of-service"
-              className="text-sm text-white/60 transition-colors hover:text-purple-300"
+              className="text-sm text-white/60 transition-colors hover:text-purple-300 cursor-pointer"
             >
               Terms of Service
             </Link>
             <Link
               href="/privacy-policy"
-              className="text-sm text-white/60 transition-colors hover:text-purple-300"
+              className="text-sm text-white/60 transition-colors hover:text-purple-300 cursor-pointer"
             >
               Privacy Policy
             </Link>
@@ -69,18 +83,18 @@ export default function Footer() {
             href="https://exactable.in"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-1.5 opacity-60 transition-opacity duration-300 hover:opacity-100"
+            className="group flex flex-col items-center gap-1.5 opacity-90 transition-all duration-300 hover:brightness-125 hover:opacity-100 cursor-pointer"
           >
-            <span className="text-[9px] font-bold tracking-[0.25em] text-zinc-500 uppercase">
+            <span className="text-[9px] font-bold tracking-[0.25em] text-zinc-500 uppercase cursor-pointer">
               Crafted By
             </span>
             <div className="flex items-center">
               <Image
-                src="/exactable.svg"
+                src="/branding/exactable.svg"
                 alt="Exactable"
                 width={120}
                 height={22}
-                className="h-5 w-auto object-contain"
+                className="h-5 w-auto object-contain cursor-pointer"
               />
             </div>
           </a>

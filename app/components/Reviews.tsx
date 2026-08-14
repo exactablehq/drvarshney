@@ -9,7 +9,7 @@ import {
   CheckCircle2,
   MapPin,
   Star,
-  ShieldCheck
+  ShieldCheck,
 } from "lucide-react";
 
 export default function Reviews() {
@@ -35,7 +35,6 @@ export default function Reviews() {
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-purple-500/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
-        
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -49,10 +48,12 @@ export default function Reviews() {
 
           {/* Heading matching website theme */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mb-4">
-            Loved by Patients. <span className="beautiful-smiles-glow">Trusted for Life.</span>
+            Loved by Patients.{" "}
+            <span className="beautiful-smiles-glow">Trusted for Life.</span>
           </h2>
           <p className="text-white/60 text-xs sm:text-sm max-w-xl font-light">
-            Continuous real feedback from patients across Daman, Vapi, Silvassa, and Surat.
+            Continuous real feedback from patients across Daman, Vapi, Silvassa,
+            and Surat.
           </p>
         </motion.div>
 
@@ -98,19 +99,22 @@ export default function Reviews() {
                     {/* Small Star Rating */}
                     <div className="flex items-center gap-0.5 text-amber-400">
                       {[...Array(item.rating)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        <Star
+                          key={i}
+                          className="w-3 h-3 fill-amber-400 text-amber-400"
+                        />
                       ))}
                     </div>
                   </div>
 
                   {/* Quote Highlight */}
                   <h5 className="text-xs sm:text-sm font-bold text-white group-hover:text-purple-200 transition-colors mb-2 leading-snug font-sans">
-                    &ldquo;{item.highlight}&rdquo;
+                    {item.highlight}
                   </h5>
 
                   {/* Review Text */}
                   <p className="text-white/65 text-xs leading-relaxed font-light line-clamp-3">
-                    &ldquo;{item.reviewText}&rdquo;
+                    {item.reviewText}
                   </p>
                 </div>
 
@@ -144,7 +148,6 @@ export default function Reviews() {
             <span>100% Sterile Clinical Care</span>
           </div>
         </div>
-
       </div>
     </section>
   );

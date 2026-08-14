@@ -167,7 +167,7 @@ const jsonLd = {
 
   image: "https://drvarshney.in/og-image_opt.png",
 
-  logo: "https://drvarshney.in/logo.png",
+  logo: "https://drvarshney.in/branding/logo.svg",
 
   telephone: "+91 79774 54648",
 

@@ -76,9 +76,9 @@ export default function Navbar() {
       >
         {/* Logo */}
         <motion.a
-          href="#hero"
+          href="/#hero"
           onClick={(e) => {
-            e.preventDefault();
+            // e.preventDefault();
             scrollToSection("hero");
           }}
           aria-label="Dr. Varshney's Dental Aesthetics — Home"
@@ -88,7 +88,7 @@ export default function Navbar() {
           className="flex shrink-0 items-center gap-2.5 cursor-pointer"
         >
           <Image
-            src="/wordmark.svg"
+            src="/branding/wordmark.svg"
             alt="Dr. Varshney's Logo"
             width={28}
             height={28}
@@ -108,7 +108,7 @@ export default function Navbar() {
                     e.preventDefault();
                     scrollToSection(link.id);
                   }}
-                  className={`relative whitespace-nowrap font-medium text-[11px] tracking-wider uppercase transition-colors duration-300 ${
+                  className={`relative whitespace-nowrap font-medium text-[11px] tracking-wider uppercase transition-colors duration-300 cursor-pointer ${
                     isActive
                       ? "text-purple-300"
                       : "text-white/60 hover:text-white"
@@ -144,7 +144,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.94 }}
             transition={{ type: "spring", stiffness: 350, damping: 22 }}
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-purple-500/40 bg-purple-500/15 px-5 py-2.5 font-semibold text-xs tracking-wide text-purple-200 backdrop-blur-sm transition-colors duration-300"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-purple-500/40 bg-purple-500/15 px-5 py-2.5 font-semibold text-xs tracking-wide text-purple-200 backdrop-blur-sm transition-colors duration-300 cursor-pointer"
           >
             <Calendar className="w-3.5 h-3.5" />
             Book
@@ -153,7 +153,7 @@ export default function Navbar() {
           <button
             aria-label="Toggle navigation"
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 active:scale-95 xl:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 active:scale-95 xl:hidden cursor-pointer"
           >
             <Menu
               className={`w-4 h-4 transition-transform duration-300 ${menuOpen ? "rotate-90" : ""}`}

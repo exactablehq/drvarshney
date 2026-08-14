@@ -443,7 +443,7 @@ export default function DoctorProfile() {
                 whileTap={{ scale: 0.94 }}
                 transition={{ type: "spring", stiffness: 400, damping: 22 }}
                 aria-label={doc.name}
-                className="group/thumb relative shrink-0"
+                className="group/thumb relative shrink-0 cursor-pointer"
               >
                 {/* Hover tooltip */}
                 <div className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 whitespace-nowrap">

@@ -12,9 +12,9 @@ export default function ContactUs() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.1
-      }
-    }
+        delayChildren: 0.1,
+      },
+    },
   };
 
   const cardVariants = {
@@ -22,13 +22,15 @@ export default function ContactUs() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const }
-    }
+      transition: { duration: 0.6, ease: "easeOut" as const },
+    },
   };
 
   return (
-    <section id="contact" className="relative pt-10 pb-10 lg:pt-14 lg:pb-14 overflow-hidden bg-[#030109] flex flex-col justify-center">
-      
+    <section
+      id="contact"
+      className="relative pt-10 pb-10 lg:pt-14 lg:pb-14 overflow-hidden bg-[#030109] flex flex-col justify-center cursor-default"
+    >
       {/* Oversized Background Typography - "CONTACT" */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
         <span className="text-[12vw] font-black text-purple-950/[0.02] tracking-[0.25em] uppercase leading-none select-none">
@@ -42,7 +44,6 @@ export default function ContactUs() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 lg:items-stretch">
-          
           {/* Left Column: Heading & Contact Info Cards */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -91,7 +92,15 @@ export default function ContactUs() {
                       {isLink ? (
                         <a
                           href={item.link}
-                          className="text-white hover:text-purple-300 transition-colors text-sm sm:text-base font-medium break-all leading-snug"
+                          target={
+                            item.link.startsWith("https") ? "_blank" : undefined
+                          }
+                          rel={
+                            item.link.startsWith("https")
+                              ? "noopener noreferrer"
+                              : undefined
+                          }
+                          className="cursor-pointer text-white hover:text-purple-300 transition-colors text-sm sm:text-base font-medium break-word leading-snug inline-block"
                         >
                           {item.value}
                         </a>
@@ -122,7 +131,10 @@ export default function ContactUs() {
                 src={contactInfo.mapEmbedUrl}
                 width="100%"
                 height="100%"
-                style={{ border: 0, filter: "grayscale(1) invert(0.9) contrast(1.2) brightness(0.75)" }}
+                style={{
+                  border: 0,
+                  filter: "contrast(1.2) brightness(0.9)",
+                }}
                 allowFullScreen={false}
                 loading="lazy"
                 title="Dr. Varshney's Dental Aesthetics Location Map"
@@ -136,7 +148,11 @@ export default function ContactUs() {
               href={contactInfo.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -2, scale: 1.01, boxShadow: "0px 10px 25px -5px rgba(168, 85, 247, 0.3)" }}
+              whileHover={{
+                y: -2,
+                scale: 1.01,
+                boxShadow: "0px 10px 25px -5px rgba(168, 85, 247, 0.3)",
+              }}
               whileTap={{ scale: 0.98 }}
               className="px-8 py-4 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center justify-center gap-2.5 cursor-pointer border border-purple-500/50 hover:border-purple-400 w-full"
             >
@@ -144,7 +160,6 @@ export default function ContactUs() {
               <span>Book Appointment on WhatsApp</span>
             </motion.a>
           </motion.div>
-
         </div>
       </div>
     </section>

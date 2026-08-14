@@ -31,6 +31,20 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  cursor: default;
+}
+
+/* Global cursor behavior — default arrow cursor across all text, links keep pointer, inputs keep text */
+body, body * {
+  cursor: default;
+}
+
+a, button, [role="button"], input[type="submit"], input[type="button"], label, select, summary, .cursor-pointer {
+  cursor: pointer !important;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea, [contenteditable="true"], .cursor-text {
+  cursor: text !important;
 }
 
 /* Custom subtle scrollbar */

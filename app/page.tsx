@@ -415,7 +415,7 @@ export default function Home() {
                 value={serviceSearchQuery}
                 onChange={(e) => setServiceSearchQuery(e.target.value)}
                 placeholder="Search treatments or symptoms..."
-                className="w-full pl-14 pr-10 py-3.5 rounded-full bg-white/[0.03] border border-white/10 focus:border-purple-500/50 focus:outline-none focus:bg-white/[0.05] text-white text-sm placeholder:text-white/40 backdrop-blur-md transition-all duration-300"
+                className="w-full pl-14 pr-10 py-3.5 rounded-full bg-white/[0.03] border border-white/10 focus:border-purple-500/50 focus:outline-none focus:bg-white/[0.05] text-white text-sm placeholder:text-white/40 backdrop-blur-md transition-all duration-300 cursor-text"
               />
               {serviceSearchQuery && (
                 <button
