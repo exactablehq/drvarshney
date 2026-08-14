@@ -26,7 +26,10 @@ export default function Footer() {
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-purple-400">
                 <Phone className="w-3.5 h-3.5" />
               </span>
-              {contactInfo.details.find((d) => d.title === "Phone Number")?.value}
+              {
+                contactInfo.details.find((d) => d.title === "Phone Number")
+                  ?.value
+              }
             </a>
             <div className="flex items-start gap-3">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-purple-400 mt-0.5">
@@ -54,8 +57,8 @@ export default function Footer() {
               Privacy Policy
             </Link>
             <p className="mt-4 text-xs text-white/30">
-              &copy; {new Date().getFullYear()} Dr. Varshney&apos;s Dental Aesthetics.
-              Reg. No. A-22861.
+              &copy; {new Date().getFullYear() + " "} Dr. Varshney&apos;s Dental
+              Aesthetics. Reg. No. A-22861.
             </p>
           </div>
         </div>

@@ -6,8 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, Calendar } from "lucide-react";
 
 const LINKS = [
+  { id: "hero", label: "Home" },
+  { id: "why-choose-us", label: "Why Choose Us" },
   { id: "services", label: "Services" },
   { id: "doctor", label: "Doctor" },
+  { id: "pillars", label: "Our Values" },
+  { id: "gallery", label: "Gallery" },
+  { id: "reviews", label: "Reviews" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -54,7 +59,8 @@ export default function Navbar() {
     }
     const el = document.getElementById(id);
     if (el) {
-      const offsetPosition = el.getBoundingClientRect().top + window.scrollY - 90;
+      const offsetPosition =
+        el.getBoundingClientRect().top + window.scrollY - 90;
       window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
   };
@@ -62,9 +68,9 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-5 z-50 flex justify-center px-4 sm:px-6">
       <nav
-        className={`relative flex w-full max-w-3xl items-center justify-between rounded-full transition-all duration-500 px-5 py-3 sm:px-7 sm:py-3.5 transform-gpu ${
+        className={`relative flex w-full max-w-7xl items-center border border-transparent justify-between rounded-full transition-all duration-500 px-5 py-3 sm:px-7 sm:py-3.5 transform-gpu ${
           scrolled
-            ? "bg-black/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+            ? "bg-black/50 shadow-[0_2px_15px_rgba(168,85,247,0.22)] backdrop-blur-xl bg-purple-500/10"
             : "bg-transparent shadow-none backdrop-blur-none"
         }`}
       >
@@ -76,27 +82,22 @@ export default function Navbar() {
             scrollToSection("hero");
           }}
           aria-label="Dr. Varshney's Dental Aesthetics — Home"
-          whileHover={{ scale: 1.05, filter: "brightness(1.15)" }}
+          whileHover={{ scale: 1.15, filter: "brightness(1.15)" }}
           whileTap={{ scale: 0.94 }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          transition={{ type: "spring", stiffness: 50, damping: 15 }}
           className="flex shrink-0 items-center gap-2.5 cursor-pointer"
         >
-          <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-[#030109] border border-purple-500/30 shrink-0">
-            <Image
-              src="/logo.png"
-              alt="Dr. Varshney's Logo"
-              width={28}
-              height={28}
-              className="w-full h-full object-cover rounded-full"
-            />
-          </div>
-          <span className="hidden sm:block font-semibold text-sm tracking-wide text-white leading-none">
-            Dr. Varshney&apos;s
-          </span>
+          <Image
+            src="/wordmark.svg"
+            alt="Dr. Varshney's Logo"
+            width={28}
+            height={28}
+            className="w-auto h-8 object-cover"
+          />
         </motion.a>
 
-        {/* Desktop links — 3 only, centered */}
-        <ul className="hidden md:flex items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2">
+        {/* Desktop links — all 8, centered */}
+        <ul className="hidden xl:flex items-center justify-center gap-5 2xl:gap-6">
           {LINKS.map((link) => {
             const isActive = activeSection === link.id;
             return (
@@ -107,8 +108,10 @@ export default function Navbar() {
                     e.preventDefault();
                     scrollToSection(link.id);
                   }}
-                  className={`relative font-medium text-xs tracking-wider uppercase transition-colors duration-300 ${
-                    isActive ? "text-purple-300" : "text-white/60 hover:text-white"
+                  className={`relative whitespace-nowrap font-medium text-[11px] tracking-wider uppercase transition-colors duration-300 ${
+                    isActive
+                      ? "text-purple-300"
+                      : "text-white/60 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -116,7 +119,11 @@ export default function Navbar() {
                     <motion.span
                       layoutId="navActiveDot"
                       className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.8)]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </a>
@@ -146,9 +153,11 @@ export default function Navbar() {
           <button
             aria-label="Toggle navigation"
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 active:scale-95 md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 active:scale-95 xl:hidden"
           >
-            <Menu className={`w-4 h-4 transition-transform duration-300 ${menuOpen ? "rotate-90" : ""}`} />
+            <Menu
+              className={`w-4 h-4 transition-transform duration-300 ${menuOpen ? "rotate-90" : ""}`}
+            />
           </button>
         </div>
 
@@ -160,7 +169,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.96 }}
               transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-              className="absolute top-full left-0 right-0 z-40 mt-3 overflow-hidden rounded-3xl bg-black/80 p-6 shadow-[0_25px_60px_rgba(0,0,0,0.8)] backdrop-blur-3xl md:hidden"
+              className="absolute top-full left-0 right-0 z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-3xl bg-black/80 p-6 shadow-[0_25px_60px_rgba(0,0,0,0.8)] backdrop-blur-3xl xl:hidden"
             >
               <ul className="flex flex-col gap-5">
                 {LINKS.map((link, idx) => (
@@ -176,8 +185,10 @@ export default function Navbar() {
                         e.preventDefault();
                         scrollToSection(link.id);
                       }}
-                      className={`flex items-center justify-between font-serif text-xl transition-colors ${
-                        activeSection === link.id ? "text-purple-300" : "text-white/80 hover:text-white"
+                      className={`flex items-center justify-between font-medium text-sm tracking-wider uppercase transition-colors duration-300 ${
+                        activeSection === link.id
+                          ? "text-purple-300"
+                          : "text-white/80 hover:text-white"
                       }`}
                     >
                       {link.label}

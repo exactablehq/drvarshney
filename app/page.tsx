@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import WebThreads from "./components/WebThreads";
 import DoctorProfile from "./components/DoctorProfile";
 import WhyChooseUs from "./components/WhyChooseUs";
 import PillarsOfPractice from "./components/PillarsOfPractice";
@@ -166,11 +167,8 @@ export default function Home() {
   const [selectedServiceCategory, setSelectedServiceCategory] =
     useState<string>("All");
   const [serviceSearchQuery, setServiceSearchQuery] = useState<string>("");
-  // Expand-only reveal of the full catalog — search/filter always bypasses this
-  const [showAllServices, setShowAllServices] = useState(false);
-  const FEATURED_SERVICE_COUNT = 6;
 
-  // Services Data
+  // Services Data — always shows the full filtered catalog, no collapse/expand
   const filteredServices = services.filter((service) => {
     const matchesCategory =
       selectedServiceCategory === "All" ||
@@ -185,17 +183,6 @@ export default function Home() {
         .includes(serviceSearchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
-  const isSearchingOrFiltering =
-    serviceSearchQuery.trim() !== "" || selectedServiceCategory !== "All";
-  const visibleServices =
-    isSearchingOrFiltering || showAllServices
-      ? filteredServices
-      : filteredServices.slice(0, FEATURED_SERVICE_COUNT);
-  const remainingServiceCount = Math.max(
-    filteredServices.length - FEATURED_SERVICE_COUNT,
-    0,
-  );
 
   const serviceHeaderVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -236,46 +223,42 @@ export default function Home() {
     <div className="min-h-screen bg-[#030109] text-[#FFFFFF] relative selection:bg-[#35063e]/40 selection:text-[#FFFFFF] overflow-x-hidden">
       <BrandedLoader />
       {/* Background radial overlays */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_20%,rgba(124,58,237,0.14),rgba(124,58,237,0.05)_35%,transparent_70%)]" />
-      <div className="absolute top-[8%] left-[-8%] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-[#35063e]/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
-      <div
-        className="absolute top-[48%] right-[-8%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-[#35063e]/6 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
-        style={{ animationDelay: "-3s" }}
-      />
       <Navbar />
 
       {/* ------------------ HERO SECTION ------------------ */}
       <section
         id="hero"
         ref={heroRef}
-        onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        }}
-        className="relative overflow-hidden group/hero min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#030109]"
+        className="relative overflow-hidden group/hero min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#110A22] px-40"
       >
-        {/* Subtle background noise overlay */}
-        <div className="absolute inset-0 bg-noise opacity-[0.015] mix-blend-overlay pointer-events-none z-0" />
-
-        {/* Faint dot-grid texture to fill the negative space behind the content */}
-        <div
-          className="absolute inset-0 pointer-events-none z-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "radial-gradient(rgba(216,180,254,0.6) 1px, transparent 1px)",
-            backgroundSize: "34px 34px",
-          }}
-        />
+        {/* Animated web-threads shader — the base surface, replaces the flat fill color */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <WebThreads
+            color1="#a855f7"
+            color2="#f472b6"
+            color3="#d8b4fe"
+            speed={0.15}
+            threadCount={5}
+            frequency={4}
+            spread={0.16}
+            taper={1.0}
+            position={0.5}
+            fanMode="right"
+            glow={0.015}
+            falloff={0.6}
+            thickness={1.1}
+            brightness={0.45}
+            opacity={0.8}
+            mirror
+            grain
+            grainIntensity={0.04}
+            mouseInteraction={false}
+            mouseStrength={0.25}
+          />
+        </div>
 
         {/* Ambient ombré glows — soft, slow, breathing (opacity + scale + gentle drift) */}
-        <motion.div
-          animate={{
-            opacity: [0.45, 0.75, 0.45],
-            scale: [1, 1.15, 1],
-            x: [0, 35, 0],
-            y: [0, 25, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        <div
           className="absolute pointer-events-none rounded-full blur-[140px] z-[5]"
           style={{
             width: "620px",
@@ -286,14 +269,7 @@ export default function Home() {
             top: "8%",
           }}
         />
-        <motion.div
-          animate={{
-            opacity: [0.4, 0.7, 0.4],
-            scale: [1, 1.18, 1],
-            x: [0, -30, 0],
-            y: [0, -22, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        <div
           className="absolute pointer-events-none rounded-full blur-[160px] z-[5]"
           style={{
             width: "720px",
@@ -304,128 +280,35 @@ export default function Home() {
             bottom: "-5%",
           }}
         />
-        <motion.div
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-            scale: [1, 1.12, 1],
-            y: [0, -18, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
-          className="absolute pointer-events-none rounded-full blur-[120px] z-[5]"
-          style={{
-            width: "420px",
-            height: "420px",
-            background:
-              "radial-gradient(circle, rgba(216, 180, 254, 0.3) 0%, transparent 70%)",
-            left: "18%",
-            top: "38%",
-          }}
-        />
-
-        {/* Slow-rotating decorative ring behind the content, adds texture without clutter */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          className="hidden lg:block absolute pointer-events-none z-[1] opacity-[0.15]"
-          style={{ left: "2%", top: "18%", width: "440px", height: "440px" }}
-        >
-          <div className="w-full h-full rounded-full border border-dashed border-purple-400/50" />
-        </motion.div>
-
-        {/* Mouse follow spotlight glow */}
-        <div
-          className="absolute pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-500 rounded-full blur-[130px] z-[1]"
-          style={{
-            width: "400px",
-            height: "400px",
-            background:
-              "radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)",
-            left: `${mousePos.x - 200}px`,
-            top: `${mousePos.y - 200}px`,
-          }}
-        />
+        <div className="w-full h-full absolute inset-0 bg-purple-500/5 backdrop-blur-[2px]" />
+        <div className="w-1/2 h-full absolute inset-0 bg-gradient-to-r from-black/55 to-pink-500/0 backdrop-blur-[2px]" />
 
         {/* Left Pane: Content */}
         <div className="relative z-10 flex items-center justify-center lg:justify-start px-6 sm:px-10 lg:pl-16 xl:pl-24 lg:pr-10 pt-36 pb-14 lg:py-32">
           <div className="max-w-xl flex flex-col text-center lg:text-left items-center lg:items-start space-y-6 lg:space-y-7">
-            {/* Doctor Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.0,
-                ease: [0.16, 1, 0.3, 1],
-                delay: 0.2,
-              }}
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-[20px] bg-[#18022a]/30 backdrop-blur-md border border-[#35063e]/40 text-white text-[10px] sm:text-xs font-semibold tracking-wide w-fit transition-colors duration-300 hover:border-[#35063e]/80"
-            >
-              <div className="w-5 h-5 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center shrink-0">
-                <Sparkles className="w-3 h-3 text-[#D8B4FE]" />
-              </div>
-              <span>Dr. Ayush Varshney B.D.S, (Dental Surgeon)</span>
-            </motion.div>
-
             {/* Modern Sans Heading */}
-            <h1 className="text-4xl sm:text-6xl lg:text-[56px] xl:text-[68px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
+            <h1 className="text-4xl sm:text-6xl lg:text-[72px] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
               <span className="block overflow-hidden py-0.5">
-                <motion.span
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: 1.2,
-                    ease: [0.16, 1, 0.3, 1],
-                    delay: 0.3,
-                  }}
-                  className="block text-[11px] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2"
-                >
+                <span className="block text-[11px] sm:text-sm font-sans font-bold text-[#D8B4FE] uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-2">
                   Dr. Varshney&apos;s Dental Aesthetics
-                </motion.span>
+                </span>
               </span>
               <span className="block overflow-hidden py-0.5">
-                <motion.span
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: 1.2,
-                    ease: [0.16, 1, 0.3, 1],
-                    delay: 0.5,
-                  }}
-                  className="block"
-                >
-                  Healthy Teeth.
-                </motion.span>
+                <span className="block">Healthy Teeth.</span>
               </span>
               <span className="block overflow-hidden py-0.5">
-                <motion.span
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: 1.2,
-                    ease: [0.16, 1, 0.3, 1],
-                    delay: 0.7,
-                  }}
-                  className="block beautiful-smiles-glow"
-                >
+                <span className="block beautiful-smiles-glow">
                   Beautiful Smiles.
-                </motion.span>
+                </span>
               </span>
             </h1>
 
             {/* Description Paragraph */}
-            <motion.p
-              initial={{ y: 15, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                duration: 1.2,
-                ease: [0.16, 1, 0.3, 1],
-                delay: 1.0,
-              }}
-              className="text-white/60 text-base sm:text-lg max-w-lg leading-relaxed font-sans"
-            >
+            <p className="text-white/60 text-base sm:text-lg max-w-lg leading-relaxed font-sans">
               Modern dental care by Dr. Ayush Varshney in Nani Daman, offering
               root canal treatment, dental implants, braces, teeth cleaning, and
               complete family dental care.
-            </motion.p>
+            </p>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start">
@@ -434,16 +317,6 @@ export default function Home() {
                 href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ y: 12, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  y: { duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 1.2 },
-                  opacity: {
-                    duration: 1.0,
-                    ease: [0.16, 1, 0.3, 1],
-                    delay: 1.2,
-                  },
-                }}
                 whileHover={{
                   y: -2,
                   scale: 1.01,
@@ -461,10 +334,7 @@ export default function Home() {
 
         {/* Right Pane: Full-viewport-height portrait, contained to its own column, inset from the top */}
         <div className="relative w-full h-[55vh] sm:h-[65vh] lg:h-screen overflow-hidden">
-          <motion.div
-            style={{ y: heroImageY }}
-            className="absolute left-0 right-0 bottom-0 top-24 sm:top-28 lg:top-16 scale-110"
-          >
+          <div className="absolute left-0 right-0 bottom-0 top-24 sm:top-28 lg:top-16 ">
             <Image
               src="/hero.png"
               alt="Dr. Ayush Varshney, Dental Surgeon"
@@ -473,15 +343,18 @@ export default function Home() {
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover object-top"
             />
-          </motion.div>
+          </div>
           {/* Seam blend between the two panes (desktop only — panes are stacked on mobile) */}
-          <div className="hidden lg:block absolute inset-y-0 left-0 w-32 xl:w-40 bg-gradient-to-r from-[#030109] to-transparent pointer-events-none" />
-          {/* Top scrim so the navbar stays legible over the photo */}
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#030109] to-transparent pointer-events-none" />
-          {/* Bottom seam — blends the hero into the Services section background */}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#030109] via-[#030109]/45 to-transparent pointer-events-none" />
+          {/* <div className="hidden lg:block absolute inset-y-0 left-0 w-32 xl:w-40 bg-gradient-to-r from-[#030109] to-transparent pointer-events-none" /> */}
         </div>
+        {/* Top scrim so the navbar stays legible over the photo */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#030109] to-transparent pointer-events-none" />
+        {/* Bottom seam — blends the hero into the Services section background */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#030109] via-[#030109]/45 to-transparent pointer-events-none z-[6]" />
       </section>
+
+      {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
+      <WhyChooseUs />
 
       {/* ------------------ SERVICES SECTION ------------------ */}
       <section
@@ -504,12 +377,6 @@ export default function Home() {
           }}
           className="absolute bottom-1/4 left-[10%] w-[350px] h-[350px] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10"
         />
-
-        {/* Low-opacity oversized background typography for depth */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] sm:text-[200px] lg:text-[320px] font-black text-white/[0.012] tracking-[0.25em] select-none pointer-events-none -z-10 font-sans uppercase">
-          SERVICES
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <motion.div
@@ -540,7 +407,7 @@ export default function Home() {
           <div className="mb-10 lg:mb-12 space-y-6">
             {/* Search Input Bar */}
             <div className="max-w-md mx-auto relative group/search">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 -ml-2 rounded-full flex items-center justify-center bg-purple-500/10 group-focus-within/search:bg-purple-500/20 transition-colors duration-300 pointer-events-none">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 -ml-2 rounded-full flex items-center justify-center bg-purple-500/10 group-focus-within/search:bg-purple-500/20 transition-colors duration-300 pointer-events-none z-10!">
                 <Search className="w-4 h-4 text-purple-300" />
               </div>
               <input
@@ -561,7 +428,7 @@ export default function Home() {
             </div>
 
             {/* Category Filter Pills — single horizontally scrollable line, never wraps */}
-            <div className="flex items-center gap-2 max-w-4xl mx-auto overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-2 max-w-4xl mx-auto overflow-x-auto py-1 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {serviceCategories.map((cat) => {
                 const isSelected = selectedServiceCategory === cat;
                 return (
@@ -609,8 +476,8 @@ export default function Home() {
             </div>
           )}
 
-          {/* Services Grid with Microdata SEO */}
-          {visibleServices.length > 0 && (
+          {/* Services Grid with Microdata SEO — always shows every matching treatment */}
+          {filteredServices.length > 0 && (
             <motion.div
               layout
               variants={serviceContainerVariants}
@@ -620,7 +487,7 @@ export default function Home() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
             >
               <AnimatePresence initial={false}>
-                {visibleServices.map((service) => (
+                {filteredServices.map((service) => (
                   <motion.article
                     key={service.id}
                     layout
@@ -635,7 +502,7 @@ export default function Home() {
                     onClick={() => setActiveServiceDetail(service)}
                     itemScope
                     itemType="https://schema.org/MedicalProcedure"
-                    className="group relative aspect-[4/5] rounded-3xl overflow-hidden cursor-pointer bg-[#0d0817]"
+                    className="group relative aspect-[16/10] rounded-3xl overflow-hidden cursor-pointer bg-[#0d0817]"
                   >
                     {/* Image — zooms on hover, identical mechanics to the Gallery grid */}
                     <Image
@@ -647,6 +514,7 @@ export default function Home() {
                       loading="lazy"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                     />
+                    <div className="absolute inset-0 bg-[#090514]/40 mix-blend-multiply pointer-events-none group-hover:opacity-0 transition-all duration-300" />
 
                     {/* Base gradient — always present so the title stays legible */}
                     <div className="absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-[#030109]/95 via-[#030109]/30 to-transparent pointer-events-none" />
@@ -675,7 +543,8 @@ export default function Home() {
                       </div>
 
                       {/* Description — fades in on hover, same timing as the Gallery overlay */}
-                      <div className="grid grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100 transition-[grid-template-rows,opacity] duration-300 ease-out">
+                      {/* <div className="grid grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100 transition-[grid-template-rows,opacity] duration-300 ease-out"> */}
+                      <div className="grid grid-rows-[1fr]">
                         <p
                           itemProp="description"
                           className="text-white/70 text-xs leading-relaxed overflow-hidden pt-2.5"
@@ -689,46 +558,20 @@ export default function Home() {
               </AnimatePresence>
             </motion.div>
           )}
-
-          {/* View All — expand only, no collapse */}
-          {!isSearchingOrFiltering &&
-            !showAllServices &&
-            remainingServiceCount > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="flex justify-center mt-12"
-              >
-                <motion.button
-                  onClick={() => setShowAllServices(true)}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="px-7 py-3 rounded-full border border-purple-500/40 bg-purple-500/10 text-purple-200 text-xs font-semibold tracking-wide uppercase backdrop-blur-sm cursor-pointer"
-                >
-                  View All {filteredServices.length} Treatments
-                </motion.button>
-              </motion.div>
-            )}
         </div>
       </section>
 
       {/* ------------------ MEET YOUR DOCTOR SECTION ------------------ */}
       <DoctorProfile />
 
-      {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
-      <WhyChooseUs />
-
-      {/* ------------------ PATIENT REVIEWS SECTION ------------------ */}
-      <Reviews />
-
       {/* ------------------ PILLARS OF PRACTICE SECTION ------------------ */}
       <PillarsOfPractice />
 
       {/* ------------------ GALLERY SECTION ------------------ */}
       <Gallery />
+
+      {/* ------------------ PATIENT REVIEWS SECTION ------------------ */}
+      <Reviews />
 
       {/* ------------------ CONTACT US SECTION ------------------ */}
       <ContactUs />
@@ -744,107 +587,143 @@ export default function Home() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveServiceDetail(null)}
-              className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 animate-none"
+              className="fixed inset-0 bg-black/70 backdrop-blur-md z-50"
             />
 
             <motion.div
-              initial={{ x: "100%" }}
+              initial={{ x: "120%" }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 w-full max-w-md bg-[#0d0817] border-l border-[#35063e]/30 p-5 sm:p-8 shadow-2xl z-50 overflow-y-auto flex flex-col justify-between text-left"
+              exit={{ x: "120%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 240 }}
+              className="fixed top-4 bottom-4 right-4 sm:top-6 sm:bottom-6 sm:right-6 w-[calc(100%-2rem)] sm:w-[440px] z-50"
             >
-              <div className="space-y-8">
-                {/* Close */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-bold tracking-widest text-[#D8B4FE] uppercase">
-                    Treatment Guide
-                  </span>
-                  <button
-                    onClick={() => setActiveServiceDetail(null)}
-                    className="p-1.5 rounded-lg bg-[#35063e]/25 border border-[#35063e]/35 text-[#D8B4FE] hover:text-white cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
+              {/* Glass panel — floating card, not edge-flush, so the translucency actually reads */}
+              <div className="relative h-full rounded-[2rem] bg-white/[0.06] backdrop-blur-2xl border border-white/15 shadow-[0_25px_80px_rgba(0,0,0,0.65)] overflow-y-auto overflow-x-hidden overscroll-y-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-15">
+                {/* Top highlight for glass edge definition */}
+                <div className="pointer-events-none absolute inset-0 rounded-[2rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" />
+                {/* Ambient corner glow — clipped by overflow-x-hidden above, never triggers scroll */}
+                <div className="absolute -top-16 -right-16 w-56 h-56 bg-purple-500/25 rounded-full blur-[90px] pointer-events-none" />
+                <div className="absolute -bottom-20 -left-16 w-56 h-56 bg-indigo-500/15 rounded-full blur-[100px] pointer-events-none" />
 
-                {/* Service Image */}
-                <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-[#0d0817]">
-                  <Image
-                    src={`/${activeServiceDetail.image}`}
-                    alt={activeServiceDetail.title}
-                    fill
-                    sizes="(min-width: 640px) 480px, 100vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-[#090514]/20 mix-blend-multiply pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d0817] via-transparent to-transparent pointer-events-none" />
-                </div>
+                <div className="relative p-6 sm:p-7 space-y-7">
+                  {/* Header */}
+                  <div className="flex justify-between items-center">
+                    <div className="h-px w-10 bg-purple-500/60" />
+                    <button
+                      onClick={() => setActiveServiceDetail(null)}
+                      aria-label="Close treatment details"
+                      className="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 transition-colors duration-300 flex items-center justify-center cursor-pointer shrink-0"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
 
-                {/* Content */}
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-extrabold text-white leading-snug">
-                    {activeServiceDetail.title}
-                  </h3>
-                  <p className="text-text-muted/70 text-sm leading-relaxed">
-                    {activeServiceDetail.fullDetails}
-                  </p>
-                </div>
-
-                {/* Info block */}
-                <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-black/40 border border-[#35063e]/25">
-                  <div>
-                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">
-                      Cost Category
-                    </span>
-                    <span className="text-sm font-bold text-white">
-                      {activeServiceDetail.priceRange}
+                  {/* Service Image */}
+                  <div className="relative w-full aspect-[16/10] rounded-[1.5rem] overflow-hidden">
+                    <Image
+                      src={`/${activeServiceDetail.image}`}
+                      alt={activeServiceDetail.title}
+                      fill
+                      sizes="440px"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.5rem] pointer-events-none" />
+                    <span className="absolute bottom-3 left-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-purple-200 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 max-w-[calc(100%-1.5rem)] truncate">
+                      {activeServiceDetail.category}
                     </span>
                   </div>
-                  <div>
-                    <span className="text-[10px] uppercase text-[#D8B4FE] font-bold block">
-                      Typical Duration
-                    </span>
-                    <span className="text-sm font-bold text-white">
-                      {activeServiceDetail.duration}
-                    </span>
+
+                  {/* Title + description */}
+                  <div className="space-y-2.5">
+                    <h3 className="text-2xl font-sans font-extrabold text-white leading-tight break-words">
+                      {activeServiceDetail.title}
+                    </h3>
+                    <p className="text-white/55 text-sm leading-relaxed font-light">
+                      {activeServiceDetail.fullDetails}
+                    </p>
                   </div>
-                </div>
 
-                {/* Benefits */}
-                <div className="space-y-3">
-                  <h4 className="font-bold text-white text-xs uppercase tracking-wider">
-                    Treatment Benefits
-                  </h4>
-                  <ul className="space-y-2">
-                    {activeServiceDetail.benefits.map((benefit, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-2.5 text-xs text-text-secondary/80"
-                      >
-                        <Check className="w-4 h-4 text-[#D8B4FE] shrink-0 mt-0.5 stroke-[3]" />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* FAQ snippets */}
-                <div className="space-y-4 pt-4 border-t border-[#35063e]/20">
-                  <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <HelpCircle className="w-4 h-4 text-[#D8B4FE]" />
-                    <span>Frequently Asked</span>
-                  </h4>
-                  {activeServiceDetail.faqs.map((faq, i) => (
-                    <div key={i} className="space-y-1 text-xs">
-                      <p className="font-bold text-text-muted">Q: {faq.q}</p>
-                      <p className="text-[#D8B4FE]/85 leading-relaxed">
-                        A: {faq.a}
-                      </p>
+                  {/* Cost & duration — thin divider row, matches Contact/Doctor pattern */}
+                  <div className="grid grid-cols-2 gap-4 border-y border-white/10 py-4 min-w-0">
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-semibold text-purple-300/80 uppercase tracking-[0.14em] block mb-1">
+                        Cost Category
+                      </span>
+                      <span className="text-sm font-medium text-white break-words">
+                        {activeServiceDetail.priceRange}
+                      </span>
                     </div>
-                  ))}
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-semibold text-purple-300/80 uppercase tracking-[0.14em] block mb-1">
+                        Typical Duration
+                      </span>
+                      <span className="text-sm font-medium text-white break-words">
+                        {activeServiceDetail.duration}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Benefits */}
+                  <div className="space-y-3">
+                    <span className="text-[10px] font-semibold text-purple-300/80 uppercase tracking-[0.14em] block">
+                      Treatment Benefits
+                    </span>
+                    <ul className="space-y-2.5">
+                      {activeServiceDetail.benefits.map((benefit, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 text-sm text-white/70"
+                        >
+                          <span className="w-4 h-4 rounded-full bg-purple-500/15 border border-purple-400/30 flex items-center justify-center shrink-0 mt-0.5">
+                            <Check className="w-2.5 h-2.5 text-purple-300 stroke-[3]" />
+                          </span>
+                          <span className="break-words">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* FAQ snippets */}
+                  <div className="space-y-4 pt-1 border-t border-white/10">
+                    <span className="text-[10px] font-semibold text-purple-300/80 uppercase tracking-[0.14em] flex items-center gap-1.5">
+                      <HelpCircle className="w-3.5 h-3.5" />
+                      Frequently Asked
+                    </span>
+                    <div className="divide-y divide-white/10">
+                      {activeServiceDetail.faqs.map((faq, i) => (
+                        <div
+                          key={i}
+                          className="py-3 space-y-1.5 text-sm first:pt-0"
+                        >
+                          <p className="font-medium text-white break-words">
+                            {faq.q}
+                          </p>
+                          <p className="text-white/55 leading-relaxed font-light break-words">
+                            {faq.a}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
+              {/* Book CTA — sticks to the bottom of the visible card as the content scrolls beneath it */}
+              <motion.a
+                href="https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment."
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: "0 0 24px rgba(168,85,247,0.35)",
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                className="absolute bottom-5 left-5 right-5 flex items-center justify-center gap-2 py-3.5 rounded-full bg-purple-500/25 border border-purple-400/40 text-purple-100 font-semibold text-sm cursor-pointer backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
+              >
+                <CalendarDays className="w-4 h-4" />
+                Book This Treatment
+              </motion.a>
             </motion.div>
           </>
         )}

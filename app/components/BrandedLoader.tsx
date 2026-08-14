@@ -77,8 +77,8 @@ export function BrandedLoader() {
       });
     }
 
-    // Complete after 3.0 seconds to fit the full staggered sequence
-    const timer = setTimeout(() => setIsComplete(true), 3000);
+    // Complete after 3.6 seconds to fit the full staggered sequence plus the name reveal
+    const timer = setTimeout(() => setIsComplete(true), 3600);
     return () => clearTimeout(timer);
   }, [isComplete]);
 
@@ -107,12 +107,13 @@ export function BrandedLoader() {
             />
           </motion.div>
 
-          {/* Logo - centered */}
+          {/* Logo + name - centered */}
+          <div className="relative z-10 flex flex-col items-center gap-5">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 w-72 h-32"
+            className="w-72 h-32"
           >
             <svg
               ref={svgRef}
@@ -179,6 +180,25 @@ export function BrandedLoader() {
               />
             </svg>
           </motion.div>
+
+            {/* Name reveal — arrives once the logo has finished drawing */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 2.5, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center gap-1.5 overflow-hidden"
+            >
+              <span className="text-lg sm:text-xl font-extrabold tracking-wide text-white whitespace-nowrap">
+                Dr. Varshney&apos;s Dental Aesthetics
+              </span>
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.6, delay: 2.9, ease: [0.16, 1, 0.3, 1] }}
+                className="h-px w-24 origin-center bg-purple-400/60"
+              />
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
