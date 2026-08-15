@@ -98,7 +98,7 @@ export default function Gallery() {
       <div className="absolute top-1/4 right-[5%] w-[21.875rem] sm:w-[28.125rem] h-[21.875rem] sm:h-[28.125rem] bg-purple-600/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
       <div className="absolute bottom-1/4 left-[5%] w-[21.875rem] sm:w-[28.125rem] h-[21.875rem] sm:h-[28.125rem] bg-purple-500/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10 w-full flex flex-col items-center">
         
         {/* Section Header */}
         <motion.div
@@ -181,28 +181,28 @@ export default function Gallery() {
             {/* Close Button */}
             <button
               onClick={() => setSelectedItemIndex(null)}
-              className="absolute top-5 right-5 z-50 p-3 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 z-50 p-2.5 sm:p-3 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
               aria-label="Close enlarged photo"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
             {/* Previous Chevron Button */}
             <button
               onClick={handlePrev}
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-2.5 sm:p-3.5 rounded-full bg-black/80 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
               aria-label="Previous photo"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Next Chevron Button */}
             <button
               onClick={handleNext}
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-2.5 sm:p-3.5 rounded-full bg-black/80 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
               aria-label="Next photo"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Enlarged Photo Container */}

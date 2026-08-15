@@ -66,11 +66,11 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-5 z-50 flex justify-center px-4 sm:px-6">
+    <header className="fixed inset-x-0 top-5 z-50 flex flex-col items-center px-4 sm:px-6 pointer-events-none">
       <nav
-        className={`relative flex w-full max-w-7xl items-center border border-transparent justify-between rounded-full transition-all duration-500 px-5 py-3 sm:px-7 sm:py-3.5 transform-gpu ${
+        className={`relative flex w-full max-w-7xl items-center border border-transparent justify-between rounded-full transition-all duration-500 px-5 py-3 sm:px-7 sm:py-3.5 transform-gpu pointer-events-auto ${
           scrolled
-            ? "bg-black/50 shadow-[0_2px_15px_rgba(168,85,247,0.22)] backdrop-blur-xl bg-purple-500/10"
+            ? "shadow-[0_2px_15px_rgba(168,85,247,0.22)] backdrop-blur-xl bg-purple-500/10"
             : "bg-transparent shadow-none backdrop-blur-none"
         }`}
       >
@@ -78,7 +78,6 @@ export default function Navbar() {
         <motion.a
           href="/#hero"
           onClick={(e) => {
-            // e.preventDefault();
             scrollToSection("hero");
           }}
           aria-label="Dr. Varshney's Dental Aesthetics — Home"
@@ -161,61 +160,62 @@ export default function Navbar() {
             />
           </button>
         </div>
-
-        {/* Mobile dropdown */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -12, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -12, scale: 0.96 }}
-              transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-              className="absolute top-full left-0 right-0 z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-3xl bg-black/80 p-6 shadow-[0_25px_60px_rgba(0,0,0,0.8)] backdrop-blur-3xl xl:hidden"
-            >
-              <ul className="flex flex-col gap-5">
-                {LINKS.map((link, idx) => (
-                  <motion.li
-                    key={link.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                  >
-                    <a
-                      href={`#${link.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.id);
-                      }}
-                      className={`flex items-center justify-between font-medium text-sm tracking-wider uppercase transition-colors duration-300 ${
-                        activeSection === link.id
-                          ? "text-purple-300"
-                          : "text-white/80 hover:text-white"
-                      }`}
-                    >
-                      {link.label}
-                      {activeSection === link.id && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-                      )}
-                    </a>
-                  </motion.li>
-                ))}
-                <div className="pt-2">
-                  <motion.a
-                    href={WHATSAPP_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.96 }}
-                    className="block rounded-full border border-purple-500/40 bg-purple-500/15 py-3.5 text-center font-semibold text-xs tracking-wide text-purple-200 uppercase transition-colors hover:bg-purple-500 hover:text-black"
-                  >
-                    Book Appointment
-                  </motion.a>
-                </div>
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
+
+      {/* Mobile dropdown */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.96 }}
+            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
+            className="w-full max-w-7xl z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-3xl bg-purple-950/20 p-6 shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl xl:hidden pointer-events-auto"
+          >
+            <ul className="flex flex-col gap-5">
+              {LINKS.map((link, idx) => (
+                <motion.li
+                  key={link.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                >
+                  <a
+                    href={`#${link.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.id);
+                    }}
+                    className={`flex items-center justify-between font-medium text-sm tracking-wider uppercase transition-colors duration-300 ${
+                      activeSection === link.id
+                        ? "text-purple-300"
+                        : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    {activeSection === link.id && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+                    )}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+
+            <div className="mt-6 pt-5 border-t border-white/10 flex flex-col gap-3">
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-2 w-full rounded-full border border-purple-500/40 bg-purple-500/20 py-3 font-semibold text-sm text-purple-200 transition-colors duration-300 hover:bg-purple-500/30"
+              >
+                <Calendar className="w-4 h-4" />
+                Book Appointment
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

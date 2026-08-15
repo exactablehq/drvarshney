@@ -91,7 +91,12 @@ float glow(float x, float str, float dist) {
 }
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / iResolution.xy;
+  vec2 st = gl_FragCoord.xy / iResolution.xy;
+  float aspect = iResolution.x / max(iResolution.y, 1.0);
+  vec2 uv = st;
+  if (aspect < 1.0) {
+    uv.x = (st.x - 0.5) * aspect + 0.5;
+  }
   float n = max(uThreadCount, 1.0);
 
   float pinchX = uFanMode < 0.5 ? 0.5 : (uFanMode < 1.5 ? 0.0 : 1.0);
@@ -156,7 +161,10 @@ void main() {
 }
 `;
 
-const ctxMap = new WeakMap<HTMLDivElement, { renderer: Renderer; program: Program; mesh: Mesh }>();
+const ctxMap = new WeakMap<
+  HTMLDivElement,
+  { renderer: Renderer; program: Program; mesh: Mesh }
+>();
 
 const WebThreads = ({
   color1 = "#5227FF",
@@ -305,13 +313,16 @@ const WebThreads = ({
       (program.uniforms.uMouse.value as Float32Array)[0] = currentMouse[0];
       (program.uniforms.uMouse.value as Float32Array)[1] = currentMouse[1];
       program.uniforms.uMouseActive.value = currentActive;
-      program.uniforms.uEnableMouse.value = mouseRef.current.enabled ? 1.0 : 0.0;
+      program.uniforms.uEnableMouse.value = mouseRef.current.enabled
+        ? 1.0
+        : 0.0;
       program.uniforms.uMouseStrength.value = mouseRef.current.strength;
       renderer.render({ scene: mesh });
     };
 
     const tryStart = () => {
-      if (isVisible && isPageVisible && raf === 0) raf = requestAnimationFrame(loop);
+      if (isVisible && isPageVisible && raf === 0)
+        raf = requestAnimationFrame(loop);
     };
     const tryStop = () => {
       if (raf !== 0) {
@@ -432,7 +443,12 @@ const WebThreads = ({
     mouseStrength,
   ]);
 
-  return <div ref={containerRef} className={`web-threads-container ${className}`.trim()} />;
+  return (
+    <div
+      ref={containerRef}
+      className={`web-threads-container ${className}`.trim()}
+    />
+  );
 };
 
 export default WebThreads;

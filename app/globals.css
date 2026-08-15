@@ -2,9 +2,9 @@
 
 :root {
   --background: #030109;
-  --foreground: #FFFFFF;
-  --text-secondary: #C4B5FD;
-  --text-muted: #A78BFA;
+  --foreground: #ffffff;
+  --text-secondary: #c4b5fd;
+  --text-muted: #a78bfa;
   --primary: #35063e;
 }
 
@@ -29,21 +29,40 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
   overflow-x: hidden;
   cursor: default;
 }
 
 /* Global cursor behavior — default arrow cursor across all text, links keep pointer, inputs keep text */
-body, body * {
+body,
+body * {
   cursor: default;
 }
 
-a, button, [role="button"], input[type="submit"], input[type="button"], label, select, summary, .cursor-pointer {
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+label,
+select,
+summary,
+.cursor-pointer {
   cursor: pointer !important;
 }
 
-input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea, [contenteditable="true"], .cursor-text {
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+textarea,
+[contenteditable="true"],
+.cursor-text {
   cursor: text !important;
 }
 
@@ -69,7 +88,6 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
 }
 
 @keyframes pulseGlow {
-
   0%,
   100% {
     opacity: 0.3;

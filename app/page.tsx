@@ -229,8 +229,21 @@ export default function Home() {
       <section
         id="hero"
         ref={heroRef}
-        className="relative overflow-hidden group/hero min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#110A22] px-40"
+        className="relative overflow-hidden group/hero min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#110A22] lg:px-40"
       >
+        {/* Mobile background portrait + scrim overlay */}
+        <div className="lg:hidden absolute inset-0 z-[6]">
+          <Image
+            src="/hero.png"
+            alt="Dr. Ayush Varshney, Dental Surgeon"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top opacity-100 mix-blend-luminosity scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#110A22]/10 via-[#110A22]/65 to-[#110A22]" />
+        </div>
+
         {/* Animated web-threads shader — the base surface, replaces the flat fill color */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <WebThreads
@@ -284,7 +297,7 @@ export default function Home() {
         <div className="w-1/2 h-full absolute inset-0 bg-gradient-to-r from-black/55 to-pink-500/0 backdrop-blur-[2px]" />
 
         {/* Left Pane: Content */}
-        <div className="relative z-10 flex items-center justify-center lg:justify-start px-6 sm:px-10 lg:pl-16 xl:pl-24 lg:pr-10 pt-36 pb-14 lg:py-32">
+        <div className="relative z-10 flex items-center justify-center lg:justify-start px-6 sm:px-10 lg:pl-16 xl:pl-24 lg:pr-10 pt-80 sm:pt-36 pb-16 lg:py-32">
           <div className="max-w-xl flex flex-col text-center lg:text-left items-center lg:items-start space-y-6 lg:space-y-7">
             {/* Modern Sans Heading */}
             <h1 className="text-4xl sm:text-6xl lg:text-[4.5rem] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
@@ -332,20 +345,18 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right Pane: Full-viewport-height portrait, contained to its own column, inset from the top */}
-        <div className="relative w-full h-[55vh] sm:h-[65vh] lg:h-screen overflow-hidden">
-          <div className="absolute left-0 right-0 bottom-0 top-24 sm:top-28 lg:top-16 ">
+        {/* Right Pane: Full-viewport-height portrait for desktop only */}
+        <div className="hidden lg:block relative w-full h-screen overflow-hidden">
+          <div className="absolute left-0 right-0 bottom-0 top-16">
             <Image
               src="/hero.png"
               alt="Dr. Ayush Varshney, Dental Surgeon"
               fill
               priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              sizes="50vw"
               className="object-cover object-top"
             />
           </div>
-          {/* Seam blend between the two panes (desktop only — panes are stacked on mobile) */}
-          {/* <div className="hidden lg:block absolute inset-y-0 left-0 w-32 xl:w-40 bg-gradient-to-r from-[#030109] to-transparent pointer-events-none" /> */}
         </div>
         {/* Top scrim so the navbar stays legible over the photo */}
         <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#030109] to-transparent pointer-events-none" />
@@ -377,7 +388,7 @@ export default function Home() {
           }}
           className="absolute bottom-1/4 left-[10%] w-[21.875rem] h-[21.875rem] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10"
         />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
           {/* Section Header */}
           <motion.div
             initial="hidden"
@@ -600,24 +611,23 @@ export default function Home() {
               {/* Glass panel — floating card, not edge-flush, so the translucency actually reads */}
               <div className="relative h-full rounded-[2rem] bg-white/[0.06] backdrop-blur-2xl border border-white/15 shadow-[0_25px_80px_rgba(0,0,0,0.65)] overflow-y-auto overflow-x-hidden overscroll-y-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-15">
                 {/* Top highlight for glass edge definition */}
-                <div className="pointer-events-none absolute inset-0 rounded-[2rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" />
+                <div className="pointer-events-none absolute inset-0 rounded-[2rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] z-10" />
                 {/* Ambient corner glow — clipped by overflow-x-hidden above, never triggers scroll */}
                 <div className="absolute -top-16 -right-16 w-56 h-56 bg-purple-500/25 rounded-full blur-[90px] pointer-events-none" />
                 <div className="absolute -bottom-20 -left-16 w-56 h-56 bg-indigo-500/15 rounded-full blur-[100px] pointer-events-none" />
 
-                <div className="relative p-6 sm:p-7 space-y-7">
-                  {/* Header */}
-                  <div className="flex justify-between items-center">
-                    <div className="h-px w-10 bg-purple-500/60" />
-                    <button
-                      onClick={() => setActiveServiceDetail(null)}
-                      aria-label="Close treatment details"
-                      className="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 transition-colors duration-300 flex items-center justify-center cursor-pointer shrink-0"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
+                {/* Sticky pinned close button — stays visible and accessible on long scroll */}
+                <div className="sticky top-4 right-4 z-30 flex justify-end px-4 pt-2 pointer-events-none">
+                  <button
+                    onClick={() => setActiveServiceDetail(null)}
+                    aria-label="Close treatment details"
+                    className="w-10 h-10 rounded-full bg-[#180e2b]/85 border border-purple-400/40 text-white hover:bg-purple-600/70 transition-all duration-300 flex items-center justify-center cursor-pointer shrink-0 shadow-xl backdrop-blur-md pointer-events-auto"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
 
+                <div className="relative p-6 sm:p-7 space-y-7 -mt-10">
                   {/* Service Image */}
                   <div className="relative w-full aspect-[16/10] rounded-[1.5rem] overflow-hidden">
                     <Image

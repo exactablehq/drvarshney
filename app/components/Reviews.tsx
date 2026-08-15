@@ -23,18 +23,11 @@ export default function Reviews() {
       id="reviews"
       className="relative pt-12 pb-16 lg:pt-16 lg:pb-24 overflow-hidden bg-[#030109] selection:bg-purple-500/40 selection:text-white"
     >
-      {/* Background oversized low-opacity typography */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
-        <span className="text-[15vw] font-black text-purple-950/[0.035] tracking-[0.2em] uppercase leading-none select-none font-sans">
-          REVIEWS
-        </span>
-      </div>
-
       {/* Ambient Backlight Glows */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[25rem] h-[25rem] bg-purple-600/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[25rem] h-[25rem] bg-purple-500/[0.03] rounded-full blur-[130px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10 w-full flex flex-col items-center">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -63,7 +56,7 @@ export default function Reviews() {
           onMouseLeave={() => setHovered(false)}
           onTouchStart={() => setHovered(true)}
           onTouchEnd={() => setHovered(false)}
-          className="relative w-full overflow-hidden py-2 before:absolute before:left-0 before:top-0 before:z-20 before:h-full before:w-16 sm:before:w-32 before:bg-gradient-to-r before:from-[#030109] before:to-transparent after:absolute after:right-0 after:top-0 after:z-20 after:h-full after:w-16 sm:after:w-32 after:bg-gradient-to-l after:from-[#030109] after:to-transparent"
+          className="relative w-full overflow-hidden py-2 before:absolute before:left-0 before:top-0 before:z-20 before:h-full before:w-6 sm:before:w-32 before:bg-gradient-to-r before:from-[#030109] before:to-transparent after:absolute after:right-0 after:top-0 after:z-20 after:h-full after:w-6 sm:after:w-32 after:bg-gradient-to-l after:from-[#030109] after:to-transparent"
         >
           <motion.div ref={trackRef} style={{ x }} className="flex gap-6 w-max">
             {marqueeReviews.map((item, idx) => (

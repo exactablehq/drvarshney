@@ -192,14 +192,14 @@ export default function DoctorProfile() {
       {/* Bottom seam — blends the hero into the Services section background */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#030109] via-[#030109]/45 to-transparent pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div className="max-w-6xl mx-auto px-2 sm:px-8 lg:px-8 relative z-10 w-full">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" as const }}
-          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-12 lg:mb-14"
+          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-12 lg:mb-14 px-4 sm:px-0"
         >
           <div className="h-px w-10 bg-purple-500/60 mb-6" />
           <span className="text-xs font-semibold tracking-[0.25em] text-purple-300/80 uppercase mb-4">
@@ -217,20 +217,20 @@ export default function DoctorProfile() {
 
         {/* Seamless pane — no card, no border, just the figure and gradients.
                     Fixed min-height so the avatar filmstrip below never jumps as bio length varies. */}
-        <div className="relative min-h-[45rem] sm:min-h-[40rem] lg:min-h-[30rem]">
-          {/* Left Chevron Navigation Button */}
+        <div className="relative min-h-[50rem] sm:min-h-[40rem] lg:min-h-[30rem]">
+          {/* Left Chevron Navigation Button — aligned with center of doctor image on mobile */}
           <button
             onClick={prevDoctor}
-            className="absolute -left-3 sm:-left-8 lg:-left-12 top-[55%] lg:top-2/3 -translate-y-1/2 z-30 p-3 rounded-full text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 backdrop-blur-md transition-all duration-300 shadow-xl flex items-center justify-center group"
+            className="absolute -left-1 sm:-left-8 lg:-left-12 top-[20%] lg:top-2/3 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 backdrop-blur-md transition-all duration-300 shadow-xl flex items-center justify-center group"
             aria-label="Previous specialist"
           >
             <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-300 text-purple-300" />
           </button>
 
-          {/* Right Chevron Navigation Button */}
+          {/* Right Chevron Navigation Button — aligned with center of doctor image on mobile */}
           <button
             onClick={nextDoctor}
-            className="absolute -right-3 sm:-right-8 lg:-right-12 top-[55%] lg:top-2/3 -translate-y-1/2 z-30 p-3 rounded-full text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 backdrop-blur-md transition-all duration-300 shadow-xl flex items-center justify-center group"
+            className="absolute -right-1 sm:-right-8 lg:-right-12 top-[20%] lg:top-2/3 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full text-white/70 hover:text-white hover:bg-purple-500/20 hover:border-purple-400/40 backdrop-blur-md transition-all duration-300 shadow-xl flex items-center justify-center group"
             aria-label="Next specialist"
           >
             <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-300 text-purple-300" />
@@ -259,7 +259,7 @@ export default function DoctorProfile() {
                 setIsPaused(false);
               }}
               ref={tiltRef}
-              className="absolute inset-0 w-full grid grid-cols-1 lg:grid-cols-12 items-center"
+              className="relative lg:absolute inset-0 w-full grid grid-cols-1 lg:grid-cols-12 items-center"
             >
               {/* Left: portrait floats free, edges dissolving into the page */}
               <div className="relative lg:col-span-5 flex justify-center lg:justify-end px-6 lg:px-0">
@@ -299,7 +299,7 @@ export default function DoctorProfile() {
                 variants={contentStagger}
                 initial="hidden"
                 animate="visible"
-                className="lg:col-span-7 space-y-5 text-left p-8 sm:p-10 lg:p-14"
+                className="lg:col-span-7 space-y-5 text-left p-4 sm:p-10 lg:p-14"
               >
                 <motion.div variants={contentItem}>
                   <h3 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white leading-[1.05] tracking-tight">
@@ -315,7 +315,7 @@ export default function DoctorProfile() {
 
                 <motion.p
                   variants={contentItem}
-                  className="text-white/55 text-sm leading-relaxed font-light max-w-lg"
+                  className="text-white/55 text-sm leading-relaxed font-light max-w-lg line-clamp-3 sm:line-clamp-none"
                 >
                   {doctor.bio}
                 </motion.p>
@@ -414,31 +414,6 @@ export default function DoctorProfile() {
               </motion.div>
             </motion.div>
           </AnimatePresence>
-        </div>
-
-        {/* Mobile-only dash indicators — the full filmstrip gets visually dense
-                    with 14 doctors on a narrow screen, so dots take over as the "you are here" cue. */}
-        <div className="flex sm:hidden items-center justify-center gap-1.5 pt-8 pb-1">
-          {doctorsData.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => goTo(idx)}
-              aria-label={`Go to doctor ${idx + 1}`}
-              className="p-1"
-            >
-              <motion.span
-                animate={{
-                  width: idx === activeIndex ? 18 : 5,
-                  backgroundColor:
-                    idx === activeIndex
-                      ? "rgba(216,180,254,0.9)"
-                      : "rgba(255,255,255,0.2)",
-                }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                className="block h-1.5 rounded-full"
-              />
-            </button>
-          ))}
         </div>
 
         {/* Avatar filmstrip — borderless, with name tooltips on hover (desktop) */}

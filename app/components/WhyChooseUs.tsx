@@ -6,24 +6,22 @@ import { useMarquee } from "../hooks/useMarquee";
 
 export default function WhyChooseUs() {
   const { trackRef, x, setHovered } = useMarquee(40, 12);
-  const marqueeItems = [...whyChooseUsData, ...whyChooseUsData, ...whyChooseUsData];
+  const marqueeItems = [
+    ...whyChooseUsData,
+    ...whyChooseUsData,
+    ...whyChooseUsData,
+  ];
 
   return (
-    <section id="why-choose-us" className="relative pt-10 pb-20 lg:pt-14 lg:pb-28 overflow-hidden bg-[#030109] flex flex-col justify-center">
-      
-      {/* Oversized Background Typography - "CARE" */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
-        <span className="text-[14vw] font-black text-purple-955/[0.025] tracking-[0.2em] uppercase leading-none select-none">
-          CARE
-        </span>
-      </div>
-
+    <section
+      id="why-choose-us"
+      className="relative pt-10 pb-20 lg:pt-14 lg:pb-28 overflow-hidden bg-[#030109] flex flex-col justify-center"
+    >
       {/* Ambient Radial Glows */}
       <div className="absolute top-1/3 left-[10%] w-[18.75rem] sm:w-[25rem] h-[18.75rem] sm:h-[25rem] bg-purple-600/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="absolute bottom-1/3 right-[10%] w-[18.75rem] sm:w-[25rem] h-[18.75rem] sm:h-[25rem] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
-        
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10 w-full flex flex-col items-center">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -37,12 +35,16 @@ export default function WhyChooseUs() {
 
           {/* Large elegant heading */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mb-6">
-            Exceptional Care. <span className="beautiful-smiles-glow">Modern Dentistry.</span> Trusted Expertise.
+            Exceptional Care.{" "}
+            <span className="beautiful-smiles-glow">Modern Dentistry.</span>{" "}
+            Trusted Expertise.
           </h2>
 
           {/* Supporting description */}
           <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-2xl font-light">
-            Combining cutting-edge dental technology with artistic clinical care, Dr. Varshney&apos;s Dental Aesthetics elevates oral wellness and aesthetic beauty to premium standards.
+            Combining cutting-edge dental technology with artistic clinical
+            care, Dr. Varshney&apos;s Dental Aesthetics elevates oral wellness
+            and aesthetic beauty to premium standards.
           </p>
         </motion.div>
 
@@ -52,7 +54,7 @@ export default function WhyChooseUs() {
           onMouseLeave={() => setHovered(false)}
           onTouchStart={() => setHovered(true)}
           onTouchEnd={() => setHovered(false)}
-          className="relative w-full overflow-hidden py-2 before:absolute before:left-0 before:top-0 before:z-20 before:h-full before:w-16 sm:before:w-32 before:bg-gradient-to-r before:from-[#030109] before:to-transparent after:absolute after:right-0 after:top-0 after:z-20 after:h-full after:w-16 sm:after:w-32 after:bg-gradient-to-l after:from-[#030109] after:to-transparent"
+          className="relative w-full overflow-hidden py-2 before:absolute before:left-0 before:top-0 before:z-20 before:h-full before:w-6 sm:before:w-32 before:bg-gradient-to-r before:from-[#030109] before:to-transparent after:absolute after:right-0 after:top-0 after:z-20 after:h-full after:w-6 sm:after:w-32 after:bg-gradient-to-l after:from-[#030109] after:to-transparent"
         >
           <motion.div ref={trackRef} style={{ x }} className="flex gap-6 w-max">
             {marqueeItems.map((item, idx) => {
@@ -80,7 +82,6 @@ export default function WhyChooseUs() {
             })}
           </motion.div>
         </div>
-
       </div>
     </section>
   );

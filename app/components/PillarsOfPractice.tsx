@@ -158,7 +158,7 @@ export default function PillarsOfPractice() {
       {/* Right Seam */}
       <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#030109]/70 via-[#030109]/45 to-transparent pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-16 lg:mb-20">
           {/* Emblem — concentric rotating rings around a compass icon */}
           <div className="relative w-16 h-16 mb-6 flex items-center justify-center">

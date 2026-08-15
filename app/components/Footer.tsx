@@ -13,7 +13,7 @@ export default function Footer() {
           aria-label="Home"
         >
           <Image
-            src="/branding/wordmark.svg"
+            src="/branding/logo.svg"
             alt="Dr. Varshney's Dental Aesthetics"
             width={44}
             height={44}

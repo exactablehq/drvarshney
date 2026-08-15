@@ -42,15 +42,15 @@ export default function ContactUs() {
       <div className="absolute top-1/4 left-[5%] w-[18.75rem] h-[18.75rem] bg-purple-600/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="absolute bottom-1/4 right-[5%] w-[18.75rem] h-[18.75rem] bg-purple-500/[0.02] rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 lg:items-stretch">
-          {/* Left Column: Heading & Contact Info Cards */}
+          {/* Left Column: Heading & Contact Info Cards (Order 2 on mobile, Order 1 on desktop) */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-6 space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left"
+            className="lg:col-span-6 space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1"
           >
             {/* Thin accent rule */}
             <div className="h-px w-10 bg-purple-500/60" />
@@ -116,13 +116,13 @@ export default function ContactUs() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Google Map & WhatsApp CTA */}
+          {/* Right Column: Google Map & WhatsApp CTA (Order 1 on mobile, Order 2 on desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-6 w-full flex flex-col gap-5 lg:pt-4 lg:h-full"
+            className="lg:col-span-6 w-full flex flex-col gap-5 lg:pt-4 lg:h-full order-1 lg:order-2"
           >
             {/* Map Frame — borderless, single hairline, ambient glow. Matches the left column's height on desktop. */}
             <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:flex-1 lg:min-h-[22.5rem] rounded-[1.75rem] overflow-hidden">
@@ -157,7 +157,7 @@ export default function ContactUs() {
               className="px-8 py-4 rounded-full bg-[#35063e] hover:bg-[#4a0956] text-white font-semibold text-base shadow-[0_4px_20px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out flex items-center justify-center gap-2.5 cursor-pointer border border-purple-500/50 hover:border-purple-400 w-full"
             >
               <MessageCircle className="w-5 h-5 text-white" />
-              <span>Book Appointment on WhatsApp</span>
+              <span>Book Now</span>
             </motion.a>
           </motion.div>
         </div>
