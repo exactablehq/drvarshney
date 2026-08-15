@@ -1,97 +1,91 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, Sparkles, X, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
-
-export interface GalleryItem {
-  id: string;
-  title: string;
-  category: "transformations" | "ambience" | "technology" | "care";
-  categoryLabel: string;
-  description: string;
-  image: string;
-  tag: string;
-}
-
-export const galleryItems: GalleryItem[] = [
-  {
-    id: "gal-1",
-    title: "Smile Aesthetic Transformation",
-    category: "transformations",
-    categoryLabel: "Smile Design",
-    description: "Complete cosmetic veneer & smile restoration achieved through digital smile design precision.",
-    image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1400&q=85",
-    tag: "Cosmetic Dentistry"
-  },
-  {
-    id: "gal-2",
-    title: "Modern Clinical Suite",
-    category: "ambience",
-    categoryLabel: "Clinic Ambience",
-    description: "Ultra-sterile, tranquil, and comfortable treatment rooms designed for patient relaxation.",
-    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1400&q=85",
-    tag: "Infrastructure"
-  },
-  {
-    id: "gal-3",
-    title: "3D Digital Imaging & Diagnostics",
-    category: "technology",
-    categoryLabel: "Advanced Tech",
-    description: "High-precision digital intraoral scanners & 3D CBCT imaging for painless diagnostic accuracy.",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1400&q=85",
-    tag: "Digital Tech"
-  },
-  {
-    id: "gal-4",
-    title: "Precision Dental Implantology",
-    category: "transformations",
-    categoryLabel: "Restorative",
-    description: "Natural-looking permanent dental implants crafted for optimal functionality & speech alignment.",
-    image: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1400&q=85",
-    tag: "Implants"
-  },
-  {
-    id: "gal-5",
-    title: "Sterile Procedure Setup",
-    category: "ambience",
-    categoryLabel: "Safety First",
-    description: "Gold-standard autoclave sterilization protocols and surgical hygiene standards.",
-    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1400&q=85",
-    tag: "Hygiene"
-  },
-  {
-    id: "gal-6",
-    title: "Invisalign & Clear Aligners",
-    category: "transformations",
-    categoryLabel: "Orthodontics",
-    description: "Virtually invisible aligner solutions tailored to straighten teeth seamlessly without metal braces.",
-    image: "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=1400&q=85",
-    tag: "Orthodontics"
-  }
-];
+import { galleryItems } from "../data/gallery";
+import Masonry, { MasonryItem } from "./Masonry";
+import { Sparkles, X, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Gallery() {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
-  const selectedItem = selectedItemIndex !== null ? galleryItems[selectedItemIndex] : null;
+  // Filter gallery items by category
+  const filteredGalleryItems = useMemo(() => {
+    if (activeCategory === "all") return galleryItems;
+    return galleryItems.filter(item => item.category === activeCategory);
+  }, [activeCategory]);
 
-  const handleNext = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    if (selectedItemIndex !== null) {
-      setSelectedItemIndex((selectedItemIndex + 1) % galleryItems.length);
-    }
-  };
+  // Map galleryItems to React Bits Masonry items with GPU height patterns
+  const masonryItems: MasonryItem[] = useMemo(() => {
+    const heightPatterns = [520, 400, 620, 460, 500, 380, 580, 420];
+    return filteredGalleryItems.map((item, idx) => ({
+      ...item,
+      img: item.image,
+      height: heightPatterns[idx % heightPatterns.length]
+    }));
+  }, [filteredGalleryItems]);
 
-  const handlePrev = (e?: React.MouseEvent) => {
+  const selectedItem = selectedItemIndex !== null ? filteredGalleryItems[selectedItemIndex] || null : null;
+
+  const handleNext = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (selectedItemIndex !== null) {
-      setSelectedItemIndex((selectedItemIndex - 1 + galleryItems.length) % galleryItems.length);
-    }
-  };
+    setSelectedItemIndex(prev => (prev !== null ? (prev + 1) % filteredGalleryItems.length : null));
+  }, [filteredGalleryItems.length]);
+
+  const handlePrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setSelectedItemIndex(prev => (prev !== null ? (prev - 1 + filteredGalleryItems.length) % filteredGalleryItems.length : null));
+  }, [filteredGalleryItems.length]);
+
+  const handleItemClick = useCallback((item: MasonryItem, idx: number) => {
+    setSelectedItemIndex(idx);
+  }, []);
+
+  // Keyboard navigation for modal viewer (Arrow keys & Escape)
+  useEffect(() => {
+    if (selectedItemIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedItemIndex(null);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedItemIndex(prev => (prev !== null ? (prev + 1) % filteredGalleryItems.length : null));
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedItemIndex(prev => (prev !== null ? (prev - 1 + filteredGalleryItems.length) % filteredGalleryItems.length : null));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedItemIndex, filteredGalleryItems.length]);
+
+  const renderOverlay = useCallback((item: MasonryItem) => (
+    <div className="absolute inset-0 bg-gradient-to-t from-[#030109]/95 via-[#030109]/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 pointer-events-auto">
+      <h3 className="text-sm sm:text-base font-bold text-white leading-snug">
+        {item.title}
+      </h3>
+      <p className="text-purple-300 text-[11px] mt-0.5 flex items-center gap-1 font-medium">
+        <Sparkles className="w-3 h-3 text-purple-400" />
+        {item.categoryLabel}
+      </p>
+      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center border border-white/20 backdrop-blur-md">
+        <Maximize2 className="w-3.5 h-3.5" />
+      </div>
+    </div>
+  ), []);
+
+  const categories = useMemo(() => [
+    { id: "all", label: "All Photos" },
+    { id: "ambience", label: "Clinic Ambience" },
+    { id: "technology", label: "Advanced Tech" },
+    { id: "care", label: "Doctor Care" }
+  ], []);
 
   return (
-    <section id="gallery" className="relative pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden bg-[#090611] border-t border-[#35063e]/20 flex flex-col justify-center">
+    <section id="gallery" className="relative pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden bg-[#030109] flex flex-col justify-center">
       
       {/* Oversized Low-Opacity Background Typography */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
@@ -101,10 +95,10 @@ export default function Gallery() {
       </div>
 
       {/* Ambient Radial Glows */}
-      <div className="absolute top-1/4 right-[5%] w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-purple-600/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 left-[5%] w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-purple-500/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 right-[5%] w-[21.875rem] sm:w-[28.125rem] h-[21.875rem] sm:h-[28.125rem] bg-purple-600/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 left-[5%] w-[21.875rem] sm:w-[28.125rem] h-[21.875rem] sm:h-[28.125rem] bg-purple-500/[0.025] rounded-full blur-[130px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10 w-full flex flex-col items-center">
         
         {/* Section Header */}
         <motion.div
@@ -112,13 +106,10 @@ export default function Gallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-10 lg:mb-14"
+          className="text-center max-w-3xl mx-auto flex flex-col items-center mb-8 lg:mb-10"
         >
-          {/* Glassmorphism pill badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0a0516]/65 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1),_inset_0_1px_0_rgba(255,255,255,0.1)] text-xs font-semibold text-purple-300 tracking-wider uppercase backdrop-blur-[10px] mb-6">
-            <Camera className="w-3.5 h-3.5 text-purple-400" />
-            <span>Clinic Showcase</span>
-          </div>
+          {/* Thin accent rule */}
+          <div className="h-px w-10 bg-purple-500/60 mb-6" />
 
           {/* Heading */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-white tracking-tight leading-[1.15] mb-6">
@@ -131,53 +122,45 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        {/* Pure Photo Gallery Grid (No Filter Categories) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-          {galleryItems.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
-              onClick={() => setSelectedItemIndex(idx)}
-              className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/3] bg-[#0e071b] border border-purple-500/20 cursor-pointer shadow-[0_8px_25px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-purple-500/50 hover:shadow-[0_12px_35px_rgba(168,85,247,0.25)]"
-            >
-              {/* Photo Image */}
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-              />
+        {/* Category Filter Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 z-10">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  setSelectedItemIndex(null);
+                }}
+                className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+                  isActive
+                    ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40 border border-purple-400/30"
+                    : "bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/10"
+                }`}
+              >
+                {isActive && <Sparkles className="w-3 h-3 text-purple-200" />}
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
 
-              {/* Subtle Ambient Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#090611]/90 via-[#090611]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-5">
-                {/* Top Category Tag */}
-                <div className="flex justify-start">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-[#0a0516]/80 border border-purple-500/40 text-purple-300 backdrop-blur-md">
-                    {item.tag}
-                  </span>
-                </div>
-
-                {/* Bottom Title & Zoom Icon */}
-                <div className="flex items-end justify-between gap-3">
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
-                      {item.title}
-                    </h3>
-                    <p className="text-purple-300 text-xs mt-0.5 flex items-center gap-1 font-medium">
-                      <Sparkles className="w-3 h-3 text-purple-400" />
-                      {item.categoryLabel}
-                    </p>
-                  </div>
-
-                  <div className="w-10 h-10 rounded-full bg-purple-600/80 text-white flex items-center justify-center shrink-0 border border-purple-400/50 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        {/* Optimized GPU-Accelerated React Bits Masonry Grid */}
+        <div className="w-full relative min-h-[31.25rem]">
+          <Masonry
+            items={masonryItems}
+            ease="power3.out"
+            duration={0.5}
+            stagger={0.03}
+            animateFrom="bottom"
+            scaleOnHover={true}
+            hoverScale={0.97}
+            blurToFocus={true}
+            colorShiftOnHover={false}
+            onItemClick={handleItemClick}
+            renderOverlay={renderOverlay}
+          />
         </div>
 
       </div>
@@ -198,28 +181,28 @@ export default function Gallery() {
             {/* Close Button */}
             <button
               onClick={() => setSelectedItemIndex(null)}
-              className="absolute top-5 right-5 z-50 p-3 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 z-50 p-2.5 sm:p-3 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
               aria-label="Close enlarged photo"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
             {/* Previous Chevron Button */}
             <button
               onClick={handlePrev}
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-2.5 sm:p-3.5 rounded-full bg-black/80 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
               aria-label="Previous photo"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Next Chevron Button */}
             <button
               onClick={handleNext}
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/70 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-2.5 sm:p-3.5 rounded-full bg-black/80 border border-white/20 text-white hover:bg-purple-600/60 transition-all cursor-pointer shadow-xl"
               aria-label="Next photo"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Enlarged Photo Container */}
@@ -239,7 +222,7 @@ export default function Gallery() {
               />
 
               {/* Caption Overlay Bar */}
-              <div className="w-full bg-[#0a0516]/90 border-t border-purple-500/20 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+              <div className="w-full bg-[#0b0512]/90 border-t border-purple-500/20 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
                 <div>
                   <h3 className="text-lg font-bold text-white leading-tight">
                     {selectedItem.title}
