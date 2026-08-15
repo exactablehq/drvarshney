@@ -6,11 +6,20 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Dr. Varshney&apos;s Dental Aesthetics",
+  title: "Privacy Policy",
   description:
-    "Privacy Policy for Dr. Varshney&apos;s Dental Aesthetics in Nani Daman. Understand how we collect, protect, and handle your patient information.",
+    "Privacy Policy for Dr. Varshney's Dental Aesthetics in Nani Daman. Learn how we protect, manage, and safeguard patient data and records.",
   alternates: {
     canonical: "https://drvarshney.in/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Dr. Varshney's Dental Aesthetics",
+    description:
+      "Privacy Policy for Dr. Varshney's Dental Aesthetics in Nani Daman. Learn how we protect, manage, and safeguard patient data and records.",
+    url: "https://drvarshney.in/privacy-policy",
+    siteName: "Dr. Varshney's Dental Aesthetics",
+    locale: "en_IN",
+    type: "website",
   },
 };
 

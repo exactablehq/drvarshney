@@ -32,7 +32,7 @@ export const doctorsData: DoctorProfileData[] = [
     image: "doctors/ayush-varshney.png",
     phone: "+91 79774 54648",
     whatsapp:
-      "https://wa.me/919797454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment.",
+      "https://wa.me/917977454648?text=Hello%20Dr.%20Varshney,%20I%20would%20like%20to%20book%20an%20appointment.",
   },
   {
     name: "Dr. Poorav P. Patel",

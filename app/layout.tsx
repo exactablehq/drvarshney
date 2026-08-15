@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Geist,
   Geist_Mono,
@@ -6,8 +6,7 @@ import {
   Cormorant_Garamond,
 } from "next/font/google";
 import "./globals.css";
-import { services } from "./data/services";
-import { reviewsData } from "./data/reviews";
+import { generateJsonLd } from "./lib/schema";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +30,14 @@ const cormorant = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#030109",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://drvarshney.in"),
 
@@ -42,49 +49,59 @@ export const metadata: Metadata = {
   description:
     "Experience advanced, patient-focused dentistry in Nani Daman. From dental implants to root canals and smile makeovers at Dr. Varshney's Dental Aesthetics.",
 
+  applicationName: "Dr. Varshney's Dental Aesthetics",
+  authors: [{ name: "Dr. Ayush Varshney", url: "https://drvarshney.in" }],
+  creator: "Dr. Ayush Varshney",
+  publisher: "Dr. Varshney's Dental Aesthetics",
+  category: "Health & Medical",
+
   keywords: [
     "Dentist in Nani Daman",
     "Best Dental Clinic in Daman",
     "Dr Ayush Varshney",
+    "Dental Clinic Daman",
     "Dental Implants Daman",
     "Root Canal Treatment Daman",
-    "Smile Makeover",
+    "Smile Makeover Daman",
     "Cosmetic Dentistry",
-    "Teeth Whitening",
-    "Dental Veneers",
+    "Teeth Whitening Daman",
+    "Dental Veneers Daman",
     "Wisdom Tooth Removal",
-    "Braces",
-    "Aligners",
+    "Braces and Aligners Daman",
+    "Pediatric Dentist Daman",
     "Children Dentist",
     "Family Dental Care",
     "Full Mouth Rehabilitation",
-    "Dental Aesthetics",
+    "Dental Aesthetics Daman",
+    "Top Dentist in Vapi",
+    "Dentist near Silvassa",
   ],
 
   alternates: {
     canonical: "https://drvarshney.in",
   },
 
+  formatDetection: {
+    email: true,
+    address: true,
+    telephone: true,
+  },
+
   openGraph: {
     title: "Dr. Varshney's Dental Aesthetics | Best Dentist in Daman",
-
     description:
-      "Advanced dental care in Nani Daman. From implants to smile makeovers, experience expert, patient-focused dentistry for a healthy smile.",
-
+      "Advanced, patient-focused dental care in Nani Daman. Dental implants, painless root canals, smile makeovers, and family dentistry.",
     url: "https://drvarshney.in",
-
     siteName: "Dr. Varshney's Dental Aesthetics",
-
     locale: "en_IN",
-
     type: "website",
-
     images: [
       {
         url: "/branding/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Dr. Varshney's Dental Aesthetics",
+        alt: "Dr. Varshney's Dental Aesthetics Clinic - Daman",
+        type: "image/jpeg",
       },
     ],
   },
@@ -92,10 +109,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Dr. Varshney's Dental Aesthetics | Best Dentist in Daman",
-
     description:
       "Advanced, patient-focused dental care in Nani Daman. Implants, root canals, braces & smile makeovers at Dr. Varshney's Dental Aesthetics.",
-
     images: ["/branding/og-image.jpg"],
   },
 
@@ -103,7 +118,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
     nocache: false,
-
     googleBot: {
       index: true,
       follow: true,
@@ -114,147 +128,14 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
     shortcut: "/icon.svg",
-    // apple: "/apple-touch-icon.png",
-  },
-};
-
-const offerCatalog = {
-  "@type": "OfferCatalog",
-  name: "Comprehensive Dental Services Catalog",
-  itemListElement: services.map((service) => ({
-    "@type": "Offer",
-    offeredBy: {
-      "@type": "Dentist",
-      name: "Dr. Varshney's Dental Aesthetics",
-    },
-    itemOffered: {
-      "@type": ["Service", "MedicalProcedure"],
-      name: service.title,
-      description: service.description,
-      url: "https://drvarshney.in/#services",
-      provider: {
-        "@type": "Dentist",
-        name: "Dr. Varshney's Dental Aesthetics",
-      },
-    },
-  })),
-};
-
-const averageRating =
-  reviewsData.reduce((sum, r) => sum + r.rating, 0) / reviewsData.length;
-
-const aggregateRating = {
-  "@type": "AggregateRating",
-  ratingValue: averageRating.toFixed(1),
-  reviewCount: reviewsData.length,
-  bestRating: 5,
-  worstRating: 1,
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Dentist",
-  "@id": "https://drvarshney.in/#dentist",
-
-  name: "Dr. Varshney's Dental Aesthetics",
-
-  description:
-    "Dr. Varshney's Dental Aesthetics is a modern dental clinic in Nani Daman led by Dr. Ayush Varshney (B.D.S.), providing comprehensive dental care including dental implants, root canal treatment, cosmetic dentistry, smile makeovers, and family dental care.",
-
-  url: "https://drvarshney.in",
-
-  image: "https://drvarshney.in/branding/og-image.jpg",
-
-  logo: "https://drvarshney.in/branding/logo.svg",
-
-  telephone: "+91 79774 54648",
-
-  email: "dr.varshneydental@gmail.com",
-
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+91 79774 54648",
-    contactType: "customer service",
-    areaServed: "IN",
-    availableLanguage: ["English", "Hindi", "Gujarati"],
+    apple: "/icon.svg",
   },
 
-  priceRange: "₹₹",
-  currenciesAccepted: "INR",
-  paymentAccepted: ["Cash", "UPI", "Credit Card", "Debit Card"],
-
-  address: {
-    "@type": "PostalAddress",
-    streetAddress:
-      "Shop No. 105, Dutt Sagar Appt., Above IDBI Bank, Airport Road",
-    addressLocality: "Nani Daman",
-    addressRegion: "Daman",
-    postalCode: "396210",
-    addressCountry: "IN",
-  },
-
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: "20.4162086",
-    longitude: "72.8379419",
-  },
-
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      opens: "10:00",
-      closes: "13:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      opens: "16:00",
-      closes: "20:00",
-    },
-  ],
-
-  areaServed: [
-    {
-      "@type": "City",
-      name: "Nani Daman",
-    },
-    {
-      "@type": "City",
-      name: "Daman",
-    },
-  ],
-
-  medicalSpecialty: "Dentistry",
-
-  aggregateRating,
-
-  hasOfferCatalog: offerCatalog,
-
-  founder: {
-    "@type": "Person",
-    name: "Dr. Ayush Varshney",
-    jobTitle: "Dental Surgeon",
-    alumniOf: "Gujarat University",
-  },
-
-  sameAs: ["https://wa.me/917977454648"],
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({
@@ -262,6 +143,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = generateJsonLd();
+
   return (
     <html
       lang="en"

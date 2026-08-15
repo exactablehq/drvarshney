@@ -6,11 +6,20 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Dr. Varshney&apos;s Dental Aesthetics",
+  title: "Terms of Service",
   description:
-    "Terms of Service for Dr. Varshney&apos;s Dental Aesthetics in Nani Daman. Terms governing clinical appointments, treatment consultations, and website usage.",
+    "Terms of Service for Dr. Varshney's Dental Aesthetics in Nani Daman. Guidelines governing clinical appointments, consultations, and patient policies.",
   alternates: {
     canonical: "https://drvarshney.in/terms-of-service",
+  },
+  openGraph: {
+    title: "Terms of Service | Dr. Varshney's Dental Aesthetics",
+    description:
+      "Terms of Service for Dr. Varshney's Dental Aesthetics in Nani Daman. Guidelines governing clinical appointments, consultations, and patient policies.",
+    url: "https://drvarshney.in/terms-of-service",
+    siteName: "Dr. Varshney's Dental Aesthetics",
+    locale: "en_IN",
+    type: "website",
   },
 };
 
