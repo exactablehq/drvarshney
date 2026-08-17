@@ -60,6 +60,7 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
   const heroImageY = useTransform(heroScrollProgress, [0, 1], ["0%", "12%"]);
+  const bgImageY = useTransform(heroScrollProgress, [0, 1], ["0%", "24%"]);
 
   // Page Load State
   // const [isLoading, setIsLoading] = useState(true);
@@ -229,23 +230,26 @@ export default function Home() {
       <section
         id="hero"
         ref={heroRef}
-        className="relative overflow-hidden group/hero min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#110A22] lg:px-40"
+        className="relative overflow-hidden group/hero min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#0d061a] lg:px-20 xl:px-40"
       >
-        {/* Mobile background portrait + scrim overlay */}
-        <div className="lg:hidden absolute inset-0 z-[6]">
+        {/* Layer 0: Full Bleed Clinic Background Image */}
+        <motion.div
+          className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
+          style={{ y: bgImageY }}
+        >
           <Image
-            src="/hero.png"
-            alt="Dr. Ayush Varshney, Dental Surgeon"
+            src="/branding/bg-clinic.jpg"
+            alt="Dr. Varshney Dental Clinic"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-top opacity-100 mix-blend-luminosity scale-105"
+            className="object-cover object-center scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#110A22]/10 via-[#110A22]/65 to-[#110A22]" />
-        </div>
+          {/* <div className="absolute inset-0 bg-[#0d061a]/60" /> */}
+        </motion.div>
 
-        {/* Animated web-threads shader — the base surface, replaces the flat fill color */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Layer 1: Animated WebThreads WebGL Render (layered on top of clinic background) */}
+        {/* <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
           <WebThreads
             color1="#a855f7"
             color2="#f472b6"
@@ -268,36 +272,54 @@ export default function Home() {
             mouseInteraction={false}
             mouseStrength={0.25}
           />
-        </div>
+        </div> */}
 
-        {/* Ambient ombré glows — soft, slow, breathing (opacity + scale + gentle drift) */}
-        <div
-          className="absolute pointer-events-none rounded-full blur-[140px] z-[5]"
+        {/* Layer 2: Ambient ombré glows & gradient blending effects */}
+        {/* <div
+          className="absolute pointer-events-none rounded-full blur-[140px] z-[2]"
           style={{
             width: "38.75rem",
             height: "38.75rem",
             background:
-              "radial-gradient(circle, rgba(168, 85, 247, 0.38) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 70%)",
             left: "-12%",
             top: "8%",
           }}
-        />
-        <div
-          className="absolute pointer-events-none rounded-full blur-[160px] z-[5]"
+        /> */}
+        {/* <div
+          className="absolute pointer-events-none rounded-full blur-[160px] z-[2]"
           style={{
             width: "45rem",
             height: "45rem",
             background:
-              "radial-gradient(circle, rgba(124, 58, 237, 0.34) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, transparent 70%)",
             right: "-16%",
             bottom: "-5%",
           }}
-        />
-        <div className="w-full h-full absolute inset-0 bg-purple-500/5 backdrop-blur-[2px]" />
-        <div className="w-1/2 h-full absolute inset-0 bg-gradient-to-r from-black/55 to-pink-500/0 backdrop-blur-[2px]" />
+        /> */}
+        {/* <div className="w-full h-full absolute inset-0 bg-purple-950/10 backdrop-blur-[1px] pointer-events-none z-[2]" /> */}
+        <div className="w-full sm:w-1/3 lg:w-3/5 xl:w-4/5 h-full absolute inset-0 bg-gradient-to-r from-[#030109]/90 via-[#030109]/60 to-transparent pointer-events-none z-[2]" />
 
-        {/* Left Pane: Content */}
-        <div className="relative z-10 flex items-center justify-center lg:justify-start px-6 sm:px-10 lg:pl-16 xl:pl-24 lg:pr-10 pt-80 sm:pt-36 pb-16 lg:py-32">
+        {/* Layer 3: Mobile background portrait + scrim overlay */}
+        <motion.div
+          className="lg:hidden absolute inset-0 z-[3] pointer-events-none"
+          style={{
+            y: heroImageY,
+          }}
+        >
+          <Image
+            src="/hero.png"
+            alt="Dr. Ayush Varshney, Dental Surgeon"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top opacity-100 mix-blend-luminosity scale-105"
+          />
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-[#030109]/0 via-[#030109]/35 to-[#030109] h-full" />
+        </motion.div>
+
+        {/* Layer 4 (Left Column): Interactive Content */}
+        <div className="relative z-20 flex items-center justify-center lg:justify-start px-6 sm:px-10 lg:pl-16 xl:pl-24 lg:pr-10 pt-80 sm:pt-36 pb-16 lg:py-32">
           <div className="max-w-xl flex flex-col text-center lg:text-left items-center lg:items-start space-y-6 lg:space-y-7">
             {/* Modern Sans Heading */}
             <h1 className="text-4xl sm:text-6xl lg:text-[4.5rem] font-sans font-extrabold text-white tracking-tighter leading-[1.05] flex flex-col gap-1.5">
@@ -345,9 +367,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right Pane: Full-viewport-height portrait for desktop only */}
-        <div className="hidden lg:block relative w-full h-screen overflow-hidden">
-          <div className="absolute left-0 right-0 bottom-0 top-16">
+        {/* Layer 4 (Right Column): Full-viewport-height portrait for desktop */}
+        <div className="hidden lg:block relative z-[4] w-full h-screen overflow-hidden pointer-events-none">
+          <motion.div
+            style={{ y: heroImageY }}
+            className="absolute left-0 right-0 bottom-0 top-16"
+          >
             <Image
               src="/hero.png"
               alt="Dr. Ayush Varshney, Dental Surgeon"
@@ -356,12 +381,13 @@ export default function Home() {
               sizes="50vw"
               className="object-cover object-top"
             />
-          </div>
+          </motion.div>
         </div>
-        {/* Top scrim so the navbar stays legible over the photo */}
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#030109] to-transparent pointer-events-none" />
-        {/* Bottom seam — blends the hero into the Services section background */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#030109] via-[#030109]/45 to-transparent pointer-events-none z-[6]" />
+
+        {/* Layer 5: Top scrim so the navbar stays legible over the photo */}
+        {/* <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#030109] via-[#030109]/70 to-transparent pointer-events-none z-[5]" /> */}
+        {/* Layer 5: Bottom seam — blends the hero into the Services section background */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#030109] via-[#030109]/60 to-transparent pointer-events-none z-[5]" />
       </section>
 
       {/* ------------------ WHY CHOOSE OUR CLINIC SECTION ------------------ */}
